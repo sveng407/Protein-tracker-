@@ -15,17 +15,22 @@ export function HistoryPage() {
   return (
     <div className="max-w-md mx-auto px-4 pt-5 pb-28">
       <div className="mb-5">
-        <h1 className="text-2xl font-black text-stone-900 tracking-tight">Mein Garten 🌻</h1>
-        <p className="text-sm text-stone-400 mt-0.5">
+        <h1 className="text-2xl font-black tracking-tight" style={{ color: '#3D2255' }}>
+          Mein Garten 🌻
+        </h1>
+        <p className="text-sm font-semibold mt-0.5" style={{ color: '#C4A8FF' }}>
           {completedDays === 0
-            ? 'Noch keine Blume geerntet — fang heute an!'
-            : `${completedDays} Blume${completedDays !== 1 ? 'n' : ''} gesammelt`}
+            ? 'Noch keine Blume — fang heute an! 🌱'
+            : `${completedDays} Blume${completedDays !== 1 ? 'n' : ''} gesammelt 💕`}
         </p>
         {streakData.longestStreak > 0 && (
-          <div className="mt-2 inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-full px-3 py-1">
+          <div
+            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+            style={{ background: 'linear-gradient(135deg,#FFE4A0,#FFD4A8)', border: '2px solid #FFB899' }}
+          >
             <span>🏆</span>
-            <span className="text-xs font-semibold text-amber-700">
-              Rekord-Streak: {streakData.longestStreak} Tage
+            <span className="text-xs font-black" style={{ color: '#B87840' }}>
+              Rekord: {streakData.longestStreak} Tage
             </span>
           </div>
         )}

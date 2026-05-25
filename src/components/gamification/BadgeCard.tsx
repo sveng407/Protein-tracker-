@@ -9,24 +9,32 @@ interface Props {
 export function BadgeCard({ badge, unlocked, unlockedDate }: Props) {
   return (
     <div
-      className={`rounded-2xl p-4 flex flex-col items-center text-center transition-all ${
-        unlocked
-          ? 'bg-white border-2 border-yellow-300 shadow-md'
-          : 'bg-gray-100 border-2 border-transparent opacity-50'
-      }`}
+      className="rounded-3xl p-4 flex flex-col items-center text-center transition-all"
+      style={unlocked
+        ? { background: 'white', border: '2.5px solid #FFE4EC', boxShadow: '0 4px 20px rgba(255,183,197,0.22)' }
+        : { background: '#FDFAFF', border: '2.5px solid #EDE4FF', opacity: 0.55 }
+      }
     >
-      <span className={`text-4xl mb-2 ${unlocked ? '' : 'grayscale'}`}>{badge.emoji}</span>
-      <p className={`font-bold text-sm ${unlocked ? 'text-gray-900' : 'text-gray-500'}`}>
+      <div
+        className="w-14 h-14 flex items-center justify-center rounded-3xl text-3xl mb-2"
+        style={unlocked
+          ? { background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' }
+          : { background: '#F5F0FF', filter: 'grayscale(1)' }
+        }
+      >
+        {badge.emoji}
+      </div>
+      <p className="text-xs font-black" style={{ color: unlocked ? '#3D2255' : '#C4A8CC' }}>
         {badge.title}
       </p>
-      <p className="text-xs text-gray-400 mt-1">{badge.description}</p>
+      <p className="text-xs mt-0.5" style={{ color: '#C4A8FF' }}>{badge.description}</p>
       {unlocked && unlockedDate && (
-        <p className="text-xs text-yellow-600 mt-2 font-medium">
+        <p className="text-xs font-bold mt-1.5" style={{ color: '#FFB7C5' }}>
           {new Date(unlockedDate + 'T12:00:00').toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })}
         </p>
       )}
       {!unlocked && (
-        <p className="text-xs text-gray-400 mt-2">🔒 Gesperrt</p>
+        <p className="text-xs mt-1.5" style={{ color: '#D4C4E8' }}>🔒</p>
       )}
     </div>
   );

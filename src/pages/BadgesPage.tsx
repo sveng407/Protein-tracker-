@@ -9,22 +9,21 @@ export function BadgesPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 pt-5 pb-28">
-      <div className="mb-5">
-        <h1 className="text-2xl font-black text-stone-900 tracking-tight">Errungenschaften</h1>
-        <p className="text-sm text-stone-400 mt-0.5">
-          {unlocked === 0
-            ? 'Starte deine Reise, um Badges zu verdienen!'
-            : `${unlocked} von ${total} Badges freigeschaltet`}
-        </p>
-        {unlocked > 0 && (
-          <div className="flex mt-2">
-            {Array.from({ length: total }).map((_, i) => (
-              <div key={i}
-                className={`h-1.5 flex-1 rounded-full mx-px ${i < unlocked ? 'bg-green-400' : 'bg-stone-200'}`}
-              />
-            ))}
-          </div>
-        )}
+      <h1 className="text-2xl font-black tracking-tight mb-1" style={{ color: '#3D2255' }}>
+        Errungenschaften 🏅
+      </h1>
+      <p className="text-sm font-semibold mb-2" style={{ color: '#C4A8FF' }}>
+        {unlocked === 0
+          ? 'Deine Reise beginnt jetzt! ✨'
+          : `${unlocked} von ${total} freigeschaltet 💕`}
+      </p>
+      {/* progress dots */}
+      <div className="flex gap-1.5 mb-5">
+        {Array.from({ length: total }).map((_, i) => (
+          <div key={i} className="flex-1 h-2 rounded-full"
+            style={{ background: i < unlocked ? 'linear-gradient(90deg,#FFB7C5,#C4A8FF)' : '#EDE4FF' }}
+          />
+        ))}
       </div>
       <BadgeGrid streakData={streakData} />
     </div>

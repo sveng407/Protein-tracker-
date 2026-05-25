@@ -4,22 +4,18 @@ import confetti from 'canvas-confetti';
 import type { FlowerColor } from '../../lib/flowerUtils';
 import { FlowerGrowth } from '../today/FlowerGrowth';
 
-interface Props {
-  show: boolean;
-  onDismiss: () => void;
-  flowerColor?: FlowerColor;
-}
+interface Props { show: boolean; onDismiss: () => void; flowerColor?: FlowerColor; }
 
 export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
   useEffect(() => {
     if (show) {
       confetti({
-        particleCount: 120,
+        particleCount: 100,
         spread: 80,
-        origin: { y: 0.55 },
-        colors: ['#FF8FAB', '#FFD166', '#52C77F', '#C084FC', '#FB923C'],
+        origin: { y: 0.5 },
+        colors: ['#FFB7C5', '#C4A8FF', '#A8EED4', '#FFE4A0', '#FFB899'],
       });
-      const t = setTimeout(onDismiss, 4500);
+      const t = setTimeout(onDismiss, 5000);
       return () => clearTimeout(t);
     }
   }, [show]);
@@ -29,25 +25,40 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
       {show && (
         <motion.div
           className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ background: 'rgba(255,253,245,0.75)', backdropFilter: 'blur(6px)' }}
+          style={{ background: 'rgba(255,245,250,0.8)', backdropFilter: 'blur(10px)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onDismiss}
         >
           <motion.div
-            initial={{ scale: 0.4, opacity: 0, y: 40 }}
+            initial={{ scale: 0.4, opacity: 0, y: 50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 180, damping: 14 }}
-            className="bg-white rounded-3xl px-8 py-8 text-center shadow-2xl mx-6 border border-stone-100"
+            exit={{ scale: 0.7, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 16 }}
+            className="rounded-4xl px-8 py-8 text-center mx-6"
+            style={{
+              background: 'white',
+              border: '3px solid #FFE4EC',
+              boxShadow: '0 12px 60px rgba(255,183,197,0.4)',
+            }}
           >
-            <div style={{ width: 140, margin: '0 auto -8px' }}>
+            {/* sparkle decorations */}
+            <div className="text-2xl animate-sparkle" style={{ letterSpacing: 8 }}>✨ ⭐ ✨</div>
+
+            <div style={{ width: 160, margin: '0 auto -8px' }}>
               <FlowerGrowth percent={1} color={flowerColor} />
             </div>
-            <h2 className="text-2xl font-black text-stone-900 mb-1">Blume geerntet!</h2>
-            <p className="text-stone-500 text-sm">Du hast dein Tagesziel erreicht 🌸</p>
-            <p className="text-stone-300 text-xs mt-4">Tippe um fortzufahren</p>
+
+            <h2 className="text-2xl font-black mb-1" style={{ color: '#3D2255' }}>
+              Blume geerntet!
+            </h2>
+            <p className="text-sm font-semibold" style={{ color: '#C4A8FF' }}>
+              Tagesziel erreicht 💕
+            </p>
+            <p className="text-xs mt-3" style={{ color: '#D4C4E8' }}>
+              Tippe um fortzufahren
+            </p>
           </motion.div>
         </motion.div>
       )}

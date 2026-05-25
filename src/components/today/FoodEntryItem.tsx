@@ -1,31 +1,49 @@
 import type { FoodEntry } from '../../types';
 import { motion } from 'framer-motion';
 
+const FOOD_ICONS = ['🥩', '🐟', '🥚', '🧀', '🫘', '🥛', '🍗', '🥜'];
+function iconForEntry(id: string) {
+  const n = id.charCodeAt(0) + id.charCodeAt(id.length - 1);
+  return FOOD_ICONS[n % FOOD_ICONS.length];
+}
+
 interface Props { entry: FoodEntry; onRemove: (id: string) => void; }
 
 export function FoodEntryItem({ entry, onRemove }: Props) {
   return (
     <motion.div layout
-      initial={{ opacity: 0, y: -8, scale: 0.97 }}
+      initial={{ opacity: 0, y: -10, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, x: -16, scale: 0.95 }}
+      exit={{ opacity: 0, x: -20, scale: 0.93 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-      className="flex items-center justify-between bg-white rounded-2xl px-4 py-3.5 shadow-sm border border-stone-100"
+      className="flex items-center justify-between px-4 py-3 rounded-3xl mb-2"
+      style={{ background: '#FDFAFF', border: '2px solid #EDE4FF' }}
     >
-      <div className="flex items-center gap-3 flex-1 min-w-0">
-        <span className="text-lg">🥩</span>
+      <div className="flex items-center gap-3 min-w-0">
+        <span
+          className="w-9 h-9 flex items-center justify-center rounded-2xl text-lg flex-shrink-0"
+          style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' }}
+        >
+          {iconForEntry(entry.id)}
+        </span>
         <div className="min-w-0">
-          <p className="font-semibold text-stone-800 truncate text-sm">{entry.name}</p>
-          <p className="text-xs text-stone-400">
+          <p className="text-sm font-bold truncate" style={{ color: '#3D2255' }}>{entry.name}</p>
+          <p className="text-xs font-medium" style={{ color: '#C4A8FF' }}>
             {new Date(entry.timestamp).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-3 ml-2">
-        <span className="font-black text-green-600 text-sm whitespace-nowrap">{entry.protein}g</span>
+      <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+        <span
+          className="text-xs font-black px-2.5 py-1 rounded-full"
+          style={{ background: '#EDE4FF', color: '#9B7BE0' }}
+        >
+          +{entry.protein}g
+        </span>
         <button onClick={() => onRemove(entry.id)}
-          className="w-6 h-6 flex items-center justify-center rounded-full text-stone-300 hover:text-rose-400 hover:bg-rose-50 transition-colors text-lg leading-none"
-          aria-label="Eintrag löschen"
+          className="w-7 h-7 flex items-center justify-center rounded-full text-base transition-colors"
+          style={{ color: '#E4C4D4' }}
+          aria-label="Löschen"
         >
           ×
         </button>

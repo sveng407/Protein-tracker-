@@ -8,29 +8,40 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background-color: #FFFDF5;
-  color: #1C1917;
   min-height: 100svh;
+  background-color: #FFF5FA;
+  /* soft pastel radial blobs */
+  background-image:
+    radial-gradient(ellipse at 15% 15%, rgba(255,183,197,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(196,168,255,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(168,238,212,0.10) 0%, transparent 70%);
+  color: #3D2255;
 }
 
 #root { min-height: 100svh; }
 
+/* kawaii range input */
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 6px;
+  height: 8px;
   border-radius: 9999px;
-  background: #E7E5E4;
+  background: linear-gradient(to right, #FFB7C5, #C4A8FF);
   outline: none;
 }
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: #22c55e;
+  background: white;
+  border: 3px solid #FFB7C5;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(34,197,94,0.4);
+  box-shadow: 0 2px 8px rgba(255,183,197,0.5);
 }
+
+/* number input — hide spin arrows */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type='number'] { -moz-appearance: textfield; }

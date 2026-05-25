@@ -6,13 +6,13 @@ export interface FlowerColor {
 }
 
 export const FLOWER_PALETTE: FlowerColor[] = [
-  { petal: '#FF8FAB', center: '#FFD166', leaf: '#52C77F', name: 'Rose' },
-  { petal: '#C084FC', center: '#FCD34D', leaf: '#4ADE80', name: 'Lavendel' },
-  { petal: '#FB923C', center: '#FEF08A', leaf: '#52C77F', name: 'Koralle' },
-  { petal: '#34D399', center: '#FDE68A', leaf: '#22C55E', name: 'Minze' },
-  { petal: '#60A5FA', center: '#FCD34D', leaf: '#52C77F', name: 'Himmel' },
-  { petal: '#F472B6', center: '#A7F3D0', leaf: '#4ADE80', name: 'Sakura' },
-  { petal: '#FBBF24', center: '#FDE68A', leaf: '#52C77F', name: 'Sonne' },
+  { petal: '#FFB7C5', center: '#FFE4A0', leaf: '#A8D8B9', name: 'Kirschblüte' },
+  { petal: '#C4A8FF', center: '#FFE4A0', leaf: '#A8EED4', name: 'Lavendel'    },
+  { petal: '#FFB899', center: '#FFF4A0', leaf: '#A8D8B9', name: 'Pfirsich'    },
+  { petal: '#A8EED4', center: '#FFE4A0', leaf: '#88CCAA', name: 'Minze'       },
+  { petal: '#A8D4FF', center: '#FFE4A0', leaf: '#A8D8B9', name: 'Himmel'      },
+  { petal: '#FFB7E4', center: '#B8FFE4', leaf: '#A8EED4', name: 'Sakura'      },
+  { petal: '#FFE4A0', center: '#FFB7C5', leaf: '#A8D8B9', name: 'Buttercup'   },
 ];
 
 export function getFlowerColorForDate(date: string): FlowerColor {

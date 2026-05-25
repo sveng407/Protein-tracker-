@@ -2,38 +2,48 @@ import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const tabs = [
-  { to: '/today',   label: 'Heute',     icon: '🌱' },
-  { to: '/history', label: 'Garten',    icon: '🌻' },
-  { to: '/badges',  label: 'Erfolge',   icon: '🏆' },
+  { to: '/today',   label: 'Heute',   icon: '🌱' },
+  { to: '/history', label: 'Garten',  icon: '🌻' },
+  { to: '/badges',  label: 'Erfolge', icon: '🏅' },
 ];
 
 export function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-stone-200 z-40">
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-40"
+      style={{
+        background: 'rgba(255,255,255,0.85)',
+        backdropFilter: 'blur(16px)',
+        borderTop: '2px solid #FFE4EC',
+      }}
+    >
       <div className="max-w-md mx-auto flex">
         {tabs.map(tab => (
           <NavLink key={tab.to} to={tab.to}
-            className={({ isActive }) =>
-              `flex-1 flex flex-col items-center pt-2.5 pb-3 text-xs font-bold transition-colors ${
-                isActive ? 'text-green-600' : 'text-stone-400'
-              }`
-            }
+            className="flex-1 flex flex-col items-center pt-3 pb-4 relative"
           >
             {({ isActive }) => (
               <>
+                {isActive && (
+                  <motion.div layoutId="nav-pill"
+                    className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full"
+                    style={{ background: 'linear-gradient(135deg, #FFE4EC, #EDE4FF)' }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+                  />
+                )}
                 <motion.span
-                  className="text-xl mb-0.5"
-                  animate={{ scale: isActive ? 1.2 : 1 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
+                  animate={{ scale: isActive ? 1.25 : 1 }}
+                  transition={{ type: 'spring', stiffness: 350 }}
+                  className="text-xl relative z-10"
                 >
                   {tab.icon}
                 </motion.span>
-                {tab.label}
-                {isActive && (
-                  <motion.div layoutId="nav-dot"
-                    className="w-1 h-1 rounded-full bg-green-500 mt-0.5"
-                  />
-                )}
+                <span
+                  className="text-xs font-black mt-0.5 relative z-10"
+                  style={{ color: isActive ? '#9B7BE0' : '#C4A8CC' }}
+                >
+                  {tab.label}
+                </span>
               </>
             )}
           </NavLink>

@@ -15,86 +15,102 @@ export function OnboardingPage() {
     navigate('/today');
   }
 
-  // teaser: show flower at 40% to hint at what's coming
-  const teaser = 0.42;
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-cream-50 to-white flex flex-col items-center justify-center px-6 overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 80, damping: 18 }}
-        className="w-full max-w-sm text-center"
-      >
-        {/* Teaser flower */}
-        <div className="flex justify-center -mb-2">
-          <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-            style={{ width: 160 }}
-          >
-            <FlowerGrowth percent={teaser} color={FLOWER_PALETTE[0]} />
-          </motion.div>
-        </div>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
+      style={{
+        background: 'linear-gradient(160deg, #FFF0F7 0%, #F5EEFF 50%, #F0FFF8 100%)',
+      }}
+    >
+      {/* decorative blobs */}
+      <div className="fixed top-0 left-0 w-48 h-48 rounded-full pointer-events-none"
+        style={{ background: 'rgba(255,183,197,0.18)', filter: 'blur(40px)', transform: 'translate(-30%, -30%)' }} />
+      <div className="fixed bottom-0 right-0 w-64 h-64 rounded-full pointer-events-none"
+        style={{ background: 'rgba(196,168,255,0.18)', filter: 'blur(50px)', transform: 'translate(30%, 30%)' }} />
 
-        <h1 className="text-4xl font-black text-stone-900 tracking-tight mb-1">
-          Lass uns wachsen 🌱
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 70, damping: 16 }}
+        className="w-full max-w-sm text-center relative"
+      >
+        {/* floating flower */}
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+          className="flex justify-center mb-0"
+          style={{ width: 150, margin: '0 auto' }}
+        >
+          <FlowerGrowth percent={0.45} color={FLOWER_PALETTE[0]} />
+        </motion.div>
+
+        <h1 className="text-4xl font-black tracking-tight mb-1" style={{ color: '#3D2255' }}>
+          Lass uns blühen! 🌸
         </h1>
-        <p className="text-stone-500 text-sm mb-8 leading-relaxed">
-          Jeden Tag erblüht eine neue Blume — wenn du dein Proteinziel erreichst.
-          Pflanz deinen Garten!
+        <p className="text-sm font-medium mb-7 leading-relaxed" style={{ color: '#9B7BE0' }}>
+          Jeden Tag, den du dein Proteinziel erreichst,<br />
+          wächst in deinem Garten eine neue Blume.
         </p>
 
-        {/* Goal card */}
-        <div className="bg-white rounded-3xl p-6 shadow-lg border border-stone-100">
-          <p className="text-sm font-semibold text-stone-400 uppercase tracking-wide mb-4">
-            Dein tägliches Ziel
+        {/* goal card */}
+        <div
+          className="rounded-4xl p-6 mb-4"
+          style={{
+            background: 'white',
+            border: '2.5px solid #FFE4EC',
+            boxShadow: '0 6px 32px rgba(255,183,197,0.22)',
+          }}
+        >
+          <p className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: '#FFB7C5' }}>
+            ✨ Dein tägliches Ziel ✨
           </p>
 
           <motion.div key={value}
-            initial={{ scale: 0.9 }} animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-            className="mb-6"
+            initial={{ scale: 0.85 }} animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 14 }}
+            className="mb-5"
           >
-            <span className="text-7xl font-black text-green-500">{value}</span>
-            <span className="text-3xl font-bold text-stone-300 ml-1">g</span>
-            <p className="text-xs text-stone-400 mt-1">Protein pro Tag</p>
+            <span className="text-7xl font-black" style={{ color: '#C4A8FF' }}>{value}</span>
+            <span className="text-3xl font-bold ml-1" style={{ color: '#E4D4FF' }}>g</span>
+            <p className="text-xs font-semibold mt-1" style={{ color: '#C4A8FF' }}>Protein pro Tag</p>
           </motion.div>
 
-          <input
-            type="range" min={30} max={300} step={5} value={value}
+          <input type="range" min={30} max={300} step={5} value={value}
             onChange={e => setValue(parseInt(e.target.value))}
-            className="w-full mb-3"
+            className="w-full mb-2"
           />
-          <div className="flex justify-between text-xs text-stone-400 mb-5">
+          <div className="flex justify-between text-xs font-medium mb-5" style={{ color: '#C4A8FF' }}>
             <span>30g</span><span>300g</span>
           </div>
 
           <div className="flex gap-2">
             {[100, 150, 200].map(v => (
-              <button key={v} onClick={() => setValue(v)}
-                className={`flex-1 py-2.5 rounded-2xl text-sm font-bold transition-all ${
-                  value === v
-                    ? 'bg-green-500 text-white shadow-md shadow-green-200'
-                    : 'bg-stone-100 text-stone-500'
-                }`}
+              <motion.button key={v} onClick={() => setValue(v)}
+                whileTap={{ scale: 0.92 }}
+                className="flex-1 py-2.5 rounded-3xl text-sm font-black transition-all"
+                style={value === v
+                  ? { background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', boxShadow: '0 3px 12px rgba(196,168,255,0.4)' }
+                  : { background: '#F5F0FF', color: '#9B7BE0' }
+                }
               >
                 {v}g
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
 
         <motion.button
           onClick={handleStart}
-          whileTap={{ scale: 0.95 }}
-          className="mt-5 w-full py-4 bg-green-500 text-white font-black rounded-2xl text-lg"
-          style={{ boxShadow: '0 6px 24px rgba(34,197,94,0.4)' }}
+          whileTap={{ scale: 0.94 }}
+          className="w-full py-4 rounded-4xl text-lg font-black text-white"
+          style={{
+            background: 'linear-gradient(135deg, #FFB7C5 0%, #C4A8FF 100%)',
+            boxShadow: '0 6px 28px rgba(196,168,255,0.45)',
+          }}
         >
-          Garten anlegen 🌸
+          Garten anlegen 🌱
         </motion.button>
-
-        <p className="text-xs text-stone-400 mt-3">Ziel jederzeit änderbar</p>
+        <p className="text-xs mt-3" style={{ color: '#C4A8FF' }}>Ziel jederzeit änderbar 💕</p>
       </motion.div>
     </div>
   );
