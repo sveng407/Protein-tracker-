@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import { BottomNav } from './components/layout/BottomNav';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -25,10 +25,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppProvider>
         <AppRoutes />
       </AppProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
