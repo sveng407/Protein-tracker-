@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
+import { useT } from '../context/LanguageContext';
 import { FlowerGrowth } from '../components/today/FlowerGrowth';
 import { MotivationalMessage } from '../components/today/MotivationalMessage';
 import { FoodEntryList } from '../components/today/FoodEntryList';
@@ -8,6 +9,7 @@ import { AddFoodSheet } from '../components/today/AddFoodSheet';
 import { StreakCounter } from '../components/gamification/StreakCounter';
 import { CelebrationOverlay } from '../components/gamification/CelebrationOverlay';
 import { NewBadgeToast } from '../components/gamification/NewBadgeToast';
+import { LanguagePicker } from '../components/LanguagePicker';
 import { FLOWER_PALETTE } from '../lib/flowerUtils';
 
 function PercentProgress({ percent }: { percent: number }) {
@@ -34,7 +36,6 @@ function PercentProgress({ percent }: { percent: number }) {
         <span className="text-3xl font-bold mb-1 ml-1" style={{ color: '#C4A8FF' }}>%</span>
       </motion.div>
 
-      {/* bubbly bar */}
       <div className="w-40 h-3 rounded-full overflow-hidden" style={{ background: '#F0E8FF' }}>
         <motion.div
           className="h-full rounded-full"
@@ -49,6 +50,7 @@ function PercentProgress({ percent }: { percent: number }) {
 }
 
 export function TodayPage() {
+  const t = useT();
   const {
     todayEntries, todayTotal, todayPercent,
     addEntry, removeEntry,
@@ -69,13 +71,16 @@ export function TodayPage() {
         <div className="flex items-center justify-between mb-3">
           <div>
             <h1 className="text-2xl font-black tracking-tight" style={{ color: '#3D2255' }}>
-              Hallo! 🌸
+              {t.today.greeting}
             </h1>
             <p className="text-xs font-medium" style={{ color: '#C4A8FF' }}>
-              {new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })}
+              {new Date().toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
-          <StreakCounter streak={streakData.currentStreak} />
+          <div className="flex items-center gap-2">
+            <LanguagePicker />
+            <StreakCounter streak={streakData.currentStreak} />
+          </div>
         </div>
 
         {/* Flower card */}
@@ -112,14 +117,14 @@ export function TodayPage() {
           <div className="flex items-center gap-2 mb-3">
             <span className="text-base">🍽️</span>
             <span className="text-sm font-black tracking-wide" style={{ color: '#3D2255' }}>
-              Heutige Mahlzeiten
+              {t.today.mealsTitle}
             </span>
             {todayEntries.length > 0 && (
               <span
                 className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
                 style={{ background: '#EDE4FF', color: '#9B7BE0' }}
               >
-                {todayTotal}g
+                {todayTotal}{t.today.totalGrams}
               </span>
             )}
           </div>
@@ -137,7 +142,7 @@ export function TodayPage() {
           background: 'linear-gradient(135deg, #FFB7C5 0%, #C4A8FF 100%)',
           boxShadow: '0 6px 24px rgba(196,168,255,0.5)',
         }}
-        aria-label="Mahlzeit hinzufügen"
+        aria-label={t.today.addMeal}
       >
         ＋
       </motion.button>

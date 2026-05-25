@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useBarcodeScanner } from '../../hooks/useBarcodeScanner';
+import { useT } from '../../context/LanguageContext';
 
 interface Props {
   onBarcode: (barcode: string) => void;
@@ -9,6 +10,7 @@ interface Props {
 
 export function BarcodeScanner({ onBarcode, active }: Props) {
   const { videoRef, isScanning, startScan, stopScan, lastResult, error } = useBarcodeScanner();
+  const t = useT();
 
   useEffect(() => {
     if (active) startScan();
@@ -25,35 +27,66 @@ export function BarcodeScanner({ onBarcode, active }: Props) {
 
   if (error) {
     return (
-      <div className="bg-red-50 rounded-xl p-4 text-center text-sm text-red-600">
-        <p className="text-2xl mb-2">📵</p>
-        <p>{error}</p>
+      <div
+        className="rounded-3xl p-6 text-center"
+        style={{ background: '#FFF4DC', border: '2px solid #FFE4A0' }}
+      >
+        <p className="text-3xl mb-2">📵</p>
+        <p className="text-sm font-semibold" style={{ color: '#B87840' }}>
+          {error === 'denied' ? t.camera.denied : t.camera.failed}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden">
+    <div
+      className="relative w-full overflow-hidden"
+      style={{
+        aspectRatio: '4/3',
+        borderRadius: '1.5rem',
+        border: '2.5px solid #EDE4FF',
+        background: '#1a0a2e',
+      }}
+    >
       <video ref={videoRef} className="w-full h-full object-cover" playsInline muted />
+
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative w-2/3 h-1/2 border-2 border-white rounded-lg">
-          <span className="absolute -top-1 -left-1 w-4 h-4 border-t-4 border-l-4 border-green-400 rounded-tl" />
-          <span className="absolute -top-1 -right-1 w-4 h-4 border-t-4 border-r-4 border-green-400 rounded-tr" />
-          <span className="absolute -bottom-1 -left-1 w-4 h-4 border-b-4 border-l-4 border-green-400 rounded-bl" />
-          <span className="absolute -bottom-1 -right-1 w-4 h-4 border-b-4 border-r-4 border-green-400 rounded-br" />
-        </div>
-        {isScanning && (
-          <motion.div
-            className="absolute w-2/3 h-0.5 bg-green-400 opacity-80"
-            animate={{ y: ['-100%', '100%'] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+        <div className="absolute inset-0" style={{ background: 'rgba(61,34,85,0.45)' }} />
+
+        <div
+          className="relative"
+          style={{ width: '60%', aspectRatio: '3/2' }}
+        >
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{ border: '2px solid rgba(196,168,255,0.6)' }}
           />
-        )}
+          <span className="absolute top-0 left-0 w-5 h-5 border-t-4 border-l-4 rounded-tl-xl"
+            style={{ borderColor: '#C4A8FF' }} />
+          <span className="absolute top-0 right-0 w-5 h-5 border-t-4 border-r-4 rounded-tr-xl"
+            style={{ borderColor: '#C4A8FF' }} />
+          <span className="absolute bottom-0 left-0 w-5 h-5 border-b-4 border-l-4 rounded-bl-xl"
+            style={{ borderColor: '#C4A8FF' }} />
+          <span className="absolute bottom-0 right-0 w-5 h-5 border-b-4 border-r-4 rounded-br-xl"
+            style={{ borderColor: '#C4A8FF' }} />
+
+          {isScanning && (
+            <motion.div
+              className="absolute left-0 right-0 h-0.5 rounded-full"
+              style={{ background: 'linear-gradient(to right, transparent, #FFB7C5, #C4A8FF, #FFB7C5, transparent)' }}
+              animate={{ y: ['-20px', '40px'] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+            />
+          )}
+        </div>
       </div>
+
       {!isScanning && !error && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-white text-sm animate-pulse">Kamera wird gestartet…</p>
+          <p className="text-sm font-semibold animate-pulse" style={{ color: '#EDE4FF' }}>
+            {t.camera.starting}
+          </p>
         </div>
       )}
     </div>

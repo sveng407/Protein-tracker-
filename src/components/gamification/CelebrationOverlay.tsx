@@ -3,10 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import type { FlowerColor } from '../../lib/flowerUtils';
 import { FlowerGrowth } from '../today/FlowerGrowth';
+import { useT } from '../../context/LanguageContext';
 
 interface Props { show: boolean; onDismiss: () => void; flowerColor?: FlowerColor; }
 
 export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
+  const t = useT();
+
   useEffect(() => {
     if (show) {
       confetti({
@@ -15,8 +18,8 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
         origin: { y: 0.5 },
         colors: ['#FFB7C5', '#C4A8FF', '#A8EED4', '#FFE4A0', '#FFB899'],
       });
-      const t = setTimeout(onDismiss, 5000);
-      return () => clearTimeout(t);
+      const timer = setTimeout(onDismiss, 5000);
+      return () => clearTimeout(timer);
     }
   }, [show]);
 
@@ -43,7 +46,6 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
               boxShadow: '0 12px 60px rgba(255,183,197,0.4)',
             }}
           >
-            {/* sparkle decorations */}
             <div className="text-2xl animate-sparkle" style={{ letterSpacing: 8 }}>✨ ⭐ ✨</div>
 
             <div style={{ width: 160, margin: '0 auto -8px' }}>
@@ -51,13 +53,13 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
             </div>
 
             <h2 className="text-2xl font-black mb-1" style={{ color: '#3D2255' }}>
-              Blume geerntet!
+              {t.celebration.title}
             </h2>
             <p className="text-sm font-semibold" style={{ color: '#C4A8FF' }}>
-              Tagesziel erreicht 💕
+              {t.celebration.subtitle}
             </p>
             <p className="text-xs mt-3" style={{ color: '#D4C4E8' }}>
-              Tippe um fortzufahren
+              {t.celebration.hint}
             </p>
           </motion.div>
         </motion.div>

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { searchByName } from '../../lib/openFoodFacts';
 import type { OFFFoodProduct } from '../../types';
 import { FoodSearchResults } from './FoodSearchResults';
+import { useT } from '../../context/LanguageContext';
 
 interface Props {
   initialName?: string;
@@ -25,6 +26,7 @@ const inputStyle = {
 const focusStyle = '2px solid #C4A8FF';
 
 export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCancel }: Props) {
+  const t = useT();
   const [name, setName] = useState(initialName);
   const [portionG, setPortionG] = useState<number | ''>(100);
   const [proteinPer100, setProteinPer100] = useState<number | ''>(initialProtein ?? '');
@@ -71,13 +73,13 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: '#C4A8FF' }}>
-          Lebensmittel
+          {t.addSheet.foodLabel}
         </label>
         <input
           type="text"
           value={name}
           onChange={e => handleNameChange(e.target.value)}
-          placeholder="z.B. Hähnchenbrust, Quark…"
+          placeholder={t.addSheet.foodPlaceholder}
           style={inputStyle}
           onFocus={e => (e.target.style.border = focusStyle)}
           onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
@@ -89,7 +91,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: '#C4A8FF' }}>
-            Protein / 100g
+            {t.addSheet.proteinLabel}
           </label>
           <input
             type="number" min="0" max="100" step="0.1"
@@ -103,7 +105,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
         </div>
         <div>
           <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: '#C4A8FF' }}>
-            Portion (g)
+            {t.addSheet.portionLabel}
           </label>
           <input
             type="number" min="1" max="2000"
@@ -121,7 +123,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)', border: '2px solid #FFD4E8' }}
         >
           <span className="text-2xl font-black" style={{ color: '#9B7BE0' }}>{totalProtein}g</span>
-          <span className="text-sm font-semibold ml-2" style={{ color: '#C4A8FF' }}>Protein ✨</span>
+          <span className="text-sm font-semibold ml-2" style={{ color: '#C4A8FF' }}>{t.addSheet.proteinSuffix}</span>
         </div>
       )}
 
@@ -130,14 +132,14 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           className="flex-1 py-3 rounded-3xl text-sm font-black"
           style={{ border: '2px solid #EDE4FF', color: '#C4A8FF', background: 'white' }}
         >
-          Abbrechen
+          {t.addSheet.cancelButton}
         </button>
         <button type="submit"
           disabled={!name.trim() || totalProtein <= 0}
           className="flex-1 py-3 rounded-3xl text-sm font-black text-white disabled:opacity-40"
           style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', boxShadow: '0 3px 14px rgba(196,168,255,0.4)' }}
         >
-          Hinzufügen 🌸
+          {t.addSheet.addButton}
         </button>
       </div>
     </form>

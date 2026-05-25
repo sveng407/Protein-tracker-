@@ -1,4 +1,5 @@
-import type { Badge } from '../../types';
+import type { Badge, BadgeId } from '../../types';
+import { useT } from '../../context/LanguageContext';
 
 interface Props {
   badge: Badge;
@@ -7,6 +8,9 @@ interface Props {
 }
 
 export function BadgeCard({ badge, unlocked, unlockedDate }: Props) {
+  const t = useT();
+  const text = t.badges.definitions[badge.id as BadgeId];
+
   return (
     <div
       className="rounded-3xl p-4 flex flex-col items-center text-center transition-all"
@@ -25,16 +29,16 @@ export function BadgeCard({ badge, unlocked, unlockedDate }: Props) {
         {badge.emoji}
       </div>
       <p className="text-xs font-black" style={{ color: unlocked ? '#3D2255' : '#C4A8CC' }}>
-        {badge.title}
+        {text.title}
       </p>
-      <p className="text-xs mt-0.5" style={{ color: '#C4A8FF' }}>{badge.description}</p>
+      <p className="text-xs mt-0.5" style={{ color: '#C4A8FF' }}>{text.description}</p>
       {unlocked && unlockedDate && (
         <p className="text-xs font-bold mt-1.5" style={{ color: '#FFB7C5' }}>
-          {new Date(unlockedDate + 'T12:00:00').toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })}
+          {new Date(unlockedDate + 'T12:00:00').toLocaleDateString(t.locale, { day: 'numeric', month: 'short' })}
         </p>
       )}
       {!unlocked && (
-        <p className="text-xs mt-1.5" style={{ color: '#D4C4E8' }}>🔒</p>
+        <p className="text-xs mt-1.5" style={{ color: '#D4C4E8' }}>{t.badges.locked}</p>
       )}
     </div>
   );

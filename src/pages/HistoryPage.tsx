@@ -1,9 +1,11 @@
 import { useApp } from '../context/AppContext';
+import { useT } from '../context/LanguageContext';
 import { GardenGrid } from '../components/history/GardenGrid';
 import { GOAL_MET_THRESHOLD } from '../constants';
 import { today } from '../lib/dateUtils';
 
 export function HistoryPage() {
+  const t = useT();
   const { allLogs, goal, streakData } = useApp();
 
   const completedDays = allLogs.filter(d => {
@@ -16,12 +18,12 @@ export function HistoryPage() {
     <div className="max-w-md mx-auto px-4 pt-5 pb-28">
       <div className="mb-5">
         <h1 className="text-2xl font-black tracking-tight" style={{ color: '#3D2255' }}>
-          Mein Garten 🌻
+          {t.history.title}
         </h1>
         <p className="text-sm font-semibold mt-0.5" style={{ color: '#C4A8FF' }}>
           {completedDays === 0
-            ? 'Noch keine Blume — fang heute an! 🌱'
-            : `${completedDays} Blume${completedDays !== 1 ? 'n' : ''} gesammelt 💕`}
+            ? t.history.noFlowers
+            : t.history.flowers(completedDays)}
         </p>
         {streakData.longestStreak > 0 && (
           <div
@@ -30,7 +32,7 @@ export function HistoryPage() {
           >
             <span>🏆</span>
             <span className="text-xs font-black" style={{ color: '#B87840' }}>
-              Rekord: {streakData.longestStreak} Tage
+              {t.history.record(streakData.longestStreak)}
             </span>
           </div>
         )}

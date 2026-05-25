@@ -1,13 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
-const tabs = [
-  { to: '/today',   label: 'Heute',   icon: '🌱' },
-  { to: '/history', label: 'Garten',  icon: '🌻' },
-  { to: '/badges',  label: 'Erfolge', icon: '🏅' },
-];
+import { useT } from '../../context/LanguageContext';
 
 export function BottomNav() {
+  const t = useT();
+
+  const tabs = [
+    { to: '/today',   label: t.nav.today,  icon: '🌱' },
+    { to: '/history', label: t.nav.garden, icon: '🌻' },
+    { to: '/badges',  label: t.nav.badges, icon: '🏅' },
+  ];
+
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-40"

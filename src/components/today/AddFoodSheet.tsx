@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ManualEntryForm } from './ManualEntryForm';
 import { BarcodeScanner } from './BarcodeScanner';
 import { fetchByBarcode, extractProtein } from '../../lib/openFoodFacts';
+import { useT } from '../../context/LanguageContext';
 
 interface Props {
   open: boolean;
@@ -13,6 +14,7 @@ interface Props {
 type Tab = 'search' | 'scan';
 
 export function AddFoodSheet({ open, onClose, onAdd }: Props) {
+  const t = useT();
   const [tab, setTab] = useState<Tab>('search');
   const [scannedName, setScannedName] = useState('');
   const [scannedProtein, setScannedProtein] = useState<number | undefined>();
@@ -34,7 +36,7 @@ export function AddFoodSheet({ open, onClose, onAdd }: Props) {
     const product = await fetchByBarcode(barcode);
     setScanLoading(false);
     if (!product || !product.product_name) {
-      setScanError(`Barcode ${barcode} nicht in der Datenbank. Bitte manuell eingeben.`);
+      setScanError(t.addSheet.notFound(barcode));
       setTab('search');
       return;
     }
@@ -71,19 +73,19 @@ export function AddFoodSheet({ open, onClose, onAdd }: Props) {
             <div className="w-10 h-1.5 rounded-full mx-auto mt-3 mb-4" style={{ background: '#EDE4FF' }} />
             <div className="px-4 pb-8">
               <h2 className="text-lg font-black mb-4" style={{ color: '#3D2255' }}>
-                Mahlzeit hinzufügen 🍽️
+                {t.addSheet.title}
               </h2>
 
               <div className="flex rounded-3xl p-1 mb-4" style={{ background: '#EDE4FF' }}>
-                {(['search', 'scan'] as Tab[]).map(t => (
-                  <button key={t} onClick={() => setTab(t)}
+                {(['search', 'scan'] as Tab[]).map(tabKey => (
+                  <button key={tabKey} onClick={() => setTab(tabKey)}
                     className="flex-1 py-2 rounded-2xl text-sm font-black transition-all"
-                    style={tab === t
+                    style={tab === tabKey
                       ? { background: 'white', color: '#9B7BE0', boxShadow: '0 2px 8px rgba(196,168,255,0.3)' }
                       : { color: '#C4A8FF' }
                     }
                   >
-                    {t === 'search' ? '🔍 Suchen' : '📷 Scannen'}
+                    {tabKey === 'search' ? t.addSheet.tabSearch : t.addSheet.tabScan}
                   </button>
                 ))}
               </div>
@@ -108,15 +110,17 @@ export function AddFoodSheet({ open, onClose, onAdd }: Props) {
               {tab === 'scan' && (
                 <div>
                   {scanLoading ? (
-                    <div className="text-center py-8 text-gray-400 animate-pulse">
+                    <div className="text-center py-8 animate-pulse">
                       <p className="text-4xl mb-2">🔍</p>
-                      <p className="text-sm">Produkt wird gesucht…</p>
+                      <p className="text-sm font-semibold" style={{ color: '#C4A8FF' }}>
+                        {t.addSheet.scanLoading}
+                      </p>
                     </div>
                   ) : (
                     <BarcodeScanner active={tab === 'scan' && open} onBarcode={handleBarcode} />
                   )}
-                  <p className="text-center text-xs text-gray-400 mt-3">
-                    Halte den Barcode in den Rahmen
+                  <p className="text-center text-xs mt-3 font-medium" style={{ color: '#C4A8CC' }}>
+                    {t.addSheet.scanHint}
                   </p>
                 </div>
               )}

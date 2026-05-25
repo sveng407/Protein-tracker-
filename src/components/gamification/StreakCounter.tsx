@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
+import { useT } from '../../context/LanguageContext';
 
 export function StreakCounter({ streak }: { streak: number }) {
+  const t = useT();
   if (streak === 0) return null;
+
   return (
     <motion.div
       initial={{ scale: 0.6, opacity: 0 }}
@@ -19,7 +22,7 @@ export function StreakCounter({ streak }: { streak: number }) {
       </motion.span>
       <span className="text-sm font-black" style={{ color: '#B87840' }}>{streak}</span>
       <span className="text-xs font-bold" style={{ color: '#D4A060' }}>
-        {streak === 1 ? 'Tag' : 'Tage'}
+        {t.streak.day(streak)}
       </span>
     </motion.div>
   );

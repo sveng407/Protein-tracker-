@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useApp } from '../context/AppContext';
+import { useT } from '../context/LanguageContext';
 import { FlowerGrowth } from '../components/today/FlowerGrowth';
+import { LanguagePicker } from '../components/LanguagePicker';
 import { FLOWER_PALETTE } from '../lib/flowerUtils';
 
 export function OnboardingPage() {
+  const t = useT();
   const { setGoal } = useApp();
   const navigate = useNavigate();
   const [value, setValue] = useState(150);
@@ -22,11 +25,15 @@ export function OnboardingPage() {
         background: 'linear-gradient(160deg, #FFF0F7 0%, #F5EEFF 50%, #F0FFF8 100%)',
       }}
     >
-      {/* decorative blobs */}
       <div className="fixed top-0 left-0 w-48 h-48 rounded-full pointer-events-none"
         style={{ background: 'rgba(255,183,197,0.18)', filter: 'blur(40px)', transform: 'translate(-30%, -30%)' }} />
       <div className="fixed bottom-0 right-0 w-64 h-64 rounded-full pointer-events-none"
         style={{ background: 'rgba(196,168,255,0.18)', filter: 'blur(50px)', transform: 'translate(30%, 30%)' }} />
+
+      {/* Language picker top-right */}
+      <div className="fixed top-4 right-4 z-10">
+        <LanguagePicker />
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -34,7 +41,6 @@ export function OnboardingPage() {
         transition={{ type: 'spring', stiffness: 70, damping: 16 }}
         className="w-full max-w-sm text-center relative"
       >
-        {/* floating flower */}
         <motion.div
           animate={{ y: [0, -10, 0] }}
           transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
@@ -45,14 +51,12 @@ export function OnboardingPage() {
         </motion.div>
 
         <h1 className="text-4xl font-black tracking-tight mb-1" style={{ color: '#3D2255' }}>
-          Lass uns blühen! 🌸
+          {t.onboarding.headline}
         </h1>
-        <p className="text-sm font-medium mb-7 leading-relaxed" style={{ color: '#9B7BE0' }}>
-          Jeden Tag, den du dein Proteinziel erreichst,<br />
-          wächst in deinem Garten eine neue Blume.
+        <p className="text-sm font-medium mb-7 leading-relaxed" style={{ color: '#9B7BE0', whiteSpace: 'pre-line' }}>
+          {t.onboarding.subtitle}
         </p>
 
-        {/* goal card */}
         <div
           className="rounded-4xl p-6 mb-4"
           style={{
@@ -62,7 +66,7 @@ export function OnboardingPage() {
           }}
         >
           <p className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: '#FFB7C5' }}>
-            ✨ Dein tägliches Ziel ✨
+            {t.onboarding.goalLabel}
           </p>
 
           <motion.div key={value}
@@ -72,7 +76,7 @@ export function OnboardingPage() {
           >
             <span className="text-7xl font-black" style={{ color: '#C4A8FF' }}>{value}</span>
             <span className="text-3xl font-bold ml-1" style={{ color: '#E4D4FF' }}>g</span>
-            <p className="text-xs font-semibold mt-1" style={{ color: '#C4A8FF' }}>Protein pro Tag</p>
+            <p className="text-xs font-semibold mt-1" style={{ color: '#C4A8FF' }}>{t.onboarding.goalUnit}</p>
           </motion.div>
 
           <input type="range" min={30} max={300} step={5} value={value}
@@ -108,9 +112,9 @@ export function OnboardingPage() {
             boxShadow: '0 6px 28px rgba(196,168,255,0.45)',
           }}
         >
-          Garten anlegen 🌱
+          {t.onboarding.startButton}
         </motion.button>
-        <p className="text-xs mt-3" style={{ color: '#C4A8FF' }}>Ziel jederzeit änderbar 💕</p>
+        <p className="text-xs mt-3" style={{ color: '#C4A8FF' }}>{t.onboarding.goalNote}</p>
       </motion.div>
     </div>
   );

@@ -22,8 +22,6 @@ export type BadgeId =
 
 export interface Badge {
   id: BadgeId;
-  title: string;
-  description: string;
   emoji: string;
 }
 

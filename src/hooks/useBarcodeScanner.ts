@@ -1,12 +1,14 @@
 import { useRef, useState, useCallback } from 'react';
 import { BrowserMultiFormatReader } from '@zxing/library';
 
+export type BarcodeScannerError = 'denied' | 'failed';
+
 export function useBarcodeScanner() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const readerRef = useRef<BrowserMultiFormatReader | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [lastResult, setLastResult] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<BarcodeScannerError | null>(null);
 
   const startScan = useCallback(async () => {
     setError(null);
@@ -30,9 +32,9 @@ export function useBarcodeScanner() {
     } catch (e: unknown) {
       setIsScanning(false);
       if (e instanceof Error && e.name === 'NotAllowedError') {
-        setError('Kamerazugriff verweigert. Bitte erlaube den Kamerazugriff in den Einstellungen.');
+        setError('denied');
       } else {
-        setError('Kamera konnte nicht gestartet werden.');
+        setError('failed');
       }
     }
   }, []);

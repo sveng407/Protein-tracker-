@@ -2,18 +2,22 @@ import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { BadgeId } from '../../types';
 import { BADGE_DEFINITIONS } from '../../constants';
+import { useT } from '../../context/LanguageContext';
 
 interface Props { badgeIds: BadgeId[]; onDismiss: () => void; }
 
 export function NewBadgeToast({ badgeIds, onDismiss }: Props) {
-  const badge = badgeIds[0] ? BADGE_DEFINITIONS.find(b => b.id === badgeIds[0]) : null;
+  const t = useT();
+  const badgeDef = badgeIds[0] ? BADGE_DEFINITIONS.find(b => b.id === badgeIds[0]) : null;
+  const badgeText = badgeDef ? t.badges.definitions[badgeDef.id] : null;
+
   useEffect(() => {
-    if (badge) { const t = setTimeout(onDismiss, 3500); return () => clearTimeout(t); }
-  }, [badge]);
+    if (badgeDef) { const timer = setTimeout(onDismiss, 3500); return () => clearTimeout(timer); }
+  }, [badgeDef]);
 
   return (
     <AnimatePresence>
-      {badge && (
+      {badgeDef && badgeText && (
         <motion.div
           initial={{ y: -90, opacity: 0, scale: 0.9 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -29,14 +33,14 @@ export function NewBadgeToast({ badgeIds, onDismiss }: Props) {
               className="w-12 h-12 flex items-center justify-center rounded-2xl text-2xl flex-shrink-0"
               style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' }}
             >
-              {badge.emoji}
+              {badgeDef.emoji}
             </div>
             <div className="flex-1">
               <p className="text-xs font-black uppercase tracking-wide" style={{ color: '#FFB7C5' }}>
-                Neues Badge! ✨
+                {t.badges.newBadge}
               </p>
-              <p className="font-black text-sm" style={{ color: '#3D2255' }}>{badge.title}</p>
-              <p className="text-xs" style={{ color: '#C4A8FF' }}>{badge.description}</p>
+              <p className="font-black text-sm" style={{ color: '#3D2255' }}>{badgeText.title}</p>
+              <p className="text-xs" style={{ color: '#C4A8FF' }}>{badgeText.description}</p>
             </div>
             <button onClick={onDismiss} className="text-xl" style={{ color: '#EDE4FF' }}>×</button>
           </div>

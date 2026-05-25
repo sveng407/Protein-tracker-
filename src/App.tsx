@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { BottomNav } from './components/layout/BottomNav';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { TodayPage } from './pages/TodayPage';
@@ -26,9 +27,11 @@ function AppRoutes() {
 export default function App() {
   return (
     <HashRouter>
-      <AppProvider>
-        <AppRoutes />
-      </AppProvider>
+      <LanguageProvider>
+        <AppProvider>
+          <AppRoutes />
+        </AppProvider>
+      </LanguageProvider>
     </HashRouter>
   );
 }
