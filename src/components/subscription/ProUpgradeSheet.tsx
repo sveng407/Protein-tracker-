@@ -55,7 +55,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
   }
 
   const inputStyle: React.CSSProperties = {
-    background: 'var(--pt-input-bg)', border: '2px solid #EDE4FF',
+    background: 'var(--pt-input-bg)', border: '2px solid var(--pt-input-border)',
     borderRadius: '1rem', padding: '0.75rem 1rem',
     fontSize: '0.95rem', width: '100%', outline: 'none',
     color: 'var(--pt-text)', fontWeight: 600,
@@ -76,7 +76,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
           {/* Sheet */}
           <motion.div
             className="fixed bottom-0 left-0 right-0 z-50 max-h-[92vh] overflow-y-auto"
-            style={{ background: 'var(--pt-card)', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.3)', border: '2.5px solid #EDE4FF', borderBottom: 'none' }}
+            style={{ background: 'var(--pt-card)', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.3)', border: '2.5px solid var(--pt-border)', borderBottom: 'none' }}
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
@@ -110,7 +110,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                   <div className="flex flex-col gap-3 mb-5">
                     {PERKS.map(({ icon, key }) => (
                       <div key={key} className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-                        style={{ background: 'var(--pt-card)', border: '2.5px solid #EDE4FF' }}>
+                        style={{ background: 'var(--pt-card)', border: '2.5px solid var(--pt-border)' }}>
                         <span style={{ fontSize: '1.3rem' }}>{icon}</span>
                         <span className="text-sm font-semibold" style={{ color: 'var(--pt-text)' }}>{t.pro[key]}</span>
                       </div>
