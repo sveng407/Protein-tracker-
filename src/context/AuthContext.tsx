@@ -5,15 +5,20 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   signOut as firebaseSignOut,
+  deleteUser,
+  reauthenticateWithPopup,
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { auth } from '../lib/firebase';
+import { doc, collection, getDocs, writeBatch } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 interface AuthContextValue {
   user: User | null;
   authLoading: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -39,8 +44,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await firebaseSignOut(auth);
   }
 
+  async function deleteAccount() {
+    const u = auth.currentUser;
+    if (!u) return;
+    // Delete all Firestore data
+    const batch = writeBatch(db);
+    const dataRef = collection(db, 'users', u.uid, 'data');
+    const daysRef = collection(db, 'users', u.uid, 'days');
+    const [dataDocs, daysDocs] = await Promise.all([getDocs(dataRef), getDocs(daysRef)]);
+    dataDocs.forEach(d => batch.delete(d.ref));
+    daysDocs.forEach(d => batch.delete(d.ref));
+    batch.delete(doc(db, 'users', u.uid));
+    await batch.commit();
+    // Delete Firebase Auth account (requires recent login)
+    try {
+      await deleteUser(u);
+    } catch (err: unknown) {
+      if ((err as { code?: string }).code === 'auth/requires-recent-login') {
+        const provider = new GoogleAuthProvider();
+        await reauthenticateWithPopup(u, provider);
+        await deleteUser(u);
+      } else {
+        throw err;
+      }
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, authLoading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, authLoading, signInWithGoogle, signOut, deleteAccount }}>
       {children}
     </AuthContext.Provider>
   );

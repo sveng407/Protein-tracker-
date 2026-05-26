@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useT } from '../context/LanguageContext';
 import { LanguagePicker } from '../components/LanguagePicker';
@@ -22,6 +23,9 @@ export function LoginPage() {
   const { signInWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [consentPrivacy, setConsentPrivacy] = useState(false);
+  const [consentTerms, setConsentTerms] = useState(false);
+  const consentGiven = consentPrivacy && consentTerms;
 
   async function handleSignIn() {
     setLoading(true);
@@ -70,6 +74,56 @@ export function LoginPage() {
           {t.auth.subtitle}
         </p>
 
+        {/* Consent checkboxes */}
+        <div className="mb-5 text-left space-y-3">
+          {[
+            {
+              id: 'privacy',
+              checked: consentPrivacy,
+              onChange: setConsentPrivacy,
+              label: (
+                <>
+                  Ich habe die{' '}
+                  <Link to="/datenschutz" className="underline font-bold" style={{ color: 'var(--pt-accent)' }}>
+                    Datenschutzerklärung
+                  </Link>{' '}
+                  gelesen und akzeptiere sie.
+                </>
+              ),
+            },
+            {
+              id: 'terms',
+              checked: consentTerms,
+              onChange: setConsentTerms,
+              label: (
+                <>
+                  Ich akzeptiere die{' '}
+                  <Link to="/agb" className="underline font-bold" style={{ color: 'var(--pt-accent)' }}>
+                    AGB
+                  </Link>
+                  .
+                </>
+              ),
+            },
+          ].map(({ id, checked, onChange, label }) => (
+            <label key={id} className="flex items-start gap-3 cursor-pointer">
+              <div
+                onClick={() => onChange(!checked)}
+                className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center mt-0.5"
+                style={{
+                  background: checked ? 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))' : 'var(--pt-input-bg)',
+                  border: `2px solid ${checked ? 'transparent' : 'var(--pt-input-border)'}`,
+                }}
+              >
+                {checked && <span className="text-white text-xs font-black">✓</span>}
+              </div>
+              <span className="text-xs font-medium leading-relaxed" style={{ color: 'var(--pt-text-muted)' }}>
+                {label}
+              </span>
+            </label>
+          ))}
+        </div>
+
         {error && (
           <div className="mb-4 rounded-2xl px-4 py-3 text-sm font-semibold"
             style={{ background: '#FFF4DC', border: '2px solid #FFE4A0', color: '#B87840' }}>
@@ -79,7 +133,7 @@ export function LoginPage() {
 
         <motion.button
           onClick={handleSignIn}
-          disabled={loading}
+          disabled={loading || !consentGiven}
           whileTap={{ scale: 0.95 }}
           className="w-full flex items-center justify-center gap-3 py-4 rounded-4xl font-black text-sm disabled:opacity-60"
           style={{

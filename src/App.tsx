@@ -11,6 +11,9 @@ import { TodayPage } from './pages/TodayPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { BadgesPage } from './pages/BadgesPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ImpressumPage } from './pages/legal/ImpressumPage';
+import { DatenschutzPage } from './pages/legal/DatenschutzPage';
+import { AgbPage } from './pages/legal/AgbPage';
 
 const MAIN_ROUTES = ['/today', '/history', '/badges', '/settings'];
 
@@ -55,6 +58,12 @@ function AppInner() {
 
 function AppRoutes() {
   const { user, authLoading } = useAuth();
+  const { pathname } = useLocation();
+
+  // Legal pages are always publicly accessible
+  if (pathname === '/impressum') return <ImpressumPage />;
+  if (pathname === '/datenschutz') return <DatenschutzPage />;
+  if (pathname === '/agb') return <AgbPage />;
 
   if (authLoading) return <LoadingScreen />;
   if (!user)       return <LoginPage />;

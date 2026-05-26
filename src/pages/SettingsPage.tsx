@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
 import { useT, useLang } from '../context/LanguageContext';
@@ -37,6 +38,9 @@ export function SettingsPage() {
   const { installState, triggerInstall } = useInstallPrompt();
   const { isPro, sub, activatePro, cancelPro } = useApp();
   const { theme, setTheme } = useTheme();
+  const { deleteAccount } = useAuth();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [goalInput, setGoalInput] = useState(String(goal));
@@ -297,7 +301,7 @@ export function SettingsPage() {
           <motion.button
             onClick={signOut}
             whileTap={{ scale: 0.95 }}
-            className="w-full py-3 rounded-3xl text-sm font-black"
+            className="w-full py-3 rounded-3xl text-sm font-black mb-2"
             style={{
               background: 'var(--pt-border-pink)',
               border: '2.5px solid var(--pt-border-pink)',
@@ -306,6 +310,58 @@ export function SettingsPage() {
           >
             {t.settings.signOut}
           </motion.button>
+
+          {!confirmDelete ? (
+            <button
+              onClick={() => setConfirmDelete(true)}
+              className="w-full py-2 text-xs font-bold"
+              style={{ color: 'var(--pt-text-muted)' }}
+            >
+              {t.settings.deleteAccount}
+            </button>
+          ) : (
+            <div className="rounded-2xl p-4 mt-1" style={{ background: 'var(--pt-border-pink)', border: '2px solid var(--pt-border-pink)' }}>
+              <p className="text-xs font-semibold mb-3" style={{ color: '#E87BAA' }}>{t.settings.deleteConfirm}</p>
+              <div className="flex gap-2">
+                <button onClick={() => setConfirmDelete(false)}
+                  className="flex-1 py-2 rounded-2xl text-sm font-black"
+                  style={{ background: 'var(--pt-border)', color: 'var(--pt-accent)' }}>
+                  {t.settings.deleteCancel}
+                </button>
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  disabled={deleting}
+                  onClick={async () => {
+                    setDeleting(true);
+                    try { await deleteAccount(); } catch { setDeleting(false); setConfirmDelete(false); }
+                  }}
+                  className="flex-1 py-2 rounded-2xl text-sm font-black disabled:opacity-60"
+                  style={{ background: 'var(--pt-border-pink)', color: '#E87BAA' }}>
+                  {deleting ? '…' : t.settings.deleteConfirmBtn}
+                </motion.button>
+              </div>
+            </div>
+          )}
+        </Section>
+
+        <Section title={t.settings.legalSection}>
+          <div className="flex flex-col gap-1">
+            {[
+              { to: '/impressum', label: 'Impressum' },
+              { to: '/datenschutz', label: 'Datenschutzerklärung' },
+              { to: '/agb', label: 'AGB & Widerrufsrecht' },
+            ].map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className="flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm font-semibold"
+                style={{ color: 'var(--pt-text)', background: 'var(--pt-surface)' }}
+              >
+                {label}
+                <span style={{ color: 'var(--pt-text-muted)' }}>›</span>
+              </Link>
+            ))}
+          </div>
         </Section>
       </div>
     </div>

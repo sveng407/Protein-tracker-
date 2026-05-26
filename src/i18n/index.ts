@@ -44,6 +44,11 @@ export interface Translations {
     goalHint: string;
     account: string;
     signOut: string;
+    deleteAccount: string;
+    deleteConfirm: string;
+    deleteCancel: string;
+    deleteConfirmBtn: string;
+    legalSection: string;
     savedLabel: string;
     install: string;
     installButton: string;
@@ -222,6 +227,11 @@ const de: Translations = {
     goalHint:       'Änderung wird sofort gespeichert',
     account:        'Account',
     signOut:        'Abmelden',
+    deleteAccount:  'Account löschen',
+    deleteConfirm:  'Alle Daten werden unwiderruflich gelöscht. Fortfahren?',
+    deleteCancel:   'Abbrechen',
+    deleteConfirmBtn: 'Löschen',
+    legalSection:   'Rechtliches',
     savedLabel:     'Gespeichert ✓',
     install:             'App installieren',
     installButton:       'Zum Home-Bildschirm hinzufügen',
@@ -422,6 +432,11 @@ const en: Translations = {
     goalHint:       'Saved automatically',
     account:        'Account',
     signOut:        'Sign out',
+    deleteAccount:  'Delete account',
+    deleteConfirm:  'All data will be permanently deleted. Continue?',
+    deleteCancel:   'Cancel',
+    deleteConfirmBtn: 'Delete',
+    legalSection:   'Legal',
     savedLabel:     'Saved ✓',
     install:             'Install app',
     installButton:       'Add to Home Screen',
@@ -622,6 +637,11 @@ const hu: Translations = {
     goalHint:       'Automatikusan mentve',
     account:        'Fiók',
     signOut:        'Kijelentkezés',
+    deleteAccount:  'Fiók törlése',
+    deleteConfirm:  'Minden adat véglegesen törlődik. Folytatja?',
+    deleteCancel:   'Mégsem',
+    deleteConfirmBtn: 'Törlés',
+    legalSection:   'Jogi',
     savedLabel:     'Mentve ✓',
     install:             'App telepítése',
     installButton:       'Kezdőképernyőre helyezés',
