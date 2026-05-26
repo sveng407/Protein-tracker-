@@ -123,6 +123,18 @@ export interface Translations {
 
   motivational: Record<number, string[]>;
 
+  installBanner: {
+    title: string;
+    perks: string[];
+    installBtn: string;
+    iosBtn: string;
+    dismiss: string;
+    iosSheet: {
+      title: string;
+      steps: string[];
+    };
+  };
+
   auth: {
     headline: string;
     subtitle: string;
@@ -130,6 +142,36 @@ export interface Translations {
     signOutButton: string;
     loading: string;
     error: string;
+  };
+
+  pro: {
+    title: string;
+    subtitle: string;
+    perk1: string;
+    perk2: string;
+    perk3: string;
+    perk4: string;
+    price: string;
+    upgradeBtn: string;
+    dismiss: string;
+    checkoutTitle: string;
+    cardNumber: string;
+    expiry: string;
+    cvv: string;
+    cardName: string;
+    coupon: string;
+    couponHint: string;
+    payBtn: string;
+    processing: string;
+    successMsg: string;
+    settingsSection: string;
+    activeUntil: (date: string) => string;
+    cancelBtn: string;
+    cancelConfirm: string;
+    freeHint: string;
+    unlockBtn: string;
+    statusPro: string;
+    statusFree: string;
   };
 }
 
@@ -245,6 +287,7 @@ const de: Translations = {
       'variety':      { title: 'Bunte Mahlzeiten', description: 'Alle 4 Mahlzeitentypen an einem Tag' },
       'early-bird':   { title: 'Frühaufsteher',    description: 'Frühstück vor 9 Uhr eingetragen' },
       'comeback':     { title: 'Neuanfang',        description: 'Nach einer Pause wieder gestartet' },
+      'pro-member':   { title: 'Pro-Mitglied',     description: 'Auf Pro gewechselt — unbegrenzte Einträge!' },
     },
   },
 
@@ -273,6 +316,18 @@ const de: Translations = {
     100: ['Heute eine Blume geerntet! 🌺', 'Wunderschön! Dein Garten wächst!', 'Volle Blüte — du bist unschlagbar! ✨'],
   },
 
+  installBanner: {
+    title: 'Immer dabei — auch offline 🌸',
+    perks: ['Auf dem Home-Bildschirm', 'Blitzschnell — kein Browser nötig', 'Auch ohne Internet'],
+    installBtn: 'App installieren',
+    iosBtn: 'Wie installiere ich?',
+    dismiss: 'Später',
+    iosSheet: {
+      title: 'In 3 Schritten installieren',
+      steps: ['Tippe unten auf ⬆️ Teilen', 'Wähle „Zum Home-Bildschirm"', 'Tippe „Hinzufügen" — fertig! 🌸'],
+    },
+  },
+
   auth: {
     headline:    'Willkommen zurück! 🌸',
     subtitle:    'Melde dich an, um deinen Garten zu pflegen.',
@@ -280,6 +335,36 @@ const de: Translations = {
     signOutButton:'Abmelden',
     loading:     'Laden…',
     error:       'Anmeldung fehlgeschlagen. Bitte erneut versuchen.',
+  },
+
+  pro: {
+    title:          'Unbegrenzte Blüten',
+    subtitle:       'Du hast dein Tageslimit erreicht',
+    perk1:          'Unbegrenzte Einträge pro Tag',
+    perk2:          'Vollständiger Verlauf & Statistiken',
+    perk3:          'Exklusives Pro-Badge',
+    perk4:          'Offline-Sync & Priorität-Support',
+    price:          '€4,99 / Monat',
+    upgradeBtn:     'Jetzt upgraden 🌸',
+    dismiss:        'Vielleicht später',
+    checkoutTitle:  'Pro freischalten',
+    cardNumber:     'Kartennummer',
+    expiry:         'Ablaufdatum',
+    cvv:            'CVV',
+    cardName:       'Name auf der Karte',
+    coupon:         'Gutscheincode (optional)',
+    couponHint:     'Jeder Code schaltet Pro frei',
+    payBtn:         '€4,99 jetzt zahlen',
+    processing:     'Zahlung wird verarbeitet…',
+    successMsg:     'Pro aktiviert! 🎉',
+    settingsSection:'Abonnement',
+    activeUntil:    (date) => `Aktiv bis: ${date}`,
+    cancelBtn:      'Abo kündigen',
+    cancelConfirm:  'Wirklich kündigen? Du verlierst sofort den Pro-Zugang.',
+    freeHint:       '1 Eintrag pro Tag · Upgrade für unbegrenzt',
+    unlockBtn:      'Pro freischalten',
+    statusPro:      'PRO',
+    statusFree:     'KOSTENLOS',
   },
 };
 
@@ -395,6 +480,7 @@ const en: Translations = {
       'variety':      { title: 'Full Day',        description: 'All 4 meal types in a single day' },
       'early-bird':   { title: 'Early Bird',      description: 'Logged breakfast before 9am' },
       'comeback':     { title: 'Fresh Start',     description: 'Started again after a break' },
+      'pro-member':   { title: 'Pro Member',      description: 'Upgraded to Pro — unlimited entries!' },
     },
   },
 
@@ -423,6 +509,18 @@ const en: Translations = {
     100: ["Today's flower harvested! 🌺", 'Beautiful! Your garden grows!', "Full bloom — you're unstoppable! ✨"],
   },
 
+  installBanner: {
+    title: 'Always with you — even offline 🌸',
+    perks: ['On your Home Screen', 'Lightning fast — no browser needed', 'Works without internet'],
+    installBtn: 'Install app',
+    iosBtn: 'How to install?',
+    dismiss: 'Later',
+    iosSheet: {
+      title: 'Install in 3 steps',
+      steps: ['Tap ⬆️ Share at the bottom', 'Choose "Add to Home Screen"', 'Tap "Add" — done! 🌸'],
+    },
+  },
+
   auth: {
     headline:    'Welcome back! 🌸',
     subtitle:    'Sign in to tend to your garden.',
@@ -430,6 +528,36 @@ const en: Translations = {
     signOutButton:'Sign out',
     loading:     'Loading…',
     error:       'Sign-in failed. Please try again.',
+  },
+
+  pro: {
+    title:          'Unlimited Blooms',
+    subtitle:       'You have reached your daily limit',
+    perk1:          'Unlimited entries per day',
+    perk2:          'Full history & statistics',
+    perk3:          'Exclusive Pro badge',
+    perk4:          'Offline sync & priority support',
+    price:          '€4.99 / month',
+    upgradeBtn:     'Upgrade now 🌸',
+    dismiss:        'Maybe later',
+    checkoutTitle:  'Unlock Pro',
+    cardNumber:     'Card number',
+    expiry:         'Expiry date',
+    cvv:            'CVV',
+    cardName:       'Name on card',
+    coupon:         'Coupon code (optional)',
+    couponHint:     'Any code unlocks Pro',
+    payBtn:         'Pay €4.99 now',
+    processing:     'Processing payment…',
+    successMsg:     'Pro activated! 🎉',
+    settingsSection:'Subscription',
+    activeUntil:    (date) => `Active until: ${date}`,
+    cancelBtn:      'Cancel subscription',
+    cancelConfirm:  'Really cancel? You will lose Pro access immediately.',
+    freeHint:       '1 entry per day · Upgrade for unlimited',
+    unlockBtn:      'Unlock Pro',
+    statusPro:      'PRO',
+    statusFree:     'FREE',
   },
 };
 
@@ -545,6 +673,7 @@ const hu: Translations = {
       'variety':      { title: 'Teljes nap',        description: 'Mind a 4 étkezéstípus egy nap' },
       'early-bird':   { title: 'Korai madár',       description: 'Reggeli 9 előtt naplózva' },
       'comeback':     { title: 'Új kezdet',         description: 'Szünet után visszatért' },
+      'pro-member':   { title: 'Pro tag',            description: 'Frissítettél Próra — korlátlan bejegyzések!' },
     },
   },
 
@@ -580,6 +709,48 @@ const hu: Translations = {
     signOutButton:'Kijelentkezés',
     loading:     'Betöltés…',
     error:       'Bejelentkezés sikertelen. Kérjük, próbálja újra.',
+  },
+
+  installBanner: {
+    title: 'Mindig veled — offline is 🌸',
+    perks: ['Kezdőképernyőn', 'Villámgyors — böngésző nélkül', 'Internet nélkül is működik'],
+    installBtn: 'App telepítése',
+    iosBtn: 'Hogyan telepítsem?',
+    dismiss: 'Később',
+    iosSheet: {
+      title: '3 lépéses telepítés',
+      steps: ['Nyomd meg a ⬆️ Megosztás ikont', 'Válaszd a „Kezdőképernyőre"', 'Nyomd meg a „Hozzáadás"-t — kész! 🌸'],
+    },
+  },
+
+  pro: {
+    title:          'Korlátlan virágok',
+    subtitle:       'Elérted a napi limitedet',
+    perk1:          'Korlátlan bejegyzések naponta',
+    perk2:          'Teljes előzmény és statisztikák',
+    perk3:          'Exkluzív Pro jelvény',
+    perk4:          'Offline szinkron és prioritás-támogatás',
+    price:          '€4,99 / hó',
+    upgradeBtn:     'Frissítés most 🌸',
+    dismiss:        'Talán később',
+    checkoutTitle:  'Pro feloldása',
+    cardNumber:     'Kártyaszám',
+    expiry:         'Lejárati dátum',
+    cvv:            'CVV',
+    cardName:       'Kártyán lévő név',
+    coupon:         'Kuponkód (opcionális)',
+    couponHint:     'Bármely kód feloldja a Prót',
+    payBtn:         '€4,99 fizetése most',
+    processing:     'Fizetés feldolgozása…',
+    successMsg:     'Pro aktiválva! 🎉',
+    settingsSection:'Előfizetés',
+    activeUntil:    (date) => `Aktív eddig: ${date}`,
+    cancelBtn:      'Előfizetés lemondása',
+    cancelConfirm:  'Biztosan lemondod? Azonnal elveszíted a Pro hozzáférést.',
+    freeHint:       '1 bejegyzés naponta · Frissíts korlátlanhoz',
+    unlockBtn:      'Pro feloldása',
+    statusPro:      'PRO',
+    statusFree:     'INGYENES',
   },
 };
 

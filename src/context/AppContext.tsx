@@ -5,10 +5,11 @@ import { useAuth } from './AuthContext';
 import { useGoal } from '../hooks/useGoal';
 import { useProteinLog } from '../hooks/useProteinLog';
 import { useStreak } from '../hooks/useStreak';
+import { useSubscription } from '../hooks/useSubscription';
 import { storageGet } from '../lib/storage';
 import { today } from '../lib/dateUtils';
 import { STORAGE_KEYS } from '../constants';
-import type { FoodEntry, DayLog, StreakData, BadgeId, MealType } from '../types';
+import type { FoodEntry, DayLog, StreakData, BadgeId, MealType, SubscriptionData } from '../types';
 
 const DEFAULT_STREAK: StreakData = {
   currentStreak: 0, longestStreak: 0, lastGoalDate: '',
@@ -32,6 +33,11 @@ interface AppContextValue {
   showCelebration: boolean;
   dismissCelebration: () => void;
   dataLoading: boolean;
+  sub: SubscriptionData;
+  isPro: boolean;
+  subLoading: boolean;
+  activatePro: (coupon?: string) => Promise<void>;
+  cancelPro: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -44,6 +50,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [goal, setGoal, goalLoading] = useGoal(uid);
   const { allLogs, todayTotal, addEntry, removeEntry, updateEntry, logsLoading } = useProteinLog(uid);
   const { streakData, newlyUnlockedBadges, clearNewBadges, checkAndUpdate } = useStreak(uid, allLogs, goal);
+  const { sub, isPro, subLoading, activate: activatePro, cancel: cancelPro } = useSubscription(uid);
   const [showCelebration, setShowCelebration] = useState(false);
   const todayPercent = goal > 0 ? todayTotal / goal : 0;
   const dataLoading = goalLoading || logsLoading;
@@ -113,7 +120,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [todayPercent]);
 
-  useEffect(() => { checkAndUpdate(); }, [allLogs, checkAndUpdate]);
+  useEffect(() => { checkAndUpdate(isPro); }, [allLogs, isPro, checkAndUpdate]);
 
   return (
     <AppContext.Provider value={{
@@ -124,6 +131,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       streakData, newlyUnlockedBadges, clearNewBadges,
       showCelebration, dismissCelebration: () => setShowCelebration(false),
       dataLoading,
+      sub, isPro, subLoading, activatePro, cancelPro,
     }}>
       {children}
     </AppContext.Provider>

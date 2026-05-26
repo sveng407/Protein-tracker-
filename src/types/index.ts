@@ -28,7 +28,15 @@ export type BadgeId =
   | 'log-50'
   | 'variety'
   | 'early-bird'
-  | 'perfect-week';
+  | 'perfect-week'
+  | 'pro-member';
+
+export interface SubscriptionData {
+  plan: 'free' | 'pro';
+  expiresAt: string | null;
+  activatedAt: string | null;
+  couponUsed: string | null;
+}
 
 export interface Badge {
   id: BadgeId;

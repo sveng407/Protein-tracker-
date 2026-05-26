@@ -23,4 +23,5 @@ export const BADGE_DEFINITIONS: Badge[] = [
   { id: 'variety',      emoji: '🎨' },
   { id: 'early-bird',   emoji: '🌅' },
   { id: 'comeback',     emoji: '🦋' },
+  { id: 'pro-member',  emoji: '👑' },
 ];

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
 import { useT, useLang } from '../context/LanguageContext';
 import { useInstallPrompt } from '../hooks/useInstallPrompt';
+import { ProUpgradeSheet } from '../components/subscription/ProUpgradeSheet';
 import type { Lang } from '../i18n';
 
 const LANGS: { code: Lang; flag: string; name: string }[] = [
@@ -32,6 +33,9 @@ export function SettingsPage() {
   const { user, signOut } = useAuth();
   const { goal, setGoal } = useApp();
   const { installState, triggerInstall } = useInstallPrompt();
+  const { isPro, sub, activatePro, cancelPro } = useApp();
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState(false);
   const [goalInput, setGoalInput] = useState(String(goal));
   const [saved, setSaved] = useState(false);
   const saveTimer = { current: 0 as ReturnType<typeof setTimeout> };
@@ -50,15 +54,87 @@ export function SettingsPage() {
     }, 600);
   }, [setGoal]);
 
+  const expiryLabel = sub.expiresAt
+    ? new Date(sub.expiresAt).toLocaleDateString(t.locale, { day: 'numeric', month: 'long', year: 'numeric' })
+    : '';
+
   return (
     <div
       className="min-h-screen"
       style={{ background: 'linear-gradient(160deg, #FFF0F7 0%, #F5EEFF 50%, #F0FFF8 100%)' }}
     >
+      <ProUpgradeSheet open={upgradeOpen} onClose={() => setUpgradeOpen(false)} onActivate={activatePro} />
+
       <div className="max-w-md mx-auto px-4 pt-5 pb-32">
         <h1 className="text-2xl font-black tracking-tight mb-6" style={{ color: '#3D2255' }}>
           {t.settings.title} ⚙️
         </h1>
+
+        {/* ── Subscription section ── */}
+        <Section title={t.pro.settingsSection}>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+              style={{ background: isPro ? 'linear-gradient(135deg,#FFD700,#FFA500)' : '#F5F0FF' }}>
+              {isPro ? '👑' : '🌱'}
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-black" style={{ color: '#3D2255' }}>
+                Protein Tracker
+                <span className="ml-2 text-xs font-black px-2 py-0.5 rounded-full"
+                  style={isPro
+                    ? { background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white' }
+                    : { background: '#EDE4FF', color: '#9B7BE0' }}>
+                  {isPro ? t.pro.statusPro : t.pro.statusFree}
+                </span>
+              </p>
+              <p className="text-xs font-medium mt-0.5" style={{ color: '#C4A8FF' }}>
+                {isPro ? t.pro.activeUntil(expiryLabel) : t.pro.freeHint}
+              </p>
+            </div>
+          </div>
+
+          {isPro ? (
+            <>
+              {!confirmCancel ? (
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => setConfirmCancel(true)}
+                  className="w-full py-3 rounded-3xl text-sm font-black"
+                  style={{ background: '#FFF5FA', border: '2.5px solid #FFE4EC', color: '#E87BAA' }}
+                >
+                  {t.pro.cancelBtn}
+                </motion.button>
+              ) : (
+                <div className="rounded-2xl p-4" style={{ background: '#FFF5FA', border: '2px solid #FFE4EC' }}>
+                  <p className="text-xs font-semibold mb-3" style={{ color: '#E87BAA' }}>{t.pro.cancelConfirm}</p>
+                  <div className="flex gap-2">
+                    <button onClick={() => setConfirmCancel(false)}
+                      className="flex-1 py-2 rounded-2xl text-sm font-black"
+                      style={{ background: '#EDE4FF', color: '#9B7BE0' }}>
+                      Zurück
+                    </button>
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={async () => { await cancelPro(); setConfirmCancel(false); }}
+                      className="flex-1 py-2 rounded-2xl text-sm font-black"
+                      style={{ background: '#FFE4EC', color: '#E87BAA' }}>
+                      Kündigen
+                    </motion.button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <motion.button
+              whileTap={{ scale: 0.96 }}
+              onClick={() => setUpgradeOpen(true)}
+              className="w-full py-3.5 rounded-3xl text-sm font-black flex items-center justify-center gap-2"
+              style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', boxShadow: '0 4px 18px rgba(196,168,255,0.4)' }}
+            >
+              <span>👑</span> {t.pro.unlockBtn}
+            </motion.button>
+          )}
+        </Section>
 
         <Section title={t.settings.language}>
           <div className="flex flex-col gap-2">

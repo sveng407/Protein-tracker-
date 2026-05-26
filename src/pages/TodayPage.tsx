@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
-
 import { useT } from '../context/LanguageContext';
 import { FlowerGrowth } from '../components/today/FlowerGrowth';
 import { MotivationalMessage } from '../components/today/MotivationalMessage';
@@ -10,6 +9,7 @@ import { AddFoodSheet } from '../components/today/AddFoodSheet';
 import { StreakCounter } from '../components/gamification/StreakCounter';
 import { CelebrationOverlay } from '../components/gamification/CelebrationOverlay';
 import { NewBadgeToast } from '../components/gamification/NewBadgeToast';
+import { ProUpgradeSheet } from '../components/subscription/ProUpgradeSheet';
 import { getFlowerColorForDate } from '../lib/flowerUtils';
 import { today, addDays } from '../lib/dateUtils';
 import type { MealType, FoodEntry } from '../types';
@@ -94,15 +94,10 @@ function DateNav({ date, onChange }: { date: string; onChange: (d: string) => vo
 }
 
 function MealGroup({
-  mealType,
-  entries,
-  onRemove,
-  onEdit,
+  mealType, entries, onRemove, onEdit,
 }: {
-  mealType: MealType;
-  entries: FoodEntry[];
-  onRemove: (id: string) => void;
-  onEdit: (entry: FoodEntry) => void;
+  mealType: MealType; entries: FoodEntry[];
+  onRemove: (id: string) => void; onEdit: (entry: FoodEntry) => void;
 }) {
   const t = useT();
   if (entries.length === 0) return null;
@@ -131,14 +126,14 @@ export function TodayPage() {
     streakData, newlyUnlockedBadges, clearNewBadges,
     showCelebration, dismissCelebration,
     firstName,
+    isPro, activatePro,
   } = useApp();
   const [selectedDate, setSelectedDate] = useState(() => today());
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [editingEntry, setEditingEntry] = useState<FoodEntry | null>(null);
 
-  // Flower color follows the selected date — same colour scheme as in the garden
   const flowerColor = getFlowerColorForDate(selectedDate);
-  // Celebration always uses today's colour regardless of which date is selected
   const todayFlowerColor = getFlowerColorForDate(today());
 
   const selectedEntries = useMemo(
@@ -149,6 +144,9 @@ export function TodayPage() {
   const selectedPercent = goal > 0 ? selectedTotal / goal : 0;
   const isToday = selectedDate === today();
 
+  // Free users may only add 1 entry per day
+  const hitFreeLimit = isToday && !isPro && selectedEntries.length >= 1;
+
   const grouped = useMemo(() => {
     const map = {} as Record<MealType, FoodEntry[]>;
     for (const m of MEAL_ORDER) map[m] = [];
@@ -158,10 +156,23 @@ export function TodayPage() {
 
   const hasAnyEntry = selectedEntries.length > 0;
 
+  function handleFabClick() {
+    if (hitFreeLimit) {
+      setUpgradeOpen(true);
+    } else {
+      setSheetOpen(true);
+    }
+  }
+
   return (
     <>
       <CelebrationOverlay show={showCelebration} onDismiss={dismissCelebration} flowerColor={todayFlowerColor} />
       <NewBadgeToast badgeIds={newlyUnlockedBadges} onDismiss={clearNewBadges} />
+      <ProUpgradeSheet
+        open={upgradeOpen}
+        onClose={() => setUpgradeOpen(false)}
+        onActivate={activatePro}
+      />
 
       <div className="max-w-md mx-auto px-4 pt-5 pb-28">
 
@@ -175,17 +186,21 @@ export function TodayPage() {
               {new Date().toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
-          <StreakCounter streak={streakData.currentStreak} />
+          <div className="flex items-center gap-2">
+            {isPro && (
+              <span className="text-xs font-black px-2 py-1 rounded-full"
+                style={{ background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white' }}>
+                PRO
+              </span>
+            )}
+            <StreakCounter streak={streakData.currentStreak} />
+          </div>
         </div>
 
-        {/* Flower card — shows selected date's progress */}
+        {/* Flower card */}
         <div
           className="rounded-4xl p-4 mb-3 flex flex-col items-center"
-          style={{
-            background: 'white',
-            border: '2.5px solid #FFE4EC',
-            boxShadow: '0 6px 32px rgba(255,183,197,0.22)',
-          }}
+          style={{ background: 'white', border: '2.5px solid #FFE4EC', boxShadow: '0 6px 32px rgba(255,183,197,0.22)' }}
         >
           <AnimatePresence mode="wait">
             <motion.div key={selectedDate + Math.floor(selectedPercent * 6)}
@@ -199,14 +214,10 @@ export function TodayPage() {
           {isToday && <MotivationalMessage percent={selectedPercent} entryCount={selectedEntries.length} />}
         </div>
 
-        {/* Meal list with date nav */}
+        {/* Meal list */}
         <div
           className="rounded-4xl p-4"
-          style={{
-            background: 'white',
-            border: '2.5px solid #EDE4FF',
-            boxShadow: '0 4px 20px rgba(196,168,255,0.18)',
-          }}
+          style={{ background: 'white', border: '2.5px solid #EDE4FF', boxShadow: '0 4px 20px rgba(196,168,255,0.18)' }}
         >
           <div className="flex items-center gap-2 mb-3">
             <span className="text-base">🍽️</span>
@@ -214,10 +225,8 @@ export function TodayPage() {
               {t.today.mealsTitle}
             </span>
             {hasAnyEntry && (
-              <span
-                className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
-                style={{ background: '#EDE4FF', color: '#9B7BE0' }}
-              >
+              <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
+                style={{ background: '#EDE4FF', color: '#9B7BE0' }}>
                 {selectedTotal}{t.today.totalGrams}
               </span>
             )}
@@ -242,22 +251,43 @@ export function TodayPage() {
               />
             ))
           )}
+
+          {/* Free limit banner inside the card */}
+          {hitFreeLimit && (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+              className="mt-3 rounded-2xl px-4 py-3 flex items-center gap-3 cursor-pointer"
+              style={{ background: 'linear-gradient(135deg,#FFF4DC,#FFE4EC)', border: '2px solid #FFD4A8' }}
+              onClick={() => setUpgradeOpen(true)}
+            >
+              <span style={{ fontSize: '1.3rem' }}>👑</span>
+              <div className="flex-1">
+                <p className="text-xs font-black" style={{ color: '#B87840' }}>{t.pro.freeHint}</p>
+              </div>
+              <span className="text-xs font-black px-2 py-1 rounded-full"
+                style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white' }}>
+                PRO
+              </span>
+            </motion.div>
+          )}
         </div>
       </div>
 
       {/* FAB */}
       <motion.button
-        onClick={() => setSheetOpen(true)}
+        onClick={handleFabClick}
         whileTap={{ scale: 0.88 }}
         whileHover={{ scale: 1.06 }}
         className="fixed bottom-24 right-4 w-14 h-14 rounded-full text-white text-2xl font-black flex items-center justify-center z-30"
         style={{
-          background: 'linear-gradient(135deg, #FFB7C5 0%, #C4A8FF 100%)',
+          background: hitFreeLimit
+            ? 'linear-gradient(135deg,#FFD700,#FFA500)'
+            : 'linear-gradient(135deg, #FFB7C5 0%, #C4A8FF 100%)',
           boxShadow: '0 6px 24px rgba(196,168,255,0.5)',
         }}
-        aria-label={t.today.addMeal}
+        aria-label={hitFreeLimit ? 'Upgrade to Pro' : t.today.addMeal}
       >
-        ＋
+        {hitFreeLimit ? '👑' : '＋'}
       </motion.button>
 
       <AddFoodSheet

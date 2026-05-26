@@ -54,7 +54,7 @@ export function useStreak(uid: string, allLogs: DayLog[], goal: number) {
     });
   }, [uid]);
 
-  const checkAndUpdate = useCallback(() => {
+  const checkAndUpdate = useCallback((isPro?: boolean) => {
     if (goal <= 0) return;
 
     const prev = streakRef.current;
@@ -124,6 +124,9 @@ export function useStreak(uid: string, allLogs: DayLog[], goal: number) {
     // ── Comeback: had a 3+ streak before, broke it, now logging again ──
     // currentStreak <= 1 means either day 0 or first day of a new run after a gap
     if (prev.longestStreak >= 3 && currentStreak <= 1 && totalEntries > 0) award('comeback');
+
+    // ── Pro member badge ──
+    if (isPro) award('pro-member');
 
     const longestStreak = Math.max(prev.longestStreak, currentStreak);
     const lastGoalDate  = goalDates.includes(t) ? t : prev.lastGoalDate;
