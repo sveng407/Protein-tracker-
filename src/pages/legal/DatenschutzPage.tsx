@@ -1,19 +1,13 @@
-import { LegalPage, H2, P, Ul, Note } from './LegalPage';
+import { LegalPage, H2, P, Ul } from './LegalPage';
 
 export function DatenschutzPage() {
   return (
     <LegalPage title="Datenschutzerklärung">
-      <Note>
-        Bitte ersetze alle [PLATZHALTER] mit deinen echten Angaben vor dem öffentlichen Launch.
-      </Note>
-
       <H2>1. Verantwortlicher</H2>
       <P>
         Verantwortlicher im Sinne der DSGVO ist:<br />
-        [Vorname Nachname]<br />
-        [Straße Hausnummer]<br />
-        [PLZ Ort]<br />
-        E-Mail: [deine-email@example.de]
+        Gyrnich<br />
+        E-Mail: protein@gyrnich.de
       </P>
 
       <H2>2. Erhobene Daten</H2>
@@ -26,29 +20,32 @@ export function DatenschutzPage() {
         <li><strong>Gerätedaten</strong> (nur lokal): Theme-Einstellung, Sprachauswahl (im Browser-Speicher, nicht auf unseren Servern)</li>
       </Ul>
       <P>
-        Es werden keine Zahlungsdaten verarbeitet. Die Pro-Abo-Funktion simuliert lediglich eine Zahlung zu Testzwecken — keine echten Kartendaten werden übermittelt oder gespeichert.
+        Es werden keine Zahlungsdaten verarbeitet. Die Pro-Abo-Funktion simuliert lediglich eine
+        Zahlung zu Testzwecken — keine echten Kartendaten werden übermittelt oder gespeichert.
       </P>
 
       <H2>3. Zweck und Rechtsgrundlage</H2>
       <P>
-        Die Verarbeitung erfolgt zur Bereitstellung der Protein-Tracking-App und des Pro-Abonnements
-        gemäß Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Die Anmeldung mit Google dient
-        der eindeutigen Identifikation und dem geräteübergreifenden Datenzugriff.
+        Die Verarbeitung erfolgt zur Bereitstellung der Protein Tracker App und des
+        Pro-Abonnements gemäß Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Die Anmeldung
+        mit Google dient der eindeutigen Identifikation und dem geräteübergreifenden
+        Datenzugriff.
       </P>
 
       <H2>4. Drittanbieter – Google Firebase</H2>
       <P>
-        Wir nutzen Google Firebase (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA)
-        für folgende Dienste:
+        Wir nutzen Google Firebase (Google LLC, 1600 Amphitheatre Parkway, Mountain View,
+        CA 94043, USA) für folgende Dienste:
       </P>
       <Ul>
         <li><strong>Firebase Authentication</strong>: Verwaltung der Nutzeranmeldung via Google</li>
         <li><strong>Cloud Firestore</strong>: Speicherung der App-Daten (Einträge, Ziele, Streak)</li>
       </Ul>
       <P>
-        Die Übermittlung in die USA erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46
-        Abs. 2 lit. c DSGVO). Mit Google besteht ein Datenverarbeitungsvertrag gemäß Art. 28 DSGVO.
-        Weitere Informationen: https://firebase.google.com/terms/data-processing-terms
+        Die Übermittlung in die USA erfolgt auf Grundlage der EU-Standardvertragsklauseln
+        (Art. 46 Abs. 2 lit. c DSGVO). Mit Google besteht ein Datenverarbeitungsvertrag gemäß
+        Art. 28 DSGVO. Weitere Informationen:
+        https://firebase.google.com/terms/data-processing-terms
       </P>
 
       <H2>5. Speicherdauer</H2>
@@ -70,7 +67,7 @@ export function DatenschutzPage() {
         <li><strong>Widerspruch</strong> gegen die Verarbeitung (Art. 21)</li>
       </Ul>
       <P>
-        Zur Ausübung deiner Rechte wende dich an: [deine-email@example.de]
+        Zur Ausübung deiner Rechte wende dich an: protein@gyrnich.de
       </P>
 
       <H2>7. Beschwerderecht</H2>

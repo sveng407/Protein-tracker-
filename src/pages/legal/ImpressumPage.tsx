@@ -1,30 +1,22 @@
-import { LegalPage, H2, P, Note } from './LegalPage';
+import { LegalPage, H2, P } from './LegalPage';
 
 export function ImpressumPage() {
   return (
     <LegalPage title="Impressum">
-      <Note>
-        Bitte ersetze alle [PLATZHALTER] mit deinen echten Angaben vor dem öffentlichen Launch.
-      </Note>
-
       <H2>Angaben gemäß § 5 TMG</H2>
       <P>
-        [Vorname Nachname]<br />
-        [Straße Hausnummer]<br />
-        [PLZ Ort]<br />
+        Gyrnich<br />
         Deutschland
       </P>
 
       <H2>Kontakt</H2>
       <P>
-        E-Mail: [deine-email@example.de]
+        E-Mail: protein@gyrnich.de
       </P>
 
       <H2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</H2>
       <P>
-        [Vorname Nachname]<br />
-        [Straße Hausnummer]<br />
-        [PLZ Ort]
+        Gyrnich
       </P>
 
       <H2>Streitschlichtung</H2>
@@ -45,9 +37,9 @@ export function ImpressumPage() {
       <H2>Urheberrecht</H2>
       <P>
         Die durch den Betreiber dieser App erstellten Inhalte und Werke unterliegen dem deutschen
-        Urheberrecht. Beiträge Dritter sind als solche gekennzeichnet. Die Vervielfältigung,
-        Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des
-        Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+        Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung
+        außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des
+        Betreibers.
       </P>
     </LegalPage>
   );
