@@ -38,7 +38,7 @@ function PercentProgress({ percent }: { percent: number }) {
         </span>
         <span className="text-3xl font-bold mb-1 ml-1" style={{ color: 'var(--pt-text-sec)' }}>%</span>
       </motion.div>
-      <div className="w-40 h-3 rounded-full overflow-hidden" style={{ background: '#F0E8FF' }}>
+      <div className="w-40 h-3 rounded-full overflow-hidden" style={{ background: 'var(--pt-border)' }}>
         <motion.div
           className="h-full rounded-full"
           style={{ background: `linear-gradient(to right, #FFB7C5, ${color})` }}
@@ -176,6 +176,7 @@ export function TodayPage() {
         onActivate={activatePro}
       />
 
+      <div className="min-h-screen" style={{ background: 'linear-gradient(160deg, var(--pt-bg) 0%, var(--pt-bg-mid) 50%, var(--pt-bg-end) 100%)' }}>
       <div className="max-w-md mx-auto px-4 pt-5 pb-28">
 
         {/* Header */}
@@ -274,6 +275,7 @@ export function TodayPage() {
           )}
 
         </div>
+      </div>
       </div>
 
       {/* FAB */}

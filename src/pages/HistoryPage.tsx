@@ -28,6 +28,7 @@ export function HistoryPage() {
   const lockedCount = cutoff ? allLogs.filter(d => d.date < cutoff! && d.date !== today()).length : 0;
 
   return (
+    <div className="min-h-screen" style={{ background: 'linear-gradient(160deg, var(--pt-bg) 0%, var(--pt-bg-mid) 50%, var(--pt-bg-end) 100%)' }}>
     <div className="max-w-md mx-auto px-4 pt-5 pb-28">
       <ProUpgradeSheet open={upgradeOpen} onClose={() => setUpgradeOpen(false)} onActivate={activatePro} />
 
@@ -76,6 +77,7 @@ export function HistoryPage() {
           </span>
         </motion.div>
       )}
+    </div>
     </div>
   );
 }
