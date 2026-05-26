@@ -45,6 +45,12 @@ export interface Translations {
     account: string;
     signOut: string;
     savedLabel: string;
+    install: string;
+    installButton: string;
+    installDone: string;
+    installIosStep1: string;
+    installIosStep2: string;
+    installIosStep3: string;
   };
 
   addSheet: {
@@ -159,13 +165,19 @@ const de: Translations = {
   },
 
   settings: {
-    title:     'Einstellungen',
-    language:  'Sprache',
-    goal:      'Protein-Ziel (g/Tag)',
-    goalHint:  'Änderung wird sofort gespeichert',
-    account:   'Account',
-    signOut:   'Abmelden',
-    savedLabel:'Gespeichert ✓',
+    title:          'Einstellungen',
+    language:       'Sprache',
+    goal:           'Protein-Ziel (g/Tag)',
+    goalHint:       'Änderung wird sofort gespeichert',
+    account:        'Account',
+    signOut:        'Abmelden',
+    savedLabel:     'Gespeichert ✓',
+    install:        'App installieren',
+    installButton:  'Zum Home-Bildschirm hinzufügen',
+    installDone:    '✓ App ist bereits installiert',
+    installIosStep1:'Tippe unten auf das Teilen-Symbol',
+    installIosStep2:'Wähle „Zum Home-Bildschirm"',
+    installIosStep3:'Tippe „Hinzufügen" — fertig! 🌸',
   },
 
   addSheet: {
@@ -301,13 +313,19 @@ const en: Translations = {
   },
 
   settings: {
-    title:     'Settings',
-    language:  'Language',
-    goal:      'Daily protein goal (g)',
-    goalHint:  'Saved automatically',
-    account:   'Account',
-    signOut:   'Sign out',
-    savedLabel:'Saved ✓',
+    title:          'Settings',
+    language:       'Language',
+    goal:           'Daily protein goal (g)',
+    goalHint:       'Saved automatically',
+    account:        'Account',
+    signOut:        'Sign out',
+    savedLabel:     'Saved ✓',
+    install:        'Install app',
+    installButton:  'Add to Home Screen',
+    installDone:    '✓ App already installed',
+    installIosStep1:'Tap the Share icon at the bottom',
+    installIosStep2:'Choose "Add to Home Screen"',
+    installIosStep3:'Tap "Add" — done! 🌸',
   },
 
   addSheet: {
@@ -443,13 +461,19 @@ const hu: Translations = {
   },
 
   settings: {
-    title:     'Beállítások',
-    language:  'Nyelv',
-    goal:      'Napi fehérje cél (g)',
-    goalHint:  'Automatikusan mentve',
-    account:   'Fiók',
-    signOut:   'Kijelentkezés',
-    savedLabel:'Mentve ✓',
+    title:          'Beállítások',
+    language:       'Nyelv',
+    goal:           'Napi fehérje cél (g)',
+    goalHint:       'Automatikusan mentve',
+    account:        'Fiók',
+    signOut:        'Kijelentkezés',
+    savedLabel:     'Mentve ✓',
+    install:        'App telepítése',
+    installButton:  'Kezdőképernyőre helyezés',
+    installDone:    '✓ Az app már telepítve van',
+    installIosStep1:'Nyomd meg a Megosztás ikont alul',
+    installIosStep2:'Válaszd a „Kezdőképernyőre"',
+    installIosStep3:'Nyomd meg a „Hozzáadás"-t — kész! 🌸',
   },
 
   addSheet: {

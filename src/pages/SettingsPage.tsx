@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
 import { useT, useLang } from '../context/LanguageContext';
+import { useInstallPrompt } from '../hooks/useInstallPrompt';
 import type { Lang } from '../i18n';
 
 const LANGS: { code: Lang; flag: string; name: string }[] = [
@@ -30,6 +31,7 @@ export function SettingsPage() {
   const { lang, setLang } = useLang();
   const { user, signOut } = useAuth();
   const { goal, setGoal } = useApp();
+  const { installState, triggerInstall } = useInstallPrompt();
   const [goalInput, setGoalInput] = useState(String(goal));
   const [saved, setSaved] = useState(false);
   const saveTimer = { current: 0 as ReturnType<typeof setTimeout> };
@@ -108,6 +110,62 @@ export function SettingsPage() {
             {saved ? t.settings.savedLabel : t.settings.goalHint}
           </p>
         </Section>
+
+        {/* Install section — only shown when relevant */}
+        {installState !== 'unsupported' && (
+          <Section title={t.settings.install}>
+            {installState === 'installed' && (
+              <p className="text-sm font-bold text-center py-2" style={{ color: '#6DC9A8' }}>
+                {t.settings.installDone}
+              </p>
+            )}
+
+            {installState === 'native' && (
+              <motion.button
+                onClick={triggerInstall}
+                whileTap={{ scale: 0.96 }}
+                className="w-full py-3.5 rounded-3xl text-sm font-black flex items-center justify-center gap-2"
+                style={{
+                  background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)',
+                  color: 'white',
+                  boxShadow: '0 4px 18px rgba(196,168,255,0.45)',
+                }}
+              >
+                <span style={{ fontSize: '1.2rem' }}>📲</span>
+                {t.settings.installButton}
+              </motion.button>
+            )}
+
+            {installState === 'ios' && (
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex flex-col gap-3"
+                >
+                  {[
+                    { step: '1', icon: '⬆️', text: t.settings.installIosStep1 },
+                    { step: '2', icon: '＋', text: t.settings.installIosStep2 },
+                    { step: '3', icon: '🌸', text: t.settings.installIosStep3 },
+                  ].map(({ step, icon, text }) => (
+                    <div key={step} className="flex items-center gap-3">
+                      <div
+                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-black"
+                        style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)', color: '#9B7BE0' }}
+                      >
+                        {step}
+                      </div>
+                      <div className="flex items-center gap-2 flex-1">
+                        <span style={{ fontSize: '1.1rem' }}>{icon}</span>
+                        <span className="text-sm font-semibold" style={{ color: '#3D2255' }}>{text}</span>
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            )}
+          </Section>
+        )}
 
         <Section title={t.settings.account}>
           <div className="flex items-center gap-3 mb-4">
