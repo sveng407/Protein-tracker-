@@ -94,14 +94,16 @@ function DateNav({ date, onChange }: { date: string; onChange: (d: string) => vo
 }
 
 function MealGroup({
-  mealType, entries, onRemove, onEdit,
+  mealType, entries, goal, onRemove, onEdit,
 }: {
-  mealType: MealType; entries: FoodEntry[];
+  mealType: MealType; entries: FoodEntry[]; goal: number;
   onRemove: (id: string) => void; onEdit: (entry: FoodEntry) => void;
 }) {
   const t = useT();
   if (entries.length === 0) return null;
-  const groupTotal = entries.reduce((s, e) => s + e.protein, 0);
+  const groupPct = goal > 0
+    ? Math.round(entries.reduce((s, e) => s + e.protein, 0) / goal * 100)
+    : 0;
   return (
     <div className="mb-3">
       <div className="flex items-center gap-2 mb-1 px-1">
@@ -109,7 +111,7 @@ function MealGroup({
           {t.mealTypes[mealType]}
         </span>
         <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: '#EDE4FF', color: '#9B7BE0' }}>
-          {groupTotal}{t.today.totalGrams}
+          +{groupPct}%
         </span>
       </div>
       <FoodEntryList entries={entries} onRemove={onRemove} onEdit={onEdit} />
@@ -245,7 +247,7 @@ export function TodayPage() {
             {hasAnyEntry && (
               <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
                 style={{ background: '#EDE4FF', color: '#9B7BE0' }}>
-                {selectedTotal}{t.today.totalGrams}
+                {Math.round(selectedPercent * 100)}%
               </span>
             )}
           </div>
@@ -264,6 +266,7 @@ export function TodayPage() {
                 key={m}
                 mealType={m}
                 entries={grouped[m]}
+                goal={goal}
                 onRemove={removeEntry}
                 onEdit={entry => { setEditingEntry(entry); setSheetOpen(true); }}
               />

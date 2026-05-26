@@ -1,5 +1,6 @@
 import type { FoodEntry } from '../../types';
 import { motion } from 'framer-motion';
+import { useApp } from '../../context/AppContext';
 
 const FOOD_ICONS = ['🥩', '🐟', '🥚', '🧀', '🫘', '🥛', '🍗', '🥜'];
 function iconForEntry(id: string) {
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export function FoodEntryItem({ entry, onRemove, onEdit }: Props) {
+  const { goal } = useApp();
+  const pct = goal > 0 ? Math.round(entry.protein / goal * 100) : 0;
   return (
     <motion.div layout
       initial={{ opacity: 0, y: -10, scale: 0.96 }}
@@ -45,7 +48,7 @@ export function FoodEntryItem({ entry, onRemove, onEdit }: Props) {
           className="text-xs font-black px-2.5 py-1 rounded-full"
           style={{ background: '#EDE4FF', color: '#9B7BE0' }}
         >
-          +{entry.protein}g
+          +{pct}%
         </span>
         <button onClick={() => onRemove(entry.id)}
           className="w-7 h-7 flex items-center justify-center rounded-full text-base transition-colors"
