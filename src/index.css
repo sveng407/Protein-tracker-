@@ -45,3 +45,43 @@ input[type='range']::-webkit-slider-thumb {
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; }
 input[type='number'] { -moz-appearance: textfield; }
+
+:root {
+  --pt-bg:           #FFF0F7;
+  --pt-bg-mid:       #F5EEFF;
+  --pt-bg-end:       #F0FFF8;
+  --pt-card:         #ffffff;
+  --pt-card-border:  #EDE4FF;
+  --pt-card-pink:    #FFE4EC;
+  --pt-surface:      #F5F0FF;
+  --pt-surface-deep: #FDFAFF;
+  --pt-text:         #3D2255;
+  --pt-text-sec:     #C4A8FF;
+  --pt-text-muted:   #D4C4E8;
+  --pt-accent:       #9B7BE0;
+  --pt-border:       #EDE4FF;
+  --pt-border-pink:  #FFE4EC;
+  --pt-nav-bg:       rgba(255,255,255,0.85);
+  --pt-input-bg:     #FDFAFF;
+  --pt-input-border: #EDE4FF;
+}
+
+html.dark {
+  --pt-bg:           #110820;
+  --pt-bg-mid:       #0D0618;
+  --pt-bg-end:       #0A1510;
+  --pt-card:         #1C1030;
+  --pt-card-border:  #2E1C50;
+  --pt-card-pink:    #3A1828;
+  --pt-surface:      #180D2C;
+  --pt-surface-deep: #130924;
+  --pt-text:         #EAD8FF;
+  --pt-text-sec:     #A88EE0;
+  --pt-text-muted:   #5A4878;
+  --pt-accent:       #C4A8FF;
+  --pt-border:       #2E1C50;
+  --pt-border-pink:  #3A1828;
+  --pt-nav-bg:       rgba(20,10,40,0.92);
+  --pt-input-bg:     #1C1030;
+  --pt-input-border: #2E1C50;
+}

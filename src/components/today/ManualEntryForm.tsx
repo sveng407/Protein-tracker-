@@ -13,18 +13,18 @@ interface Props {
 }
 
 const inputStyle = {
-  background: '#FDFAFF',
-  border: '2px solid #EDE4FF',
+  background: 'var(--pt-input-bg)',
+  border: '2px solid var(--pt-input-border)',
   borderRadius: '1rem',
   padding: '0.75rem 1rem',
   fontSize: '0.875rem',
   width: '100%',
   outline: 'none',
-  color: '#3D2255',
+  color: 'var(--pt-text)',
   fontWeight: 600,
 } as React.CSSProperties;
 
-const focusStyle = '2px solid #C4A8FF';
+const focusStyle = '2px solid var(--pt-text-sec)';
 
 export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCancel, submitLabel }: Props) {
   const t = useT();
@@ -73,7 +73,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
-        <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: '#C4A8FF' }}>
+        <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: 'var(--pt-text-sec)' }}>
           {t.addSheet.foodLabel}
         </label>
         <input
@@ -83,7 +83,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           placeholder={t.addSheet.foodPlaceholder}
           style={inputStyle}
           onFocus={e => (e.target.style.border = focusStyle)}
-          onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+          onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
           autoFocus
         />
         <FoodSearchResults results={results} loading={searching} onSelect={handleSelect} />
@@ -91,7 +91,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: '#C4A8FF' }}>
+          <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: 'var(--pt-text-sec)' }}>
             {t.addSheet.proteinLabel}
           </label>
           <input
@@ -101,11 +101,11 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
             placeholder="g"
             style={inputStyle}
             onFocus={e => (e.target.style.border = focusStyle)}
-            onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+            onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
           />
         </div>
         <div>
-          <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: '#C4A8FF' }}>
+          <label className="block text-xs font-black mb-1.5 uppercase tracking-wide" style={{ color: 'var(--pt-text-sec)' }}>
             {t.addSheet.portionLabel}
           </label>
           <input
@@ -114,7 +114,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
             onChange={e => setPortionG(e.target.value === '' ? '' : parseInt(e.target.value))}
             style={inputStyle}
             onFocus={e => (e.target.style.border = focusStyle)}
-            onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+            onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
           />
         </div>
       </div>
@@ -123,15 +123,15 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
         <div className="rounded-3xl px-4 py-3 text-center"
           style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)', border: '2px solid #FFD4E8' }}
         >
-          <span className="text-2xl font-black" style={{ color: '#9B7BE0' }}>{totalProtein}g</span>
-          <span className="text-sm font-semibold ml-2" style={{ color: '#C4A8FF' }}>{t.addSheet.proteinSuffix}</span>
+          <span className="text-2xl font-black" style={{ color: 'var(--pt-accent)' }}>{totalProtein}g</span>
+          <span className="text-sm font-semibold ml-2" style={{ color: 'var(--pt-text-sec)' }}>{t.addSheet.proteinSuffix}</span>
         </div>
       )}
 
       <div className="flex gap-3">
         <button type="button" onClick={onCancel}
           className="flex-1 py-3 rounded-3xl text-sm font-black"
-          style={{ border: '2px solid #EDE4FF', color: '#C4A8FF', background: 'white' }}
+          style={{ border: '2px solid var(--pt-border)', color: 'var(--pt-text-sec)', background: 'var(--pt-card)' }}
         >
           {t.addSheet.cancelButton}
         </button>

@@ -22,7 +22,7 @@ export function MotivationalMessage({ percent, entryCount }: Props) {
         initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
         transition={{ duration: 0.22 }}
         className="text-center text-xs font-semibold mt-2 px-2"
-        style={{ color: '#C4A8CC' }}
+        style={{ color: 'var(--pt-text-muted)' }}
       >
         {message}
       </motion.p>

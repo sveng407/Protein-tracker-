@@ -117,13 +117,13 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
           />
           <motion.div
             className="fixed bottom-0 left-0 right-0 z-50 max-h-[92vh] overflow-y-auto"
-            style={{ background: '#FFF5FA', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.25)' }}
+            style={{ background: 'var(--pt-card)', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.25)' }}
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
-            <div className="w-10 h-1.5 rounded-full mx-auto mt-3 mb-4" style={{ background: '#EDE4FF' }} />
+            <div className="w-10 h-1.5 rounded-full mx-auto mt-3 mb-4" style={{ background: 'var(--pt-border)' }} />
             <div className="px-4 pb-10">
-              <h2 className="text-lg font-black mb-3" style={{ color: '#3D2255' }}>
+              <h2 className="text-lg font-black mb-3" style={{ color: 'var(--pt-text)' }}>
                 {isEdit ? t.addSheet.editTitle : t.addSheet.title}
               </h2>
 
@@ -139,9 +139,9 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
                       whileTap={{ scale: 0.94 }}
                       className="py-2.5 px-3 rounded-2xl flex items-center gap-2"
                       style={{
-                        background: mealType === m ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : '#F5F0FF',
-                        border: mealType === m ? '2px solid #C4A8FF' : '2px solid transparent',
-                        color: mealType === m ? '#9B7BE0' : '#B4A4CC',
+                        background: mealType === m ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : 'var(--pt-surface)',
+                        border: mealType === m ? '2px solid var(--pt-text-sec)' : '2px solid transparent',
+                        color: mealType === m ? 'var(--pt-accent)' : 'var(--pt-text-muted)',
                       }}
                     >
                       <span style={{ fontSize: '1.1rem' }}>{emoji}</span>
@@ -154,7 +154,7 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
               {/* Recent foods — one-tap quick-add (only when not editing) */}
               {!isEdit && recentFoods.length > 0 && (
                 <div className="mb-4">
-                  <p className="text-xs font-black uppercase tracking-wide mb-2" style={{ color: '#C4A8FF' }}>
+                  <p className="text-xs font-black uppercase tracking-wide mb-2" style={{ color: 'var(--pt-text-sec)' }}>
                     {t.addSheet.recentFoods}
                   </p>
                   <div className="flex flex-col gap-2">
@@ -167,10 +167,10 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
                           onClose();
                         }}
                         className="flex items-center justify-between px-4 py-2.5 rounded-2xl"
-                        style={{ background: '#F5F0FF', border: '1.5px solid #EDE4FF' }}
+                        style={{ background: 'var(--pt-surface)', border: '1.5px solid var(--pt-border)' }}
                       >
-                        <span className="text-sm font-bold" style={{ color: '#3D2255' }}>{food.name}</span>
-                        <span className="text-sm font-black" style={{ color: '#9B7BE0' }}>{food.protein}g</span>
+                        <span className="text-sm font-bold" style={{ color: 'var(--pt-text)' }}>{food.name}</span>
+                        <span className="text-sm font-black" style={{ color: 'var(--pt-accent)' }}>{food.protein}g</span>
                       </motion.button>
                     ))}
                   </div>
@@ -179,13 +179,13 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
 
               {/* Tab switcher — hidden in edit mode */}
               {!isEdit && (
-                <div className="flex rounded-3xl p-1 mb-4" style={{ background: '#EDE4FF' }}>
+                <div className="flex rounded-3xl p-1 mb-4" style={{ background: 'var(--pt-border)' }}>
                   {(['search', 'scan'] as Tab[]).map(tabKey => (
                     <button key={tabKey} onClick={() => setTab(tabKey)}
                       className="flex-1 py-2 rounded-2xl text-sm font-black transition-all"
                       style={tab === tabKey
-                        ? { background: 'white', color: '#9B7BE0', boxShadow: '0 2px 8px rgba(196,168,255,0.3)' }
-                        : { color: '#C4A8FF' }}
+                        ? { background: 'var(--pt-card)', color: 'var(--pt-accent)', boxShadow: '0 2px 8px rgba(196,168,255,0.3)' }
+                        : { color: 'var(--pt-text-sec)' }}
                     >
                       {tabKey === 'search' ? t.addSheet.tabSearch : t.addSheet.tabScan}
                     </button>
@@ -223,14 +223,14 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
                   {scanLoading ? (
                     <div className="text-center py-8 animate-pulse">
                       <p className="text-4xl mb-2">🔍</p>
-                      <p className="text-sm font-semibold" style={{ color: '#C4A8FF' }}>
+                      <p className="text-sm font-semibold" style={{ color: 'var(--pt-text-sec)' }}>
                         {t.addSheet.scanLoading}
                       </p>
                     </div>
                   ) : (
                     <BarcodeScanner active={tab === 'scan' && open} onBarcode={handleBarcode} />
                   )}
-                  <p className="text-center text-xs mt-3 font-medium" style={{ color: '#C4A8CC' }}>
+                  <p className="text-center text-xs mt-3 font-medium" style={{ color: 'var(--pt-text-muted)' }}>
                     {t.addSheet.scanHint}
                   </p>
                 </div>

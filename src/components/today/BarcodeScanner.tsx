@@ -63,13 +63,13 @@ export function BarcodeScanner({ onBarcode, active }: Props) {
             style={{ border: '2px solid rgba(196,168,255,0.6)' }}
           />
           <span className="absolute top-0 left-0 w-5 h-5 border-t-4 border-l-4 rounded-tl-xl"
-            style={{ borderColor: '#C4A8FF' }} />
+            style={{ borderColor: 'var(--pt-text-sec)' }} />
           <span className="absolute top-0 right-0 w-5 h-5 border-t-4 border-r-4 rounded-tr-xl"
-            style={{ borderColor: '#C4A8FF' }} />
+            style={{ borderColor: 'var(--pt-text-sec)' }} />
           <span className="absolute bottom-0 left-0 w-5 h-5 border-b-4 border-l-4 rounded-bl-xl"
-            style={{ borderColor: '#C4A8FF' }} />
+            style={{ borderColor: 'var(--pt-text-sec)' }} />
           <span className="absolute bottom-0 right-0 w-5 h-5 border-b-4 border-r-4 rounded-br-xl"
-            style={{ borderColor: '#C4A8FF' }} />
+            style={{ borderColor: 'var(--pt-text-sec)' }} />
 
           {isScanning && (
             <motion.div
@@ -84,7 +84,7 @@ export function BarcodeScanner({ onBarcode, active }: Props) {
 
       {!isScanning && !error && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-sm font-semibold animate-pulse" style={{ color: '#EDE4FF' }}>
+          <p className="text-sm font-semibold animate-pulse" style={{ color: 'var(--pt-border)' }}>
             {t.camera.starting}
           </p>
         </div>

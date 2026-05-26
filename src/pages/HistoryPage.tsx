@@ -32,10 +32,10 @@ export function HistoryPage() {
       <ProUpgradeSheet open={upgradeOpen} onClose={() => setUpgradeOpen(false)} onActivate={activatePro} />
 
       <div className="mb-5">
-        <h1 className="text-2xl font-black tracking-tight" style={{ color: '#3D2255' }}>
+        <h1 className="text-2xl font-black tracking-tight" style={{ color: 'var(--pt-text)' }}>
           {t.history.title}
         </h1>
-        <p className="text-sm font-semibold mt-0.5" style={{ color: '#C4A8FF' }}>
+        <p className="text-sm font-semibold mt-0.5" style={{ color: 'var(--pt-text-sec)' }}>
           {completedDays === 0 ? t.history.noFlowers : t.history.flowers(completedDays)}
         </p>
         {streakData.longestStreak > 0 && (

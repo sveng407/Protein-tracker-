@@ -22,7 +22,7 @@ export function OnboardingPage() {
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
       style={{
-        background: 'linear-gradient(160deg, #FFF0F7 0%, #F5EEFF 50%, #F0FFF8 100%)',
+        background: 'linear-gradient(160deg, var(--pt-bg) 0%, var(--pt-bg-mid) 50%, var(--pt-bg-end) 100%)',
       }}
     >
       <div className="fixed top-0 left-0 w-48 h-48 rounded-full pointer-events-none"
@@ -50,18 +50,18 @@ export function OnboardingPage() {
           <FlowerGrowth percent={0.45} color={FLOWER_PALETTE[0]} />
         </motion.div>
 
-        <h1 className="text-4xl font-black tracking-tight mb-1" style={{ color: '#3D2255' }}>
+        <h1 className="text-4xl font-black tracking-tight mb-1" style={{ color: 'var(--pt-text)' }}>
           {t.onboarding.headline}
         </h1>
-        <p className="text-sm font-medium mb-7 leading-relaxed" style={{ color: '#9B7BE0', whiteSpace: 'pre-line' }}>
+        <p className="text-sm font-medium mb-7 leading-relaxed" style={{ color: 'var(--pt-accent)', whiteSpace: 'pre-line' }}>
           {t.onboarding.subtitle}
         </p>
 
         <div
           className="rounded-4xl p-6 mb-4"
           style={{
-            background: 'white',
-            border: '2.5px solid #FFE4EC',
+            background: 'var(--pt-card)',
+            border: '2.5px solid var(--pt-border-pink)',
             boxShadow: '0 6px 32px rgba(255,183,197,0.22)',
           }}
         >
@@ -74,16 +74,16 @@ export function OnboardingPage() {
             transition={{ type: 'spring', stiffness: 300, damping: 14 }}
             className="mb-5"
           >
-            <span className="text-7xl font-black" style={{ color: '#C4A8FF' }}>{value}</span>
+            <span className="text-7xl font-black" style={{ color: 'var(--pt-text-sec)' }}>{value}</span>
             <span className="text-3xl font-bold ml-1" style={{ color: '#E4D4FF' }}>g</span>
-            <p className="text-xs font-semibold mt-1" style={{ color: '#C4A8FF' }}>{t.onboarding.goalUnit}</p>
+            <p className="text-xs font-semibold mt-1" style={{ color: 'var(--pt-text-sec)' }}>{t.onboarding.goalUnit}</p>
           </motion.div>
 
           <input type="range" min={30} max={300} step={5} value={value}
             onChange={e => setValue(parseInt(e.target.value))}
             className="w-full mb-2"
           />
-          <div className="flex justify-between text-xs font-medium mb-5" style={{ color: '#C4A8FF' }}>
+          <div className="flex justify-between text-xs font-medium mb-5" style={{ color: 'var(--pt-text-sec)' }}>
             <span>30g</span><span>300g</span>
           </div>
 
@@ -94,7 +94,7 @@ export function OnboardingPage() {
                 className="flex-1 py-2.5 rounded-3xl text-sm font-black transition-all"
                 style={value === v
                   ? { background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', boxShadow: '0 3px 12px rgba(196,168,255,0.4)' }
-                  : { background: '#F5F0FF', color: '#9B7BE0' }
+                  : { background: 'var(--pt-surface)', color: 'var(--pt-accent)' }
                 }
               >
                 {v}g
@@ -114,7 +114,7 @@ export function OnboardingPage() {
         >
           {t.onboarding.startButton}
         </motion.button>
-        <p className="text-xs mt-3" style={{ color: '#C4A8FF' }}>{t.onboarding.goalNote}</p>
+        <p className="text-xs mt-3" style={{ color: 'var(--pt-text-sec)' }}>{t.onboarding.goalNote}</p>
       </motion.div>
     </div>
   );

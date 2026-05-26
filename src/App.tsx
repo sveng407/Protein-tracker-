@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider, useApp } from './context/AppContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { BottomNav } from './components/layout/BottomNav';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -17,7 +18,7 @@ function LoadingScreen() {
   return (
     <div
       className="min-h-screen flex items-center justify-center"
-      style={{ background: 'linear-gradient(160deg, #FFF0F7 0%, #F5EEFF 50%, #F0FFF8 100%)' }}
+      style={{ background: 'linear-gradient(160deg, var(--pt-bg) 0%, var(--pt-bg-mid) 50%, var(--pt-bg-end) 100%)' }}
     >
       <motion.span
         animate={{ rotate: 360 }}
@@ -67,12 +68,14 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <HashRouter>
-      <AuthProvider>
-        <LanguageProvider>
-          <AppRoutes />
-        </LanguageProvider>
-      </AuthProvider>
-    </HashRouter>
+    <ThemeProvider>
+      <HashRouter>
+        <AuthProvider>
+          <LanguageProvider>
+            <AppRoutes />
+          </LanguageProvider>
+        </AuthProvider>
+      </HashRouter>
+    </ThemeProvider>
   );
 }

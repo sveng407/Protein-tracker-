@@ -15,7 +15,7 @@ export function FoodSearchResults({ results, loading, onSelect }: Props) {
     return (
       <div
         className="text-center py-4 text-sm animate-pulse mt-2 rounded-2xl"
-        style={{ color: '#C4A8FF', background: '#F5F0FF' }}
+        style={{ color: 'var(--pt-text-sec)', background: 'var(--pt-surface)' }}
       >
         {t.search.loading}
       </div>
@@ -27,7 +27,7 @@ export function FoodSearchResults({ results, loading, onSelect }: Props) {
   return (
     <div
       className="mt-2 rounded-2xl overflow-hidden"
-      style={{ border: '2px solid #EDE4FF' }}
+      style={{ border: '2px solid var(--pt-border)' }}
     >
       {results.map((p, i) => {
         const protein = extractProtein(p);
@@ -38,21 +38,21 @@ export function FoodSearchResults({ results, loading, onSelect }: Props) {
             onClick={() => onSelect(name, protein)}
             className="w-full text-left px-4 py-3 flex justify-between items-center transition-all"
             style={{
-              background: 'white',
+              background: 'var(--pt-card)',
               borderBottom: i < results.length - 1 ? '1.5px solid #F0E8FF' : 'none',
             }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#F5F0FF')}
+            onMouseEnter={e => (e.currentTarget.style.background = 'var(--pt-surface)')}
             onMouseLeave={e => (e.currentTarget.style.background = 'white')}
           >
             <span
               className="text-sm font-semibold truncate flex-1 mr-2"
-              style={{ color: '#3D2255' }}
+              style={{ color: 'var(--pt-text)' }}
             >
               {name}
             </span>
             <span
               className="text-xs font-black whitespace-nowrap px-2 py-0.5 rounded-full"
-              style={{ background: '#EDE4FF', color: '#9B7BE0' }}
+              style={{ background: 'var(--pt-border)', color: 'var(--pt-accent)' }}
             >
               {protein.toFixed(1)}g / 100g
             </span>

@@ -37,7 +37,7 @@ export function LoginPage() {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #FFF0F7 0%, #F5EEFF 50%, #F0FFF8 100%)' }}
+      style={{ background: 'linear-gradient(160deg, var(--pt-bg) 0%, var(--pt-bg-mid) 50%, var(--pt-bg-end) 100%)' }}
     >
       {/* blobs */}
       <div className="fixed top-0 left-0 w-48 h-48 rounded-full pointer-events-none"
@@ -63,10 +63,10 @@ export function LoginPage() {
           <FlowerGrowth percent={0.85} color={FLOWER_PALETTE[1]} />
         </motion.div>
 
-        <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: '#3D2255' }}>
+        <h1 className="text-4xl font-black tracking-tight mb-2" style={{ color: 'var(--pt-text)' }}>
           {t.auth.headline}
         </h1>
-        <p className="text-sm font-medium mb-8 leading-relaxed" style={{ color: '#9B7BE0', whiteSpace: 'pre-line' }}>
+        <p className="text-sm font-medium mb-8 leading-relaxed" style={{ color: 'var(--pt-accent)', whiteSpace: 'pre-line' }}>
           {t.auth.subtitle}
         </p>
 
@@ -83,10 +83,10 @@ export function LoginPage() {
           whileTap={{ scale: 0.95 }}
           className="w-full flex items-center justify-center gap-3 py-4 rounded-4xl font-black text-sm disabled:opacity-60"
           style={{
-            background: 'white',
-            border: '2.5px solid #FFE4EC',
+            background: 'var(--pt-card)',
+            border: '2.5px solid var(--pt-border-pink)',
             boxShadow: '0 6px 28px rgba(255,183,197,0.3)',
-            color: '#3D2255',
+            color: 'var(--pt-text)',
           }}
         >
           {loading ? (

@@ -16,9 +16,9 @@ export function BottomNav() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-40"
       style={{
-        background: 'rgba(255,255,255,0.85)',
+        background: 'var(--pt-nav-bg)',
         backdropFilter: 'blur(16px)',
-        borderTop: '2px solid #FFE4EC',
+        borderTop: '2px solid var(--pt-border-pink)',
       }}
     >
       <div className="max-w-md mx-auto flex">
@@ -50,7 +50,7 @@ export function BottomNav() {
                 <span
                   className="text-xs font-black mt-0.5 leading-tight text-center"
                   style={{
-                    color: isActive ? '#9B7BE0' : '#C4A8CC',
+                    color: isActive ? 'var(--pt-accent)' : 'var(--pt-text-muted)',
                     fontSize: '0.6rem',
                     maxWidth: '4rem',
                   }}

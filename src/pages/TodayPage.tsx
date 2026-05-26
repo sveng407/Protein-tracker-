@@ -21,7 +21,7 @@ function PercentProgress({ percent }: { percent: number }) {
   const pctRounded = Math.round(pct * 100);
   const color =
     pct >= 1    ? '#A8EED4' :
-    pct >= 0.67 ? '#C4A8FF' :
+    pct >= 0.67 ? 'var(--pt-text-sec)' :
     pct >= 0.33 ? '#FFE4A0' : '#FFB7C5';
 
   return (
@@ -33,10 +33,10 @@ function PercentProgress({ percent }: { percent: number }) {
         transition={{ type: 'spring', stiffness: 280, damping: 16 }}
         className="flex items-end leading-none"
       >
-        <span className="text-7xl font-black tracking-tight" style={{ color: pct >= 1 ? '#6DC9A8' : '#3D2255' }}>
+        <span className="text-7xl font-black tracking-tight" style={{ color: pct >= 1 ? '#6DC9A8' : 'var(--pt-text)' }}>
           {pctRounded}
         </span>
-        <span className="text-3xl font-bold mb-1 ml-1" style={{ color: '#C4A8FF' }}>%</span>
+        <span className="text-3xl font-bold mb-1 ml-1" style={{ color: 'var(--pt-text-sec)' }}>%</span>
       </motion.div>
       <div className="w-40 h-3 rounded-full overflow-hidden" style={{ background: '#F0E8FF' }}>
         <motion.div
@@ -68,7 +68,7 @@ function DateNav({ date, onChange }: { date: string; onChange: (d: string) => vo
         whileTap={{ scale: 0.85 }}
         onClick={() => onChange(addDays(date, -1))}
         className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black"
-        style={{ background: '#F5F0FF', color: '#9B7BE0' }}
+        style={{ background: 'var(--pt-surface)', color: 'var(--pt-accent)' }}
       >
         ‹
       </motion.button>
@@ -77,7 +77,7 @@ function DateNav({ date, onChange }: { date: string; onChange: (d: string) => vo
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-sm font-black px-3 py-1 rounded-2xl"
-        style={{ background: date === todayStr ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : '#F5F0FF', color: '#3D2255', minWidth: 90, textAlign: 'center' }}
+        style={{ background: date === todayStr ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : 'var(--pt-surface)', color: 'var(--pt-text)', minWidth: 90, textAlign: 'center' }}
       >
         {label()}
       </motion.span>
@@ -85,7 +85,7 @@ function DateNav({ date, onChange }: { date: string; onChange: (d: string) => vo
         whileTap={{ scale: 0.85 }}
         onClick={() => onChange(addDays(date, 1))}
         className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black"
-        style={{ background: '#F5F0FF', color: '#9B7BE0' }}
+        style={{ background: 'var(--pt-surface)', color: 'var(--pt-accent)' }}
       >
         ›
       </motion.button>
@@ -107,10 +107,10 @@ function MealGroup({
   return (
     <div className="mb-3">
       <div className="flex items-center gap-2 mb-1 px-1">
-        <span className="text-xs font-black" style={{ color: '#9B7BE0' }}>
+        <span className="text-xs font-black" style={{ color: 'var(--pt-accent)' }}>
           {t.mealTypes[mealType]}
         </span>
-        <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: '#EDE4FF', color: '#9B7BE0' }}>
+        <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'var(--pt-border)', color: 'var(--pt-accent)' }}>
           +{groupPct}%
         </span>
       </div>
@@ -181,10 +181,10 @@ export function TodayPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h1 className="text-2xl font-black tracking-tight" style={{ color: '#3D2255' }}>
+            <h1 className="text-2xl font-black tracking-tight" style={{ color: 'var(--pt-text)' }}>
               {firstName ? `${t.today.greetingPrefix}, ${firstName}! 🌸` : t.today.greeting}
             </h1>
-            <p className="text-xs font-medium" style={{ color: '#C4A8FF' }}>
+            <p className="text-xs font-medium" style={{ color: 'var(--pt-text-sec)' }}>
               {new Date().toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
@@ -220,7 +220,7 @@ export function TodayPage() {
         {/* Flower card */}
         <div
           className="rounded-4xl p-4 mb-3 flex flex-col items-center"
-          style={{ background: 'white', border: '2.5px solid #FFE4EC', boxShadow: '0 6px 32px rgba(255,183,197,0.22)' }}
+          style={{ background: 'var(--pt-card)', border: '2.5px solid var(--pt-border-pink)', boxShadow: '0 6px 32px rgba(255,183,197,0.22)' }}
         >
           <AnimatePresence mode="wait">
             <motion.div key={selectedDate + Math.floor(selectedPercent * 6)}
@@ -237,16 +237,16 @@ export function TodayPage() {
         {/* Meal list */}
         <div
           className="rounded-4xl p-4"
-          style={{ background: 'white', border: '2.5px solid #EDE4FF', boxShadow: '0 4px 20px rgba(196,168,255,0.18)' }}
+          style={{ background: 'var(--pt-card)', border: '2.5px solid var(--pt-border)', boxShadow: '0 4px 20px rgba(196,168,255,0.18)' }}
         >
           <div className="flex items-center gap-2 mb-3">
             <span className="text-base">🍽️</span>
-            <span className="text-sm font-black tracking-wide" style={{ color: '#3D2255' }}>
+            <span className="text-sm font-black tracking-wide" style={{ color: 'var(--pt-text)' }}>
               {t.today.mealsTitle}
             </span>
             {hasAnyEntry && (
               <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
-                style={{ background: '#EDE4FF', color: '#9B7BE0' }}>
+                style={{ background: 'var(--pt-border)', color: 'var(--pt-accent)' }}>
                 {Math.round(selectedPercent * 100)}%
               </span>
             )}
@@ -257,8 +257,8 @@ export function TodayPage() {
           {!hasAnyEntry ? (
             <div className="text-center py-6">
               <p className="text-4xl mb-2">🌱</p>
-              <p className="text-sm font-bold" style={{ color: '#C4A8FF' }}>{t.today.noEntries}</p>
-              <p className="text-xs mt-1" style={{ color: '#D4C4E8' }}>{t.today.noEntriesHint}</p>
+              <p className="text-sm font-bold" style={{ color: 'var(--pt-text-sec)' }}>{t.today.noEntries}</p>
+              <p className="text-xs mt-1" style={{ color: 'var(--pt-text-muted)' }}>{t.today.noEntriesHint}</p>
             </div>
           ) : (
             MEAL_ORDER.map(m => (

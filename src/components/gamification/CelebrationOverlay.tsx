@@ -16,7 +16,7 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
         particleCount: 100,
         spread: 80,
         origin: { y: 0.5 },
-        colors: ['#FFB7C5', '#C4A8FF', '#A8EED4', '#FFE4A0', '#FFB899'],
+        colors: ['#FFB7C5', 'var(--pt-text-sec)', '#A8EED4', '#FFE4A0', '#FFB899'],
       });
       const timer = setTimeout(onDismiss, 5000);
       return () => clearTimeout(timer);
@@ -41,7 +41,7 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
             transition={{ type: 'spring', stiffness: 200, damping: 16 }}
             className="rounded-4xl px-8 py-8 text-center mx-6"
             style={{
-              background: 'white',
+              background: 'var(--pt-card)',
               border: '3px solid #FFE4EC',
               boxShadow: '0 12px 60px rgba(255,183,197,0.4)',
             }}
@@ -52,13 +52,13 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
               <FlowerGrowth percent={1} color={flowerColor} />
             </div>
 
-            <h2 className="text-2xl font-black mb-1" style={{ color: '#3D2255' }}>
+            <h2 className="text-2xl font-black mb-1" style={{ color: 'var(--pt-text)' }}>
               {t.celebration.title}
             </h2>
-            <p className="text-sm font-semibold" style={{ color: '#C4A8FF' }}>
+            <p className="text-sm font-semibold" style={{ color: 'var(--pt-text-sec)' }}>
               {t.celebration.subtitle}
             </p>
-            <p className="text-xs mt-3" style={{ color: '#D4C4E8' }}>
+            <p className="text-xs mt-3" style={{ color: 'var(--pt-text-muted)' }}>
               {t.celebration.hint}
             </p>
           </motion.div>

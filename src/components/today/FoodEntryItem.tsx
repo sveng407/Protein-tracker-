@@ -24,7 +24,7 @@ export function FoodEntryItem({ entry, onRemove, onEdit }: Props) {
       exit={{ opacity: 0, x: -20, scale: 0.93 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       className="flex items-center justify-between px-4 py-3 rounded-3xl mb-2"
-      style={{ background: '#FDFAFF', border: '2px solid #EDE4FF' }}
+      style={{ background: 'var(--pt-input-bg)', border: '2px solid var(--pt-border)' }}
     >
       <button
         onClick={() => onEdit(entry)}
@@ -37,8 +37,8 @@ export function FoodEntryItem({ entry, onRemove, onEdit }: Props) {
           {iconForEntry(entry.id)}
         </span>
         <div className="min-w-0">
-          <p className="text-sm font-bold truncate" style={{ color: '#3D2255' }}>{entry.name}</p>
-          <p className="text-xs font-medium" style={{ color: '#C4A8FF' }}>
+          <p className="text-sm font-bold truncate" style={{ color: 'var(--pt-text)' }}>{entry.name}</p>
+          <p className="text-xs font-medium" style={{ color: 'var(--pt-text-sec)' }}>
             {new Date(entry.timestamp).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
@@ -46,7 +46,7 @@ export function FoodEntryItem({ entry, onRemove, onEdit }: Props) {
       <div className="flex items-center gap-2 ml-2 flex-shrink-0">
         <span
           className="text-xs font-black px-2.5 py-1 rounded-full"
-          style={{ background: '#EDE4FF', color: '#9B7BE0' }}
+          style={{ background: 'var(--pt-border)', color: 'var(--pt-accent)' }}
         >
           +{pct}%
         </span>

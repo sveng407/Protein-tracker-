@@ -55,10 +55,10 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
   }
 
   const inputStyle: React.CSSProperties = {
-    background: '#FDFAFF', border: '2px solid #EDE4FF',
+    background: 'var(--pt-input-bg)', border: '2px solid #EDE4FF',
     borderRadius: '1rem', padding: '0.75rem 1rem',
     fontSize: '0.95rem', width: '100%', outline: 'none',
-    color: '#3D2255', fontWeight: 600,
+    color: 'var(--pt-text)', fontWeight: 600,
   };
 
   return (
@@ -76,11 +76,11 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
           {/* Sheet */}
           <motion.div
             className="fixed bottom-0 left-0 right-0 z-50 max-h-[92vh] overflow-y-auto"
-            style={{ background: 'white', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.3)', border: '2.5px solid #EDE4FF', borderBottom: 'none' }}
+            style={{ background: 'var(--pt-card)', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.3)', border: '2.5px solid #EDE4FF', borderBottom: 'none' }}
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
-            <div className="w-10 h-1.5 rounded-full mx-auto mt-3 mb-2" style={{ background: '#EDE4FF' }} />
+            <div className="w-10 h-1.5 rounded-full mx-auto mt-3 mb-2" style={{ background: 'var(--pt-border)' }} />
 
             <AnimatePresence mode="wait">
               {/* ── SCREEN 1: SALES PITCH ── */}
@@ -99,10 +99,10 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                     </span>
                   </div>
 
-                  <h2 className="text-2xl font-black text-center mb-1" style={{ color: '#3D2255' }}>
+                  <h2 className="text-2xl font-black text-center mb-1" style={{ color: 'var(--pt-text)' }}>
                     {t.pro.title}
                   </h2>
-                  <p className="text-sm font-semibold text-center mb-5" style={{ color: '#C4A8FF' }}>
+                  <p className="text-sm font-semibold text-center mb-5" style={{ color: 'var(--pt-text-sec)' }}>
                     {t.pro.subtitle}
                   </p>
 
@@ -110,9 +110,9 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                   <div className="flex flex-col gap-3 mb-5">
                     {PERKS.map(({ icon, key }) => (
                       <div key={key} className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-                        style={{ background: 'white', border: '2.5px solid #EDE4FF' }}>
+                        style={{ background: 'var(--pt-card)', border: '2.5px solid #EDE4FF' }}>
                         <span style={{ fontSize: '1.3rem' }}>{icon}</span>
-                        <span className="text-sm font-semibold" style={{ color: '#3D2255' }}>{t.pro[key]}</span>
+                        <span className="text-sm font-semibold" style={{ color: 'var(--pt-text)' }}>{t.pro[key]}</span>
                       </div>
                     ))}
                   </div>
@@ -138,7 +138,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                   </motion.button>
                   <button onClick={handleClose}
                     className="w-full py-2 text-sm font-semibold"
-                    style={{ color: '#C4A8CC' }}
+                    style={{ color: 'var(--pt-text-muted)' }}
                   >
                     {t.pro.dismiss}
                   </button>
@@ -156,11 +156,11 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                     <button
                       onClick={() => { if (!loading) setScreen('pitch'); }}
                       className="w-8 h-8 rounded-full flex items-center justify-center font-black text-lg"
-                      style={{ background: '#F5F0FF', color: '#9B7BE0' }}
+                      style={{ background: 'var(--pt-surface)', color: 'var(--pt-accent)' }}
                     >
                       ‹
                     </button>
-                    <h2 className="text-lg font-black" style={{ color: '#3D2255' }}>{t.pro.checkoutTitle}</h2>
+                    <h2 className="text-lg font-black" style={{ color: 'var(--pt-text)' }}>{t.pro.checkoutTitle}</h2>
                     <span className="ml-auto text-xs font-black px-3 py-1 rounded-full"
                       style={{ background: '#FFF9E6', border: '2px solid #F0C040', color: '#B8860B' }}>
                       {t.pro.price}
@@ -181,13 +181,13 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                       >
                         ✓
                       </motion.div>
-                      <p className="text-xl font-black" style={{ color: '#3D2255' }}>{t.pro.successMsg}</p>
+                      <p className="text-xl font-black" style={{ color: 'var(--pt-text)' }}>{t.pro.successMsg}</p>
                     </motion.div>
                   ) : (
                     <form onSubmit={handlePay} className="flex flex-col gap-3">
                       {/* Card number */}
                       <div>
-                        <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: '#C4A8FF' }}>
+                        <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: 'var(--pt-text-sec)' }}>
                           {t.pro.cardNumber}
                         </label>
                         <input
@@ -204,7 +204,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                       {/* Expiry + CVV */}
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: '#C4A8FF' }}>
+                          <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: 'var(--pt-text-sec)' }}>
                             {t.pro.expiry}
                           </label>
                           <input
@@ -218,7 +218,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: '#C4A8FF' }}>
+                          <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: 'var(--pt-text-sec)' }}>
                             {t.pro.cvv}
                           </label>
                           <input
@@ -235,7 +235,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
 
                       {/* Name */}
                       <div>
-                        <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: '#C4A8FF' }}>
+                        <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: 'var(--pt-text-sec)' }}>
                           {t.pro.cardName}
                         </label>
                         <input
@@ -251,14 +251,14 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
 
                       {/* Divider */}
                       <div className="flex items-center gap-2 my-1">
-                        <div className="flex-1 h-px" style={{ background: '#EDE4FF' }} />
-                        <span className="text-xs font-bold" style={{ color: '#C4A8CC' }}>— oder —</span>
-                        <div className="flex-1 h-px" style={{ background: '#EDE4FF' }} />
+                        <div className="flex-1 h-px" style={{ background: 'var(--pt-border)' }} />
+                        <span className="text-xs font-bold" style={{ color: 'var(--pt-text-muted)' }}>— oder —</span>
+                        <div className="flex-1 h-px" style={{ background: 'var(--pt-border)' }} />
                       </div>
 
                       {/* Coupon */}
                       <div>
-                        <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: '#C4A8FF' }}>
+                        <label className="block text-xs font-black uppercase tracking-wide mb-1" style={{ color: 'var(--pt-text-sec)' }}>
                           🎁 {t.pro.coupon}
                         </label>
                         <input

@@ -53,6 +53,9 @@ export interface Translations {
     installIosStep3: string;
     installAndroidStep1: string;
     installAndroidStep2: string;
+    darkMode: string;
+    darkModeOn: string;
+    darkModeOff: string;
   };
 
   addSheet: {
@@ -225,6 +228,9 @@ const de: Translations = {
     installIosStep3:     'Tippe „Hinzufügen" — fertig! 🌸',
     installAndroidStep1: 'Tippe oben auf ⋮ (Menü)',
     installAndroidStep2: 'Wähle „App installieren" oder „Zum Startbildschirm"',
+    darkMode:            'Darstellung',
+    darkModeOn:          'Dunkelmodus',
+    darkModeOff:         'Hellmodus',
   },
 
   addSheet: {
@@ -419,6 +425,9 @@ const en: Translations = {
     installIosStep3:     'Tap "Add" — done! 🌸',
     installAndroidStep1: 'Tap ⋮ (menu) at the top right',
     installAndroidStep2: 'Choose "Install app" or "Add to Home screen"',
+    darkMode:            'Appearance',
+    darkModeOn:          'Dark mode',
+    darkModeOff:         'Light mode',
   },
 
   addSheet: {
@@ -613,6 +622,9 @@ const hu: Translations = {
     installIosStep3:     'Nyomd meg a „Hozzáadás"-t — kész! 🌸',
     installAndroidStep1: 'Nyomd meg a ⋮ (menü) gombot',
     installAndroidStep2: 'Válaszd az „App telepítése" vagy „Kezdőképernyőre"',
+    darkMode:            'Megjelenés',
+    darkModeOn:          'Sötét mód',
+    darkModeOff:         'Világos mód',
   },
 
   addSheet: {
