@@ -54,12 +54,11 @@ function PercentProgress({ percent }: { percent: number }) {
 function DateNav({ date, onChange }: { date: string; onChange: (d: string) => void }) {
   const t = useT();
   const todayStr = today();
-  const tomorrowStr = addDays(todayStr, 1);
 
   function label() {
     if (date === todayStr) return t.today.dateToday;
     if (date === addDays(todayStr, -1)) return t.today.dateYesterday;
-    if (date === tomorrowStr) return t.today.dateTomorrow;
+    if (date === addDays(todayStr, 1)) return t.today.dateTomorrow;
     return new Date(date + 'T12:00:00').toLocaleDateString(t.locale, { weekday: 'short', day: 'numeric', month: 'short' });
   }
 
@@ -85,8 +84,7 @@ function DateNav({ date, onChange }: { date: string; onChange: (d: string) => vo
       <motion.button
         whileTap={{ scale: 0.85 }}
         onClick={() => onChange(addDays(date, 1))}
-        disabled={date >= tomorrowStr}
-        className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black disabled:opacity-30"
+        className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black"
         style={{ background: '#F5F0FF', color: '#9B7BE0' }}
       >
         ›
@@ -125,7 +123,7 @@ function MealGroup({
 export function TodayPage() {
   const t = useT();
   const {
-    todayPercent,
+    goal,
     addEntry, removeEntry,
     allLogs, recentFoods,
     streakData, newlyUnlockedBadges, clearNewBadges,
@@ -141,6 +139,7 @@ export function TodayPage() {
     [allLogs, selectedDate]
   );
   const selectedTotal = selectedEntries.reduce((s, e) => s + e.protein, 0);
+  const selectedPercent = goal > 0 ? selectedTotal / goal : 0;
   const isToday = selectedDate === today();
 
   const grouped = useMemo(() => {
@@ -172,7 +171,7 @@ export function TodayPage() {
           <StreakCounter streak={streakData.currentStreak} />
         </div>
 
-        {/* Flower card — always shows TODAY's progress */}
+        {/* Flower card — shows selected date's progress */}
         <div
           className="rounded-4xl p-4 mb-3 flex flex-col items-center"
           style={{
@@ -182,15 +181,15 @@ export function TodayPage() {
           }}
         >
           <AnimatePresence mode="wait">
-            <motion.div key={Math.floor(todayPercent * 6)}
+            <motion.div key={selectedDate + Math.floor(selectedPercent * 6)}
               initial={{ scale: 0.94 }} animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 240, damping: 18 }}
             >
-              <FlowerGrowth percent={todayPercent} color={flowerColor} />
+              <FlowerGrowth percent={selectedPercent} color={flowerColor} />
             </motion.div>
           </AnimatePresence>
-          <PercentProgress percent={todayPercent} />
-          {isToday && <MotivationalMessage percent={todayPercent} entryCount={selectedEntries.length} />}
+          <PercentProgress percent={selectedPercent} />
+          {isToday && <MotivationalMessage percent={selectedPercent} entryCount={selectedEntries.length} />}
         </div>
 
         {/* Meal list with date nav */}

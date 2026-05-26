@@ -22,7 +22,7 @@ interface AppContextValue {
   addEntry: (e: Omit<FoodEntry, 'id' | 'timestamp'>, date: string) => Promise<void>;
   removeEntry: (id: string) => Promise<void>;
   allLogs: DayLog[];
-  recentFoods: string[];
+  recentFoods: Array<{ name: string; protein: number; mealType: MealType }>;
   firstName: string;
   streakData: StreakData;
   newlyUnlockedBadges: BadgeId[];
@@ -51,17 +51,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Recent unique food names from history (for AddFoodSheet quick-add)
   const recentFoods = useMemo(() => {
     const seen = new Set<string>();
-    const names: string[] = [];
+    const foods: Array<{ name: string; protein: number; mealType: MealType }> = [];
     [...allLogs]
       .sort((a, b) => b.date.localeCompare(a.date))
       .flatMap(d => [...d.entries].sort((a, b) => b.timestamp - a.timestamp))
       .forEach(e => {
         if (!seen.has(e.name.toLowerCase())) {
           seen.add(e.name.toLowerCase());
-          names.push(e.name);
+          foods.push({ name: e.name, protein: e.protein, mealType: e.mealType });
         }
       });
-    return names.slice(0, 10);
+    return foods.slice(0, 10);
   }, [allLogs]);
 
   // Migrate localStorage data to Firestore on first sign-in

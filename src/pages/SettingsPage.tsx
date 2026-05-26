@@ -2,8 +2,14 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
-import { useT } from '../context/LanguageContext';
-import { LanguagePicker } from '../components/LanguagePicker';
+import { useT, useLang } from '../context/LanguageContext';
+import type { Lang } from '../i18n';
+
+const LANGS: { code: Lang; flag: string; name: string }[] = [
+  { code: 'de', flag: '🇩🇪', name: 'Deutsch' },
+  { code: 'en', flag: '🇬🇧', name: 'English' },
+  { code: 'hu', flag: '🇭🇺', name: 'Magyar' },
+];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -21,6 +27,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export function SettingsPage() {
   const t = useT();
+  const { lang, setLang } = useLang();
   const { user, signOut } = useAuth();
   const { goal, setGoal } = useApp();
   const [goalInput, setGoalInput] = useState(String(goal));
@@ -52,7 +59,31 @@ export function SettingsPage() {
         </h1>
 
         <Section title={t.settings.language}>
-          <LanguagePicker />
+          <div className="flex flex-col gap-2">
+            {LANGS.map(({ code, flag, name }) => {
+              const active = lang === code;
+              return (
+                <motion.button
+                  key={code}
+                  onClick={() => setLang(code)}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl text-left"
+                  style={{
+                    background: active ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : '#F5F0FF',
+                    border: active ? '2px solid #C4A8FF' : '2px solid transparent',
+                  }}
+                >
+                  <span style={{ fontSize: '1.4rem' }}>{flag}</span>
+                  <span className="text-sm font-black flex-1" style={{ color: active ? '#9B7BE0' : '#B4A4CC' }}>
+                    {name}
+                  </span>
+                  {active && (
+                    <span style={{ color: '#C4A8FF', fontSize: '1rem' }}>✓</span>
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
         </Section>
 
         <Section title={t.settings.goal}>

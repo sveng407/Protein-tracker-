@@ -13,14 +13,11 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onAdd: (entry: Omit<FoodEntry, 'id' | 'timestamp'>) => void;
-  recentFoods: string[];
+  recentFoods: Array<{ name: string; protein: number; mealType: MealType }>;
 }
 
 type Tab = 'search' | 'scan';
 const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack'];
-const MEAL_EMOJI: Record<MealType, string> = {
-  breakfast: '🌅', lunch: '🌞', dinner: '🌙', snack: '🍿',
-};
 
 function guessMealType(): MealType {
   const h = new Date().getHours();
@@ -42,9 +39,6 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
   const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
   const [scanLoading, setScanLoading] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
-  const [chipKey, setChipKey] = useState(0);
-  const [prefillName, setPrefillName] = useState('');
-
   useEffect(() => {
     if (!open) {
       setTab('search');
@@ -53,7 +47,6 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
       setScannedProtein(undefined);
       setScannedBarcode(null);
       setScanError(null);
-      setPrefillName('');
     }
   }, [open]);
 
@@ -84,13 +77,6 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
     onClose();
   }
 
-  function handleChipClick(name: string) {
-    setPrefillName(name);
-    setScannedName('');
-    setScannedProtein(undefined);
-    setChipKey(k => k + 1);
-  }
-
   return (
     <AnimatePresence>
       {open && (
@@ -113,44 +99,50 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
                 {t.addSheet.title}
               </h2>
 
-              {/* Meal type picker */}
-              <div className="flex gap-2 mb-1">
-                {MEAL_TYPES.map(m => (
-                  <motion.button
-                    key={m}
-                    onClick={() => setMealType(m)}
-                    whileTap={{ scale: 0.9 }}
-                    className="flex-1 py-2.5 rounded-2xl flex items-center justify-center"
-                    style={{
-                      background: mealType === m ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : '#F5F0FF',
-                      border: mealType === m ? '2px solid #C4A8FF' : '2px solid transparent',
-                      fontSize: '1.25rem',
-                    }}
-                  >
-                    {MEAL_EMOJI[m]}
-                  </motion.button>
-                ))}
+              {/* Meal type picker — 2×2 grid with emoji + label */}
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                {MEAL_TYPES.map(m => {
+                  const label = t.mealTypes[m]; // e.g. "🌅 Frühstück"
+                  const [emoji, ...words] = label.split(' ');
+                  return (
+                    <motion.button
+                      key={m}
+                      onClick={() => setMealType(m)}
+                      whileTap={{ scale: 0.94 }}
+                      className="py-2.5 px-3 rounded-2xl flex items-center gap-2"
+                      style={{
+                        background: mealType === m ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : '#F5F0FF',
+                        border: mealType === m ? '2px solid #C4A8FF' : '2px solid transparent',
+                        color: mealType === m ? '#9B7BE0' : '#B4A4CC',
+                      }}
+                    >
+                      <span style={{ fontSize: '1.1rem' }}>{emoji}</span>
+                      <span className="text-xs font-black">{words.join(' ')}</span>
+                    </motion.button>
+                  );
+                })}
               </div>
-              <p className="text-xs font-black text-center mb-4" style={{ color: '#9B7BE0' }}>
-                {t.mealTypes[mealType]}
-              </p>
 
-              {/* Recent foods chips */}
+              {/* Recent foods — one-tap quick-add */}
               {recentFoods.length > 0 && (
                 <div className="mb-4">
                   <p className="text-xs font-black uppercase tracking-wide mb-2" style={{ color: '#C4A8FF' }}>
                     {t.addSheet.recentFoods}
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {recentFoods.slice(0, 6).map(name => (
+                  <div className="flex flex-col gap-2">
+                    {recentFoods.slice(0, 5).map(food => (
                       <motion.button
-                        key={name}
-                        whileTap={{ scale: 0.92 }}
-                        onClick={() => handleChipClick(name)}
-                        className="px-3 py-1.5 rounded-2xl text-xs font-bold"
-                        style={{ background: '#EDE4FF', color: '#9B7BE0', border: '1.5px solid #D4BAFF' }}
+                        key={food.name}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => {
+                          onAdd({ name: food.name, protein: food.protein, mealType });
+                          onClose();
+                        }}
+                        className="flex items-center justify-between px-4 py-2.5 rounded-2xl"
+                        style={{ background: '#F5F0FF', border: '1.5px solid #EDE4FF' }}
                       >
-                        {name}
+                        <span className="text-sm font-bold" style={{ color: '#3D2255' }}>{food.name}</span>
+                        <span className="text-sm font-black" style={{ color: '#9B7BE0' }}>{food.protein}g</span>
                       </motion.button>
                     ))}
                   </div>
@@ -187,8 +179,8 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
 
               {tab === 'search' && (
                 <ManualEntryForm
-                  key={chipKey}
-                  initialName={prefillName || scannedName}
+                  key={scannedName}
+                  initialName={scannedName}
                   initialProtein={scannedProtein}
                   onAdd={handleAdd}
                   onCancel={onClose}
