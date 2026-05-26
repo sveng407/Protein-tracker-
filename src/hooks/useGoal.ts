@@ -1,16 +1,24 @@
-import { useState } from 'react';
-import { storageGet, storageSet } from '../lib/storage';
-import { STORAGE_KEYS } from '../constants';
+import { useEffect, useState, useCallback } from 'react';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
-export function useGoal(): [number, (g: number) => void] {
-  const [goal, setGoalState] = useState<number>(() =>
-    storageGet<number>(STORAGE_KEYS.GOAL, 0)
-  );
+export function useGoal(uid: string) {
+  const [goal, setGoalState] = useState(0);
+  const [goalLoading, setGoalLoading] = useState(true);
 
-  function setGoal(g: number) {
-    storageSet(STORAGE_KEYS.GOAL, g);
+  useEffect(() => {
+    const ref = doc(db, 'users', uid, 'data', 'settings');
+    const unsub = onSnapshot(ref, (snap) => {
+      setGoalState(snap.data()?.goal ?? 0);
+      setGoalLoading(false);
+    });
+    return unsub;
+  }, [uid]);
+
+  const setGoal = useCallback(async (g: number) => {
     setGoalState(g);
-  }
+    await setDoc(doc(db, 'users', uid, 'data', 'settings'), { goal: g }, { merge: true });
+  }, [uid]);
 
-  return [goal, setGoal];
+  return [goal, setGoal, goalLoading] as const;
 }

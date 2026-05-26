@@ -84,6 +84,15 @@ export interface Translations {
   };
 
   motivational: Record<number, string[]>;
+
+  auth: {
+    headline: string;
+    subtitle: string;
+    signInButton: string;
+    signOutButton: string;
+    loading: string;
+    error: string;
+  };
 }
 
 const de: Translations = {
@@ -179,6 +188,15 @@ const de: Translations = {
     50:  ['Blätter sprießen! 🍃', 'Halbzeit — die Knospe naht!', 'Deine Pflanze bekommt Form!'],
     75:  ['Die Knospe schwillt an! 🌸', 'Fast! Noch ein paar Gramm bis zur Blüte!', 'Gleich erblüht sie...'],
     100: ['Heute eine Blume geerntet! 🌺', 'Wunderschön! Dein Garten wächst!', 'Volle Blüte — du bist unschlagbar! ✨'],
+  },
+
+  auth: {
+    headline:    'Willkommen zurück! 🌸',
+    subtitle:    'Melde dich an, um deinen Garten zu pflegen.',
+    signInButton:'Mit Google anmelden',
+    signOutButton:'Abmelden',
+    loading:     'Laden…',
+    error:       'Anmeldung fehlgeschlagen. Bitte erneut versuchen.',
   },
 };
 
@@ -276,6 +294,15 @@ const en: Translations = {
     75:  ['The bud is swelling! 🌸', 'Almost! Just a few more grams to bloom!', 'About to blossom...'],
     100: ["Today's flower harvested! 🌺", 'Beautiful! Your garden grows!', "Full bloom — you're unstoppable! ✨"],
   },
+
+  auth: {
+    headline:    'Welcome back! 🌸',
+    subtitle:    'Sign in to tend to your garden.',
+    signInButton:'Sign in with Google',
+    signOutButton:'Sign out',
+    loading:     'Loading…',
+    error:       'Sign-in failed. Please try again.',
+  },
 };
 
 const hu: Translations = {
@@ -371,6 +398,15 @@ const hu: Translations = {
     50:  ['Levelek szikráznak! 🍃', 'Félúton — a bimbó közeledik!', 'A növényed formát ölt!'],
     75:  ['A bimbó dagad! 🌸', 'Majdnem! Még néhány gramm a virágzásig!', 'Mindjárt kinyílik...'],
     100: ['Ma egy virágot szedtünk! 🌺', 'Gyönyörű! A kerted nő!', 'Teljes virágzás — te vagy a legjobb! ✨'],
+  },
+
+  auth: {
+    headline:    'Üdv újra! 🌸',
+    subtitle:    'Jelentkezz be a kertedhez.',
+    signInButton:'Bejelentkezés Google-lel',
+    signOutButton:'Kijelentkezés',
+    loading:     'Betöltés…',
+    error:       'Bejelentkezés sikertelen. Kérjük, próbálja újra.',
   },
 };
 

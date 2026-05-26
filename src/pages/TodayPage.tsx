@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { useT } from '../context/LanguageContext';
 import { FlowerGrowth } from '../components/today/FlowerGrowth';
 import { MotivationalMessage } from '../components/today/MotivationalMessage';
@@ -50,6 +51,7 @@ function PercentProgress({ percent }: { percent: number }) {
 
 export function TodayPage() {
   const t = useT();
+  const { signOut } = useAuth();
   const {
     todayEntries, todayTotal, todayPercent,
     addEntry, removeEntry,
@@ -76,7 +78,17 @@ export function TodayPage() {
               {new Date().toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
-          <StreakCounter streak={streakData.currentStreak} />
+          <div className="flex items-center gap-1.5">
+            <StreakCounter streak={streakData.currentStreak} />
+            <button
+              onClick={signOut}
+              title={t.auth.signOutButton}
+              className="w-8 h-8 flex items-center justify-center rounded-full text-base"
+              style={{ background: '#F5F0FF', color: '#C4A8FF' }}
+            >
+              ↩
+            </button>
+          </div>
         </div>
 
         {/* Flower card */}
