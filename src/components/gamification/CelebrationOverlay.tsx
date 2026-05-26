@@ -16,7 +16,7 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
         particleCount: 100,
         spread: 80,
         origin: { y: 0.5 },
-        colors: ['#FFB7C5', 'var(--pt-text-sec)', '#A8EED4', '#FFE4A0', '#FFB899'],
+        colors: ['#FFB7C5', '#C4A8FF', '#A8EED4', '#FFE4A0', '#FFB899'],
       });
       const timer = setTimeout(onDismiss, 5000);
       return () => clearTimeout(timer);
@@ -42,7 +42,7 @@ export function CelebrationOverlay({ show, onDismiss, flowerColor }: Props) {
             className="rounded-4xl px-8 py-8 text-center mx-6"
             style={{
               background: 'var(--pt-card)',
-              border: '3px solid #FFE4EC',
+              border: '3px solid var(--pt-border-pink)',
               boxShadow: '0 12px 60px rgba(255,183,197,0.4)',
             }}
           >

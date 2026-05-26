@@ -27,7 +27,7 @@ export function NewBadgeToast({ badgeIds, onDismiss }: Props) {
         >
           <div
             className="flex items-center gap-3 px-4 py-3 rounded-3xl"
-            style={{ background: 'var(--pt-card)', border: '2.5px solid #FFE4EC', boxShadow: '0 8px 32px rgba(255,183,197,0.35)' }}
+            style={{ background: 'var(--pt-card)', border: '2.5px solid var(--pt-border-pink)', boxShadow: '0 8px 32px rgba(255,183,197,0.35)' }}
           >
             <div
               className="w-12 h-12 flex items-center justify-center rounded-2xl text-2xl flex-shrink-0"
