@@ -112,9 +112,10 @@ export function LoginPage() {
         </div>
 
         {!consentGiven && (
-          <p className="text-xs font-semibold mb-3 text-center" style={{ color: 'var(--pt-text-muted)' }}>
+          <div className="mb-3 rounded-2xl px-3 py-2 text-xs font-semibold text-center"
+            style={{ background: 'var(--pt-border)', color: 'var(--pt-text)' }}>
             🔒 {t.auth.consentHint}
-          </p>
+          </div>
         )}
 
         {error && (
