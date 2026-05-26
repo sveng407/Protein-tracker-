@@ -39,10 +39,10 @@ export function FoodSearchResults({ results, loading, onSelect }: Props) {
             className="w-full text-left px-4 py-3 flex justify-between items-center transition-all"
             style={{
               background: 'var(--pt-card)',
-              borderBottom: i < results.length - 1 ? '1.5px solid #F0E8FF' : 'none',
+              borderBottom: i < results.length - 1 ? '1.5px solid var(--pt-border)' : 'none',
             }}
             onMouseEnter={e => (e.currentTarget.style.background = 'var(--pt-surface)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'white')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'var(--pt-card)')}
           >
             <span
               className="text-sm font-semibold truncate flex-1 mr-2"
