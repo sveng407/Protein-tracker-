@@ -188,18 +188,27 @@ export function TodayPage() {
           </div>
           <div className="flex items-center gap-2">
             {isPro ? (
-              <span className="text-xs font-black px-2.5 py-1 rounded-full"
-                style={{ background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white', letterSpacing: '0.04em' }}>
+              <span
+                className="text-xs font-black px-2.5 py-1 rounded-full"
+                style={{ background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white', letterSpacing: '0.04em' }}
+              >
                 👑 PRO
               </span>
             ) : (
               <motion.button
                 onClick={() => setUpgradeOpen(true)}
-                whileTap={{ scale: 0.92 }}
-                className="text-xs font-black px-2.5 py-1 rounded-full"
-                style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', letterSpacing: '0.04em' }}
+                whileTap={{ scale: 0.93 }}
+                animate={{ boxShadow: ['0 0 0px #FFD70000', '0 0 12px #FFD70088', '0 0 0px #FFD70000'] }}
+                transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black"
+                style={{
+                  background: 'linear-gradient(135deg,#FFD700,#FFA500)',
+                  color: 'white',
+                  border: '2px solid #FFB800',
+                  letterSpacing: '0.03em',
+                }}
               >
-                ✨ PRO
+                👑 <span>Upgrade</span>
               </motion.button>
             )}
             <StreakCounter streak={streakData.currentStreak} />
