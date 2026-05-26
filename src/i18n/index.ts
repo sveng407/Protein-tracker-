@@ -51,6 +51,8 @@ export interface Translations {
     installIosStep1: string;
     installIosStep2: string;
     installIosStep3: string;
+    installAndroidStep1: string;
+    installAndroidStep2: string;
   };
 
   addSheet: {
@@ -172,12 +174,14 @@ const de: Translations = {
     account:        'Account',
     signOut:        'Abmelden',
     savedLabel:     'Gespeichert ✓',
-    install:        'App installieren',
-    installButton:  'Zum Home-Bildschirm hinzufügen',
-    installDone:    '✓ App ist bereits installiert',
-    installIosStep1:'Tippe unten auf das Teilen-Symbol',
-    installIosStep2:'Wähle „Zum Home-Bildschirm"',
-    installIosStep3:'Tippe „Hinzufügen" — fertig! 🌸',
+    install:             'App installieren',
+    installButton:       'Zum Home-Bildschirm hinzufügen',
+    installDone:         '✓ App ist bereits installiert',
+    installIosStep1:     'Tippe unten auf das Teilen-Symbol ⬆️',
+    installIosStep2:     'Wähle „Zum Home-Bildschirm"',
+    installIosStep3:     'Tippe „Hinzufügen" — fertig! 🌸',
+    installAndroidStep1: 'Tippe oben auf ⋮ (Menü)',
+    installAndroidStep2: 'Wähle „App installieren" oder „Zum Startbildschirm"',
   },
 
   addSheet: {
@@ -320,12 +324,14 @@ const en: Translations = {
     account:        'Account',
     signOut:        'Sign out',
     savedLabel:     'Saved ✓',
-    install:        'Install app',
-    installButton:  'Add to Home Screen',
-    installDone:    '✓ App already installed',
-    installIosStep1:'Tap the Share icon at the bottom',
-    installIosStep2:'Choose "Add to Home Screen"',
-    installIosStep3:'Tap "Add" — done! 🌸',
+    install:             'Install app',
+    installButton:       'Add to Home Screen',
+    installDone:         '✓ App already installed',
+    installIosStep1:     'Tap the Share icon at the bottom ⬆️',
+    installIosStep2:     'Choose "Add to Home Screen"',
+    installIosStep3:     'Tap "Add" — done! 🌸',
+    installAndroidStep1: 'Tap ⋮ (menu) at the top right',
+    installAndroidStep2: 'Choose "Install app" or "Add to Home screen"',
   },
 
   addSheet: {
@@ -468,12 +474,14 @@ const hu: Translations = {
     account:        'Fiók',
     signOut:        'Kijelentkezés',
     savedLabel:     'Mentve ✓',
-    install:        'App telepítése',
-    installButton:  'Kezdőképernyőre helyezés',
-    installDone:    '✓ Az app már telepítve van',
-    installIosStep1:'Nyomd meg a Megosztás ikont alul',
-    installIosStep2:'Válaszd a „Kezdőképernyőre"',
-    installIosStep3:'Nyomd meg a „Hozzáadás"-t — kész! 🌸',
+    install:             'App telepítése',
+    installButton:       'Kezdőképernyőre helyezés',
+    installDone:         '✓ Az app már telepítve van',
+    installIosStep1:     'Nyomd meg a Megosztás ikont alul ⬆️',
+    installIosStep2:     'Válaszd a „Kezdőképernyőre"',
+    installIosStep3:     'Nyomd meg a „Hozzáadás"-t — kész! 🌸',
+    installAndroidStep1: 'Nyomd meg a ⋮ (menü) gombot',
+    installAndroidStep2: 'Válaszd az „App telepítése" vagy „Kezdőképernyőre"',
   },
 
   addSheet: {

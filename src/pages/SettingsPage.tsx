@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
 import { useT, useLang } from '../context/LanguageContext';
@@ -111,9 +111,10 @@ export function SettingsPage() {
           </p>
         </Section>
 
-        {/* Install section — only shown when relevant */}
+        {/* Install section — hidden only on unsupported desktop browsers */}
         {installState !== 'unsupported' && (
           <Section title={t.settings.install}>
+
             {installState === 'installed' && (
               <p className="text-sm font-bold text-center py-2" style={{ color: '#6DC9A8' }}>
                 {t.settings.installDone}
@@ -136,34 +137,36 @@ export function SettingsPage() {
               </motion.button>
             )}
 
-            {installState === 'ios' && (
-              <AnimatePresence>
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex flex-col gap-3"
-                >
-                  {[
-                    { step: '1', icon: '⬆️', text: t.settings.installIosStep1 },
-                    { step: '2', icon: '＋', text: t.settings.installIosStep2 },
-                    { step: '3', icon: '🌸', text: t.settings.installIosStep3 },
-                  ].map(({ step, icon, text }) => (
-                    <div key={step} className="flex items-center gap-3">
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-black"
-                        style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)', color: '#9B7BE0' }}
-                      >
-                        {step}
-                      </div>
-                      <div className="flex items-center gap-2 flex-1">
-                        <span style={{ fontSize: '1.1rem' }}>{icon}</span>
-                        <span className="text-sm font-semibold" style={{ color: '#3D2255' }}>{text}</span>
-                      </div>
+            {(installState === 'ios' || installState === 'android') && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col gap-3"
+              >
+                {(installState === 'ios'
+                  ? [
+                      { step: '1', text: t.settings.installIosStep1 },
+                      { step: '2', text: t.settings.installIosStep2 },
+                      { step: '3', text: t.settings.installIosStep3 },
+                    ]
+                  : [
+                      { step: '1', text: t.settings.installAndroidStep1 },
+                      { step: '2', text: t.settings.installAndroidStep2 },
+                    ]
+                ).map(({ step, text }) => (
+                  <div key={step} className="flex items-center gap-3">
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-black"
+                      style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)', color: '#9B7BE0' }}
+                    >
+                      {step}
                     </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
+                    <span className="text-sm font-semibold" style={{ color: '#3D2255' }}>{text}</span>
+                  </div>
+                ))}
+              </motion.div>
             )}
+
           </Section>
         )}
 

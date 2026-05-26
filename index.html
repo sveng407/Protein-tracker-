@@ -30,6 +30,14 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Capture beforeinstallprompt before React mounts so the hook never misses it -->
+    <script>
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        window.__pwaPrompt = e;
+        window.dispatchEvent(new CustomEvent('pwa-prompt-ready', { detail: e }));
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
