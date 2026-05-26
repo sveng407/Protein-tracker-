@@ -4,14 +4,14 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider, useApp } from './context/AppContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { BottomNav } from './components/layout/BottomNav';
-import { LanguagePicker } from './components/LanguagePicker';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { TodayPage } from './pages/TodayPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { BadgesPage } from './pages/BadgesPage';
+import { SettingsPage } from './pages/SettingsPage';
 
-const MAIN_ROUTES = ['/today', '/history', '/badges'];
+const MAIN_ROUTES = ['/today', '/history', '/badges', '/settings'];
 
 function LoadingScreen() {
   return (
@@ -42,19 +42,12 @@ function AppInner() {
       <Routes>
         <Route path="/" element={<Navigate to={goal === 0 ? '/onboarding' : '/today'} replace />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
-        <Route path="/today"   element={<TodayPage />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/badges"  element={<BadgesPage />} />
+        <Route path="/today"    element={<TodayPage />} />
+        <Route path="/history"  element={<HistoryPage />} />
+        <Route path="/badges"   element={<BadgesPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
-
-      {showNav && (
-        <>
-          <BottomNav />
-          <div className="fixed bottom-20 right-3 z-50">
-            <LanguagePicker />
-          </div>
-        </>
-      )}
+      {showNav && <BottomNav />}
     </>
   );
 }

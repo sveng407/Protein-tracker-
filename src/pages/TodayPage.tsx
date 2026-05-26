@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
-import { useAuth } from '../context/AuthContext';
+
 import { useT } from '../context/LanguageContext';
 import { FlowerGrowth } from '../components/today/FlowerGrowth';
 import { MotivationalMessage } from '../components/today/MotivationalMessage';
@@ -11,11 +11,14 @@ import { StreakCounter } from '../components/gamification/StreakCounter';
 import { CelebrationOverlay } from '../components/gamification/CelebrationOverlay';
 import { NewBadgeToast } from '../components/gamification/NewBadgeToast';
 import { FLOWER_PALETTE } from '../lib/flowerUtils';
+import { today, addDays } from '../lib/dateUtils';
+import type { MealType, FoodEntry } from '../types';
+
+const MEAL_ORDER: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack'];
 
 function PercentProgress({ percent }: { percent: number }) {
   const pct = Math.min(percent, 1);
   const pctRounded = Math.round(pct * 100);
-
   const color =
     pct >= 1    ? '#A8EED4' :
     pct >= 0.67 ? '#C4A8FF' :
@@ -35,7 +38,6 @@ function PercentProgress({ percent }: { percent: number }) {
         </span>
         <span className="text-3xl font-bold mb-1 ml-1" style={{ color: '#C4A8FF' }}>%</span>
       </motion.div>
-
       <div className="w-40 h-3 rounded-full overflow-hidden" style={{ background: '#F0E8FF' }}>
         <motion.div
           className="h-full rounded-full"
@@ -49,17 +51,106 @@ function PercentProgress({ percent }: { percent: number }) {
   );
 }
 
+function DateNav({ date, onChange }: { date: string; onChange: (d: string) => void }) {
+  const t = useT();
+  const todayStr = today();
+  const tomorrowStr = addDays(todayStr, 1);
+
+  function label() {
+    if (date === todayStr) return t.today.dateToday;
+    if (date === addDays(todayStr, -1)) return t.today.dateYesterday;
+    if (date === tomorrowStr) return t.today.dateTomorrow;
+    return new Date(date + 'T12:00:00').toLocaleDateString(t.locale, { weekday: 'short', day: 'numeric', month: 'short' });
+  }
+
+  return (
+    <div className="flex items-center justify-center gap-3 mb-3">
+      <motion.button
+        whileTap={{ scale: 0.85 }}
+        onClick={() => onChange(addDays(date, -1))}
+        className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black"
+        style={{ background: '#F5F0FF', color: '#9B7BE0' }}
+      >
+        ‹
+      </motion.button>
+      <motion.span
+        key={date}
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-sm font-black px-3 py-1 rounded-2xl"
+        style={{ background: date === todayStr ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : '#F5F0FF', color: '#3D2255', minWidth: 90, textAlign: 'center' }}
+      >
+        {label()}
+      </motion.span>
+      <motion.button
+        whileTap={{ scale: 0.85 }}
+        onClick={() => onChange(addDays(date, 1))}
+        disabled={date >= tomorrowStr}
+        className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black disabled:opacity-30"
+        style={{ background: '#F5F0FF', color: '#9B7BE0' }}
+      >
+        ›
+      </motion.button>
+    </div>
+  );
+}
+
+function MealGroup({
+  mealType,
+  entries,
+  onRemove,
+}: {
+  mealType: MealType;
+  entries: FoodEntry[];
+  onRemove: (id: string) => void;
+}) {
+  const t = useT();
+  if (entries.length === 0) return null;
+  const groupTotal = entries.reduce((s, e) => s + e.protein, 0);
+  return (
+    <div className="mb-3">
+      <div className="flex items-center gap-2 mb-1 px-1">
+        <span className="text-xs font-black" style={{ color: '#9B7BE0' }}>
+          {t.mealTypes[mealType]}
+        </span>
+        <span className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: '#EDE4FF', color: '#9B7BE0' }}>
+          {groupTotal}{t.today.totalGrams}
+        </span>
+      </div>
+      <FoodEntryList entries={entries} onRemove={onRemove} />
+    </div>
+  );
+}
+
 export function TodayPage() {
   const t = useT();
-  const { signOut } = useAuth();
   const {
-    todayEntries, todayTotal, todayPercent,
+    todayPercent,
     addEntry, removeEntry,
+    allLogs, recentFoods,
     streakData, newlyUnlockedBadges, clearNewBadges,
     showCelebration, dismissCelebration,
+    firstName,
   } = useApp();
+  const [selectedDate, setSelectedDate] = useState(() => today());
   const [sheetOpen, setSheetOpen] = useState(false);
   const flowerColor = FLOWER_PALETTE[0];
+
+  const selectedEntries = useMemo(
+    () => allLogs.find(d => d.date === selectedDate)?.entries ?? [],
+    [allLogs, selectedDate]
+  );
+  const selectedTotal = selectedEntries.reduce((s, e) => s + e.protein, 0);
+  const isToday = selectedDate === today();
+
+  const grouped = useMemo(() => {
+    const map = {} as Record<MealType, FoodEntry[]>;
+    for (const m of MEAL_ORDER) map[m] = [];
+    for (const e of selectedEntries) map[e.mealType].push(e);
+    return map;
+  }, [selectedEntries]);
+
+  const hasAnyEntry = selectedEntries.length > 0;
 
   return (
     <>
@@ -72,26 +163,16 @@ export function TodayPage() {
         <div className="flex items-center justify-between mb-3">
           <div>
             <h1 className="text-2xl font-black tracking-tight" style={{ color: '#3D2255' }}>
-              {t.today.greeting}
+              {firstName ? `${t.today.greetingPrefix}, ${firstName}! 🌸` : t.today.greeting}
             </h1>
             <p className="text-xs font-medium" style={{ color: '#C4A8FF' }}>
               {new Date().toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
-          <div className="flex items-center gap-1.5">
-            <StreakCounter streak={streakData.currentStreak} />
-            <button
-              onClick={signOut}
-              title={t.auth.signOutButton}
-              className="w-8 h-8 flex items-center justify-center rounded-full text-base"
-              style={{ background: '#F5F0FF', color: '#C4A8FF' }}
-            >
-              ↩
-            </button>
-          </div>
+          <StreakCounter streak={streakData.currentStreak} />
         </div>
 
-        {/* Flower card */}
+        {/* Flower card — always shows TODAY's progress */}
         <div
           className="rounded-4xl p-4 mb-3 flex flex-col items-center"
           style={{
@@ -108,12 +189,11 @@ export function TodayPage() {
               <FlowerGrowth percent={todayPercent} color={flowerColor} />
             </motion.div>
           </AnimatePresence>
-
           <PercentProgress percent={todayPercent} />
-          <MotivationalMessage percent={todayPercent} entryCount={todayEntries.length} />
+          {isToday && <MotivationalMessage percent={todayPercent} entryCount={selectedEntries.length} />}
         </div>
 
-        {/* Meal list */}
+        {/* Meal list with date nav */}
         <div
           className="rounded-4xl p-4"
           style={{
@@ -127,16 +207,34 @@ export function TodayPage() {
             <span className="text-sm font-black tracking-wide" style={{ color: '#3D2255' }}>
               {t.today.mealsTitle}
             </span>
-            {todayEntries.length > 0 && (
+            {hasAnyEntry && (
               <span
                 className="ml-auto text-xs font-bold px-2 py-0.5 rounded-full"
                 style={{ background: '#EDE4FF', color: '#9B7BE0' }}
               >
-                {todayTotal}{t.today.totalGrams}
+                {selectedTotal}{t.today.totalGrams}
               </span>
             )}
           </div>
-          <FoodEntryList entries={todayEntries} onRemove={removeEntry} />
+
+          <DateNav date={selectedDate} onChange={setSelectedDate} />
+
+          {!hasAnyEntry ? (
+            <div className="text-center py-6">
+              <p className="text-4xl mb-2">🌱</p>
+              <p className="text-sm font-bold" style={{ color: '#C4A8FF' }}>{t.today.noEntries}</p>
+              <p className="text-xs mt-1" style={{ color: '#D4C4E8' }}>{t.today.noEntriesHint}</p>
+            </div>
+          ) : (
+            MEAL_ORDER.map(m => (
+              <MealGroup
+                key={m}
+                mealType={m}
+                entries={grouped[m]}
+                onRemove={removeEntry}
+              />
+            ))
+          )}
         </div>
       </div>
 
@@ -158,7 +256,8 @@ export function TodayPage() {
       <AddFoodSheet
         open={sheetOpen}
         onClose={() => setSheetOpen(false)}
-        onAdd={(name, protein) => addEntry({ name, protein })}
+        onAdd={(entry) => addEntry(entry, selectedDate)}
+        recentFoods={recentFoods}
       />
     </>
   );

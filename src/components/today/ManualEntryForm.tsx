@@ -7,7 +7,7 @@ import { useT } from '../../context/LanguageContext';
 interface Props {
   initialName?: string;
   initialProtein?: number;
-  onAdd: (name: string, protein: number) => void;
+  onAdd: (name: string, protein: number, proteinPer100g: number) => void;
   onCancel: () => void;
 }
 
@@ -66,7 +66,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || totalProtein <= 0) return;
-    onAdd(name.trim(), totalProtein);
+    onAdd(name.trim(), totalProtein, typeof proteinPer100 === 'number' ? proteinPer100 : 0);
   }
 
   return (

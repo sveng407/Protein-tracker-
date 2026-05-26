@@ -18,10 +18,33 @@ export interface Translations {
   };
 
   today: {
+    greetingPrefix: string;
     greeting: string;
     mealsTitle: string;
     addMeal: string;
     totalGrams: string;
+    noEntries: string;
+    noEntriesHint: string;
+    dateToday: string;
+    dateYesterday: string;
+    dateTomorrow: string;
+  };
+
+  mealTypes: {
+    breakfast: string;
+    lunch: string;
+    dinner: string;
+    snack: string;
+  };
+
+  settings: {
+    title: string;
+    language: string;
+    goal: string;
+    goalHint: string;
+    account: string;
+    signOut: string;
+    savedLabel: string;
   };
 
   addSheet: {
@@ -38,6 +61,8 @@ export interface Translations {
     scanLoading: string;
     proteinSuffix: string;
     notFound: (barcode: string) => string;
+    recentFoods: string;
+    barcodeSaved: string;
   };
 
   search: {
@@ -49,13 +74,6 @@ export interface Translations {
     denied: string;
     failed: string;
     starting: string;
-  };
-
-  history: {
-    title: string;
-    noFlowers: string;
-    flowers: (n: number) => string;
-    record: (n: number) => string;
   };
 
   badges: {
@@ -81,6 +99,16 @@ export interface Translations {
     today: string;
     garden: string;
     badges: string;
+    settings: string;
+  };
+
+  history: {
+    title: string;
+    noFlowers: string;
+    flowers: (n: number) => string;
+    record: (n: number) => string;
+    gardenEmpty: string;
+    gardenEmptyHint: string;
   };
 
   motivational: Record<number, string[]>;
@@ -109,10 +137,33 @@ const de: Translations = {
   },
 
   today: {
+    greetingPrefix: 'Hallo',
     greeting: 'Hallo! 🌸',
-    mealsTitle: 'Heutige Mahlzeiten',
+    mealsTitle: 'Mahlzeiten',
     addMeal: 'Mahlzeit hinzufügen',
     totalGrams: 'g',
+    noEntries: 'Noch nichts eingetragen',
+    noEntriesHint: 'Tippe ＋ um eine Mahlzeit hinzuzufügen!',
+    dateToday: 'Heute',
+    dateYesterday: 'Gestern',
+    dateTomorrow: 'Morgen',
+  },
+
+  mealTypes: {
+    breakfast: '🌅 Frühstück',
+    lunch:     '🌞 Mittagessen',
+    dinner:    '🌙 Abendessen',
+    snack:     '🍿 Snack',
+  },
+
+  settings: {
+    title:     'Einstellungen',
+    language:  'Sprache',
+    goal:      'Protein-Ziel (g/Tag)',
+    goalHint:  'Änderung wird sofort gespeichert',
+    account:   'Account',
+    signOut:   'Abmelden',
+    savedLabel:'Gespeichert ✓',
   },
 
   addSheet: {
@@ -129,6 +180,8 @@ const de: Translations = {
     scanLoading: 'Produkt wird gesucht…',
     proteinSuffix: 'Protein ✨',
     notFound: (barcode) => `Barcode ${barcode} nicht in der Datenbank. Bitte manuell eingeben.`,
+    recentFoods: 'Zuletzt gegessen',
+    barcodeSaved: '🔗 Barcode wird gespeichert',
   },
 
   search: {
@@ -147,6 +200,8 @@ const de: Translations = {
     noFlowers: 'Noch keine Blume — fang heute an! 🌱',
     flowers: (n) => `${n} Blume${n !== 1 ? 'n' : ''} gesammelt 💕`,
     record: (n) => `Rekord: ${n} Tage`,
+    gardenEmpty: 'Dein Garten ist noch leer',
+    gardenEmptyHint: 'Erreiche dein Ziel — und pflück deine erste Blume!',
   },
 
   badges: {
@@ -180,6 +235,7 @@ const de: Translations = {
     today: 'Heute',
     garden: 'Garten',
     badges: 'Erfolge',
+    settings: 'Einstellungen',
   },
 
   motivational: {
@@ -214,10 +270,33 @@ const en: Translations = {
   },
 
   today: {
+    greetingPrefix: 'Hi',
     greeting: 'Hello! 🌸',
-    mealsTitle: "Today's meals",
+    mealsTitle: 'Meals',
     addMeal: 'Add meal',
     totalGrams: 'g',
+    noEntries: 'Nothing logged yet',
+    noEntriesHint: 'Tap ＋ to add a meal!',
+    dateToday: 'Today',
+    dateYesterday: 'Yesterday',
+    dateTomorrow: 'Tomorrow',
+  },
+
+  mealTypes: {
+    breakfast: '🌅 Breakfast',
+    lunch:     '🌞 Lunch',
+    dinner:    '🌙 Dinner',
+    snack:     '🍿 Snack',
+  },
+
+  settings: {
+    title:     'Settings',
+    language:  'Language',
+    goal:      'Daily protein goal (g)',
+    goalHint:  'Saved automatically',
+    account:   'Account',
+    signOut:   'Sign out',
+    savedLabel:'Saved ✓',
   },
 
   addSheet: {
@@ -234,6 +313,8 @@ const en: Translations = {
     scanLoading: 'Searching product…',
     proteinSuffix: 'Protein ✨',
     notFound: (barcode) => `Barcode ${barcode} not found in database. Please enter manually.`,
+    recentFoods: 'Recently eaten',
+    barcodeSaved: '🔗 Barcode will be saved',
   },
 
   search: {
@@ -252,6 +333,8 @@ const en: Translations = {
     noFlowers: 'No flowers yet — start today! 🌱',
     flowers: (n) => `${n} flower${n !== 1 ? 's' : ''} collected 💕`,
     record: (n) => `Record: ${n} days`,
+    gardenEmpty: 'Your garden is empty',
+    gardenEmptyHint: 'Reach your goal — and pick your first flower!',
   },
 
   badges: {
@@ -285,6 +368,7 @@ const en: Translations = {
     today: 'Today',
     garden: 'Garden',
     badges: 'Badges',
+    settings: 'Settings',
   },
 
   motivational: {
@@ -319,10 +403,33 @@ const hu: Translations = {
   },
 
   today: {
+    greetingPrefix: 'Szia',
     greeting: 'Szia! 🌸',
-    mealsTitle: 'Mai étkezések',
+    mealsTitle: 'Étkezések',
     addMeal: 'Étkezés hozzáadása',
     totalGrams: 'g',
+    noEntries: 'Még semmi nincs rögzítve',
+    noEntriesHint: 'Nyomd meg a ＋ gombot az étkezés hozzáadásához!',
+    dateToday: 'Ma',
+    dateYesterday: 'Tegnap',
+    dateTomorrow: 'Holnap',
+  },
+
+  mealTypes: {
+    breakfast: '🌅 Reggeli',
+    lunch:     '🌞 Ebéd',
+    dinner:    '🌙 Vacsora',
+    snack:     '🍿 Snack',
+  },
+
+  settings: {
+    title:     'Beállítások',
+    language:  'Nyelv',
+    goal:      'Napi fehérje cél (g)',
+    goalHint:  'Automatikusan mentve',
+    account:   'Fiók',
+    signOut:   'Kijelentkezés',
+    savedLabel:'Mentve ✓',
   },
 
   addSheet: {
@@ -339,6 +446,8 @@ const hu: Translations = {
     scanLoading: 'Termék keresése…',
     proteinSuffix: 'Fehérje ✨',
     notFound: (barcode) => `A(z) ${barcode} vonalkód nincs az adatbázisban. Kérjük, adja meg kézzel.`,
+    recentFoods: 'Nemrég evett',
+    barcodeSaved: '🔗 Vonalkód mentve lesz',
   },
 
   search: {
@@ -357,6 +466,8 @@ const hu: Translations = {
     noFlowers: 'Még nincs virág — kezdj ma! 🌱',
     flowers: (n) => `${n} virág összegyűjtve 💕`,
     record: (n) => `Rekord: ${n} nap`,
+    gardenEmpty: 'A kerted még üres',
+    gardenEmptyHint: 'Érd el a célodat — és szedd az első virágod!',
   },
 
   badges: {
@@ -390,6 +501,7 @@ const hu: Translations = {
     today: 'Ma',
     garden: 'Kert',
     badges: 'Jutalmak',
+    settings: 'Beállítások',
   },
 
   motivational: {

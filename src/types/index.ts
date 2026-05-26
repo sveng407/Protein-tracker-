@@ -1,7 +1,10 @@
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+
 export interface FoodEntry {
   id: string;
   name: string;
   protein: number;
+  mealType: MealType;
   timestamp: number;
   barcode?: string;
 }

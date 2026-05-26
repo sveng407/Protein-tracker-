@@ -6,9 +6,10 @@ export function BottomNav() {
   const t = useT();
 
   const tabs = [
-    { to: '/today',   label: t.nav.today,  icon: '🌱' },
-    { to: '/history', label: t.nav.garden, icon: '🌻' },
-    { to: '/badges',  label: t.nav.badges, icon: '🏅' },
+    { to: '/today',    label: t.nav.today,    icon: '🌱' },
+    { to: '/history',  label: t.nav.garden,   icon: '🌻' },
+    { to: '/badges',   label: t.nav.badges,   icon: '🏅' },
+    { to: '/settings', label: t.nav.settings, icon: '⚙️' },
   ];
 
   return (
@@ -29,7 +30,6 @@ export function BottomNav() {
           >
             {({ isActive }) => (
               <>
-                {/* icon wrapped in fixed-size container so the pill sits perfectly behind it */}
                 <div className="relative w-10 h-10 flex items-center justify-center">
                   {isActive && (
                     <motion.div
@@ -47,10 +47,13 @@ export function BottomNav() {
                     {tab.icon}
                   </motion.span>
                 </div>
-
                 <span
-                  className="text-xs font-black mt-0.5"
-                  style={{ color: isActive ? '#9B7BE0' : '#C4A8CC' }}
+                  className="text-xs font-black mt-0.5 leading-tight text-center"
+                  style={{
+                    color: isActive ? '#9B7BE0' : '#C4A8CC',
+                    fontSize: '0.6rem',
+                    maxWidth: '4rem',
+                  }}
                 >
                   {tab.label}
                 </span>

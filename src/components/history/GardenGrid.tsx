@@ -3,6 +3,7 @@ import type { DayLog } from '../../types';
 import { today } from '../../lib/dateUtils';
 import { getFlowerColorForDate } from '../../lib/flowerUtils';
 import { GOAL_MET_THRESHOLD } from '../../constants';
+import { useT } from '../../context/LanguageContext';
 
 // A static, lightweight SVG flower for the grid (no framer-motion internally)
 function MiniFlower({ percent, petal, center, leaf }: {
@@ -63,6 +64,7 @@ interface Props {
 
 export function GardenGrid({ logs, goal }: Props) {
   const t = today();
+  const tr = useT();
   const pastLogs = logs
     .filter(d => d.date !== t && d.entries.length > 0)
     .sort((a, b) => b.date.localeCompare(a.date));
@@ -71,8 +73,8 @@ export function GardenGrid({ logs, goal }: Props) {
     return (
       <div className="text-center py-16">
         <div className="text-6xl mb-4">🌱</div>
-        <p className="font-bold text-stone-700">Dein Garten ist noch leer</p>
-        <p className="text-sm text-stone-400 mt-1">Erreiche dein Ziel — und pflück deine erste Blume!</p>
+        <p className="font-bold" style={{ color: '#3D2255' }}>{tr.history.gardenEmpty}</p>
+        <p className="text-sm mt-1" style={{ color: '#C4A8CC' }}>{tr.history.gardenEmptyHint}</p>
       </div>
     );
   }
@@ -102,11 +104,11 @@ export function GardenGrid({ logs, goal }: Props) {
                 leaf={color.leaf}
               />
             </div>
-            <p className="text-xs font-semibold text-stone-500 truncate w-full text-center mt-0.5">
-              {new Date(log.date + 'T12:00:00').toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })}
+            <p className="text-xs font-semibold truncate w-full text-center mt-0.5" style={{ color: '#C4A8CC' }}>
+              {new Date(log.date + 'T12:00:00').toLocaleDateString(tr.locale, { day: 'numeric', month: 'short' })}
             </p>
-            <p className={`text-xs font-bold ${goalMet ? 'text-green-600' : 'text-stone-400'}`}>
-              {total}g
+            <p className="text-xs font-bold" style={{ color: goalMet ? '#6DC9A8' : '#C4A8CC' }}>
+              {Math.round(percent * 100)}%
             </p>
           </motion.div>
         );

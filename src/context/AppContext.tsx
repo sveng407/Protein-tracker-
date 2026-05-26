@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { writeBatch, doc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from './AuthContext';
@@ -7,7 +7,7 @@ import { useProteinLog } from '../hooks/useProteinLog';
 import { useStreak } from '../hooks/useStreak';
 import { storageGet } from '../lib/storage';
 import { STORAGE_KEYS } from '../constants';
-import type { FoodEntry, DayLog, StreakData, BadgeId } from '../types';
+import type { FoodEntry, DayLog, StreakData, BadgeId, MealType } from '../types';
 
 const DEFAULT_STREAK: StreakData = {
   currentStreak: 0, longestStreak: 0, lastGoalDate: '',
@@ -17,12 +17,13 @@ const DEFAULT_STREAK: StreakData = {
 interface AppContextValue {
   goal: number;
   setGoal: (g: number) => void;
-  todayEntries: FoodEntry[];
   todayTotal: number;
   todayPercent: number;
-  addEntry: (e: Omit<FoodEntry, 'id' | 'timestamp'>) => void;
-  removeEntry: (id: string) => void;
+  addEntry: (e: Omit<FoodEntry, 'id' | 'timestamp'>, date: string) => Promise<void>;
+  removeEntry: (id: string) => Promise<void>;
   allLogs: DayLog[];
+  recentFoods: string[];
+  firstName: string;
   streakData: StreakData;
   newlyUnlockedBadges: BadgeId[];
   clearNewBadges: () => void;
@@ -35,10 +36,11 @@ const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  const uid = user!.uid; // AppProvider is only mounted when user is non-null
+  const uid = user!.uid;
+  const firstName = user?.displayName?.split(' ')[0] ?? '';
 
   const [goal, setGoal, goalLoading] = useGoal(uid);
-  const { allLogs, todayEntries, todayTotal, addEntry, removeEntry, logsLoading } = useProteinLog(uid);
+  const { allLogs, todayTotal, addEntry, removeEntry, logsLoading } = useProteinLog(uid);
   const { streakData, newlyUnlockedBadges, clearNewBadges, checkAndUpdate } = useStreak(uid, allLogs, goal);
   const [showCelebration, setShowCelebration] = useState(false);
   const wasComplete = useRef(false);
@@ -46,15 +48,30 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const todayPercent = goal > 0 ? todayTotal / goal : 0;
   const dataLoading = goalLoading || logsLoading;
 
-  // Migrate localStorage data to Firestore on first ever sign-in
+  // Recent unique food names from history (for AddFoodSheet quick-add)
+  const recentFoods = useMemo(() => {
+    const seen = new Set<string>();
+    const names: string[] = [];
+    [...allLogs]
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .flatMap(d => [...d.entries].sort((a, b) => b.timestamp - a.timestamp))
+      .forEach(e => {
+        if (!seen.has(e.name.toLowerCase())) {
+          seen.add(e.name.toLowerCase());
+          names.push(e.name);
+        }
+      });
+    return names.slice(0, 10);
+  }, [allLogs]);
+
+  // Migrate localStorage data to Firestore on first sign-in
   const migrated = useRef(false);
   useEffect(() => {
     if (dataLoading || migrated.current) return;
     if (goal === 0 && allLogs.length === 0) {
-      const localGoal  = storageGet<number>(STORAGE_KEYS.GOAL, 0);
-      const localLogs  = storageGet<DayLog[]>(STORAGE_KEYS.FOOD_LOG, []);
+      const localGoal   = storageGet<number>(STORAGE_KEYS.GOAL, 0);
+      const localLogs   = storageGet<DayLog[]>(STORAGE_KEYS.FOOD_LOG, []);
       const localStreak = storageGet<StreakData>(STORAGE_KEYS.STREAK, DEFAULT_STREAK);
-
       if (localGoal > 0 || localLogs.length > 0) {
         migrated.current = true;
         const batch = writeBatch(db);
@@ -62,7 +79,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           batch.set(doc(db, 'users', uid, 'data', 'settings'), { goal: localGoal }, { merge: true });
         }
         for (const dayLog of localLogs) {
-          batch.set(doc(collection(db, 'users', uid, 'days'), dayLog.date), { entries: dayLog.entries });
+          const entries = dayLog.entries.map(e => ({
+            ...e,
+            mealType: (e as FoodEntry & { mealType?: MealType }).mealType ?? 'snack',
+          }));
+          batch.set(doc(collection(db, 'users', uid, 'days'), dayLog.date), { entries });
         }
         if (localStreak.badges.length > 0 || localStreak.currentStreak > 0) {
           batch.set(doc(db, 'users', uid, 'data', 'streak'), localStreak);
@@ -85,8 +106,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <AppContext.Provider value={{
       goal, setGoal,
-      todayEntries, todayTotal, todayPercent,
-      addEntry, removeEntry, allLogs,
+      todayTotal, todayPercent,
+      addEntry, removeEntry, allLogs, recentFoods,
+      firstName,
       streakData, newlyUnlockedBadges, clearNewBadges,
       showCelebration, dismissCelebration: () => setShowCelebration(false),
       dataLoading,

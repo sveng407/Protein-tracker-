@@ -17,7 +17,7 @@ export function DayCard({ log, goal }: Props) {
     <div className="bg-white rounded-2xl px-4 py-4 shadow-sm border border-gray-100">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <p className="font-semibold text-gray-900 capitalize">{formatDate(log.date)}</p>
+          <p className="font-semibold text-gray-900 capitalize">{formatDate(log.date, 'de-DE')}</p>
           <p className="text-xs text-gray-400">{log.entries.length} Mahlzeit{log.entries.length !== 1 ? 'en' : ''}</p>
         </div>
         <div className="flex items-center gap-2">
