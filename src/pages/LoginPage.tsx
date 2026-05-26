@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -18,6 +18,21 @@ function GoogleIcon() {
   );
 }
 
+function detectWebView(): { detected: boolean; app: string } {
+  const ua = navigator.userAgent;
+  if (/FBAN|FBAV|FBIOS|FB_IAB/i.test(ua)) return { detected: true, app: 'Facebook' };
+  if (/Instagram/i.test(ua)) return { detected: true, app: 'Instagram' };
+  if (/MESSENGER|MessengerLite/i.test(ua)) return { detected: true, app: 'Messenger' };
+  if (/TikTok|musical_ly/i.test(ua)) return { detected: true, app: 'TikTok' };
+  if (/Twitter|X-App/i.test(ua)) return { detected: true, app: 'X / Twitter' };
+  if (/MicroMessenger/i.test(ua)) return { detected: true, app: 'WeChat' };
+  if (/\bwv\b/.test(ua)) return { detected: true, app: '' };
+  // iOS in-app browser: has Mobile but no Safari
+  if (/iPhone|iPad/.test(ua) && !/Safari\//.test(ua) && /AppleWebKit/.test(ua))
+    return { detected: true, app: '' };
+  return { detected: false, app: '' };
+}
+
 export function LoginPage() {
   const t = useT();
   const { signInWithGoogle } = useAuth();
@@ -26,6 +41,7 @@ export function LoginPage() {
   const [consentPrivacy, setConsentPrivacy] = useState(false);
   const [consentTerms, setConsentTerms] = useState(false);
   const consentGiven = consentPrivacy && consentTerms;
+  const webView = useMemo(() => detectWebView(), []);
 
   async function handleSignIn() {
     setLoading(true);
@@ -73,6 +89,33 @@ export function LoginPage() {
         <p className="text-sm font-medium mb-8 leading-relaxed" style={{ color: 'var(--pt-accent)', whiteSpace: 'pre-line' }}>
           {t.auth.subtitle}
         </p>
+
+        {/* WebView warning */}
+        {webView.detected && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 rounded-3xl p-4 text-left"
+            style={{ background: '#FFF4DC', border: '2px solid #FFD080' }}
+          >
+            <p className="text-sm font-black mb-1" style={{ color: '#B87840' }}>
+              🚫 {t.auth.webViewTitle}
+              {webView.app ? ` (${webView.app})` : ''}
+            </p>
+            <p className="text-xs font-medium leading-relaxed mb-3" style={{ color: '#B87840' }}>
+              {t.auth.webViewHint}
+            </p>
+            <a
+              href={window.location.href}
+              target="_blank"
+              rel="noreferrer"
+              className="block w-full py-2.5 rounded-2xl text-xs font-black text-center"
+              style={{ background: '#FFD080', color: '#7A5000' }}
+            >
+              {t.auth.webViewOpen}
+            </a>
+          </motion.div>
+        )}
 
         {/* Consent checkboxes */}
         <div

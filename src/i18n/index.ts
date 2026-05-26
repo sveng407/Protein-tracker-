@@ -160,6 +160,9 @@ export interface Translations {
     consentTerms: string;
     consentTermsLink: string;
     consentHint: string;
+    webViewTitle: string;
+    webViewHint: string;
+    webViewOpen: string;
   };
 
   pro: {
@@ -370,6 +373,9 @@ const de: Translations = {
     consentTerms:      'Ich akzeptiere die {link}.',
     consentTermsLink:  'AGB',
     consentHint:       'Bitte beide Felder bestätigen, um fortzufahren.',
+    webViewTitle:      'In-App-Browser erkannt',
+    webViewHint:       'Google erlaubt keine Anmeldung aus Apps heraus. Bitte öffne den Link in Safari oder Chrome.',
+    webViewOpen:       '🌐 Im Browser öffnen',
   },
 
   pro: {
@@ -580,6 +586,9 @@ const en: Translations = {
     consentTerms:      'I accept the {link}.',
     consentTermsLink:  'Terms of Service',
     consentHint:       'Please confirm both fields to continue.',
+    webViewTitle:      'In-app browser detected',
+    webViewHint:       'Google does not allow sign-in from within apps. Please open the link in Safari or Chrome.',
+    webViewOpen:       '🌐 Open in browser',
   },
 
   pro: {
@@ -778,6 +787,9 @@ const hu: Translations = {
     consentTerms:      'Elfogadom az {link}.',
     consentTermsLink:  'ÁSZF-et',
     consentHint:       'A folytatáshoz mindkét mezőt be kell jelölni.',
+    webViewTitle:      'Beépített böngésző észlelve',
+    webViewHint:       'A Google nem engedélyezi a bejelentkezést alkalmazásokon belül. Kérjük, nyisd meg a linket Safariban vagy Chrome-ban.',
+    webViewOpen:       '🌐 Megnyitás böngészőben',
   },
 
   installBanner: {
