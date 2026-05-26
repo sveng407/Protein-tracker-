@@ -22,27 +22,34 @@ export function BottomNav() {
     >
       <div className="max-w-md mx-auto flex">
         {tabs.map(tab => (
-          <NavLink key={tab.to} to={tab.to}
-            className="flex-1 flex flex-col items-center pt-3 pb-4 relative"
+          <NavLink
+            key={tab.to}
+            to={tab.to}
+            className="flex-1 flex flex-col items-center pt-2 pb-4"
           >
             {({ isActive }) => (
               <>
-                {isActive && (
-                  <motion.div layoutId="nav-pill"
-                    className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full"
-                    style={{ background: 'linear-gradient(135deg, #FFE4EC, #EDE4FF)' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-                  />
-                )}
-                <motion.span
-                  animate={{ scale: isActive ? 1.25 : 1 }}
-                  transition={{ type: 'spring', stiffness: 350 }}
-                  className="text-xl relative z-10"
-                >
-                  {tab.icon}
-                </motion.span>
+                {/* icon wrapped in fixed-size container so the pill sits perfectly behind it */}
+                <div className="relative w-10 h-10 flex items-center justify-center">
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-full"
+                      style={{ background: 'linear-gradient(135deg, #FFE4EC, #EDE4FF)' }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+                    />
+                  )}
+                  <motion.span
+                    animate={{ scale: isActive ? 1.22 : 1 }}
+                    transition={{ type: 'spring', stiffness: 350 }}
+                    className="text-xl relative z-10"
+                  >
+                    {tab.icon}
+                  </motion.span>
+                </div>
+
                 <span
-                  className="text-xs font-black mt-0.5 relative z-10"
+                  className="text-xs font-black mt-0.5"
                   style={{ color: isActive ? '#9B7BE0' : '#C4A8CC' }}
                 >
                   {tab.label}

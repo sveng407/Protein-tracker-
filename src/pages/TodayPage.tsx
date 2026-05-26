@@ -9,7 +9,6 @@ import { AddFoodSheet } from '../components/today/AddFoodSheet';
 import { StreakCounter } from '../components/gamification/StreakCounter';
 import { CelebrationOverlay } from '../components/gamification/CelebrationOverlay';
 import { NewBadgeToast } from '../components/gamification/NewBadgeToast';
-import { LanguagePicker } from '../components/LanguagePicker';
 import { FLOWER_PALETTE } from '../lib/flowerUtils';
 
 function PercentProgress({ percent }: { percent: number }) {
@@ -77,10 +76,7 @@ export function TodayPage() {
               {new Date().toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <LanguagePicker />
-            <StreakCounter streak={streakData.currentStreak} />
-          </div>
+          <StreakCounter streak={streakData.currentStreak} />
         </div>
 
         {/* Flower card */}
