@@ -10,7 +10,7 @@ import { AddFoodSheet } from '../components/today/AddFoodSheet';
 import { StreakCounter } from '../components/gamification/StreakCounter';
 import { CelebrationOverlay } from '../components/gamification/CelebrationOverlay';
 import { NewBadgeToast } from '../components/gamification/NewBadgeToast';
-import { FLOWER_PALETTE } from '../lib/flowerUtils';
+import { getFlowerColorForDate } from '../lib/flowerUtils';
 import { today, addDays } from '../lib/dateUtils';
 import type { MealType, FoodEntry } from '../types';
 
@@ -135,7 +135,11 @@ export function TodayPage() {
   const [selectedDate, setSelectedDate] = useState(() => today());
   const [sheetOpen, setSheetOpen] = useState(false);
   const [editingEntry, setEditingEntry] = useState<FoodEntry | null>(null);
-  const flowerColor = FLOWER_PALETTE[0];
+
+  // Flower color follows the selected date — same colour scheme as in the garden
+  const flowerColor = getFlowerColorForDate(selectedDate);
+  // Celebration always uses today's colour regardless of which date is selected
+  const todayFlowerColor = getFlowerColorForDate(today());
 
   const selectedEntries = useMemo(
     () => allLogs.find(d => d.date === selectedDate)?.entries ?? [],
@@ -156,7 +160,7 @@ export function TodayPage() {
 
   return (
     <>
-      <CelebrationOverlay show={showCelebration} onDismiss={dismissCelebration} flowerColor={flowerColor} />
+      <CelebrationOverlay show={showCelebration} onDismiss={dismissCelebration} flowerColor={todayFlowerColor} />
       <NewBadgeToast badgeIds={newlyUnlockedBadges} onDismiss={clearNewBadges} />
 
       <div className="max-w-md mx-auto px-4 pt-5 pb-28">

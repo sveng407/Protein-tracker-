@@ -19,9 +19,16 @@ export type BadgeId =
   | 'first-goal'
   | 'streak-3'
   | 'streak-7'
+  | 'streak-14'
   | 'streak-30'
   | 'century'
-  | 'comeback';
+  | 'protein-200'
+  | 'comeback'
+  | 'log-10'
+  | 'log-50'
+  | 'variety'
+  | 'early-bird'
+  | 'perfect-week';
 
 export interface Badge {
   id: BadgeId;

@@ -6,6 +6,7 @@ import { useGoal } from '../hooks/useGoal';
 import { useProteinLog } from '../hooks/useProteinLog';
 import { useStreak } from '../hooks/useStreak';
 import { storageGet } from '../lib/storage';
+import { today } from '../lib/dateUtils';
 import { STORAGE_KEYS } from '../constants';
 import type { FoodEntry, DayLog, StreakData, BadgeId, MealType } from '../types';
 
@@ -44,10 +45,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const { allLogs, todayTotal, addEntry, removeEntry, updateEntry, logsLoading } = useProteinLog(uid);
   const { streakData, newlyUnlockedBadges, clearNewBadges, checkAndUpdate } = useStreak(uid, allLogs, goal);
   const [showCelebration, setShowCelebration] = useState(false);
-  const wasComplete = useRef(false);
-
   const todayPercent = goal > 0 ? todayTotal / goal : 0;
   const dataLoading = goalLoading || logsLoading;
+
+  // Celebration shows at most once per calendar day — persisted across refreshes
+  const wasComplete = useRef(localStorage.getItem('pt_celebration_date') === today());
 
   // Last 10 unique foods sorted by recency — shown as one-tap quick-add chips
   const recentFoods = useMemo(() => {
@@ -95,13 +97,20 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [uid, dataLoading, goal, allLogs.length]);
 
-  // Show the celebration overlay once per session when the daily goal is first reached
+  // Show the celebration overlay when the daily goal is first crossed.
+  // wasComplete is seeded from localStorage so a page refresh won't re-trigger it.
   useEffect(() => {
     if (todayPercent >= 1.0 && !wasComplete.current) {
       setShowCelebration(true);
       wasComplete.current = true;
+      localStorage.setItem('pt_celebration_date', today());
     }
-    if (todayPercent < 1.0) wasComplete.current = false;
+    // Only reset if the celebration hasn't been shown yet today (allows re-trigger
+    // if the user dips under the goal and climbs back up within the same day,
+    // but not after they've already seen the overlay today)
+    if (todayPercent < 1.0 && localStorage.getItem('pt_celebration_date') !== today()) {
+      wasComplete.current = false;
+    }
   }, [todayPercent]);
 
   useEffect(() => { checkAndUpdate(); }, [allLogs, checkAndUpdate]);
