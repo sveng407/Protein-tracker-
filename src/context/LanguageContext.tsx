@@ -19,7 +19,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const uid = user?.uid ?? null;
   const [lang, setLangState] = useState<Lang>(detectLang);
 
-  // On login: pull lang from Firestore and apply it
+  // One-time fetch on login — getDoc instead of onSnapshot to avoid overwriting
+  // a language change the user just made in another tab before the write completes.
   useEffect(() => {
     if (!uid) return;
     getDoc(doc(db, 'users', uid, 'data', 'settings')).then(snap => {

@@ -1,3 +1,6 @@
+// Dates are always in local time. We parse stored "YYYY-MM-DD" strings with
+// T12:00:00 to avoid DST boundary shifts that would roll the date back by one day.
+
 function localISO(d: Date): string {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -19,17 +22,4 @@ export function addDays(dateStr: string, n: number): string {
   const d = new Date(dateStr + 'T12:00:00');
   d.setDate(d.getDate() + n);
   return localISO(d);
-}
-
-export function formatDate(dateStr: string, locale: string): string {
-  const d = new Date(dateStr + 'T12:00:00');
-  return d.toLocaleDateString(locale, { weekday: 'long', month: 'short', day: 'numeric' });
-}
-
-export function dayBefore(dateStr: string): string {
-  return addDays(dateStr, -1);
-}
-
-export function isConsecutive(a: string, b: string): boolean {
-  return dayBefore(a) === b;
 }

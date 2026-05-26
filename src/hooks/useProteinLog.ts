@@ -15,6 +15,7 @@ export function useProteinLog(uid: string) {
         date: d.id,
         entries: ((d.data().entries ?? []) as Partial<FoodEntry>[]).map(e => ({
           ...e as FoodEntry,
+          // Old entries written before MealType was introduced default to 'snack'
           mealType: (e.mealType as MealType | undefined) ?? 'snack',
         })),
       }));
@@ -34,7 +35,9 @@ export function useProteinLog(uid: string) {
     const dayRef = doc(db, 'users', uid, 'days', date);
     const currentEntries = allLogs.find(d => d.date === date)?.entries ?? [];
     await setDoc(dayRef, { entries: [...currentEntries, newEntry] });
-    // onSnapshot fires automatically from Firestore local cache — no optimistic update needed
+    // No optimistic update: Firestore's local cache triggers onSnapshot almost
+    // instantly, and optimistic state would race with the snapshot, causing
+    // duplicated entries or overwrites.
   }, [uid, allLogs]);
 
   const removeEntry = useCallback(async (id: string) => {

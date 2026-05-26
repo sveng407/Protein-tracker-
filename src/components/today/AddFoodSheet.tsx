@@ -54,7 +54,9 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
       setScannedBarcode(null);
       setScanError(null);
 
-      // Push history state so the browser back button closes the sheet
+      // Push a synthetic history entry so the OS back button closes the sheet
+      // instead of navigating away. When the sheet closes programmatically
+      // (overlay tap, Cancel) the cleanup calls history.go(-1) to discard it.
       history.pushState({ __sheet: true }, '');
       pushedHistory.current = true;
 
@@ -65,7 +67,6 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
       window.addEventListener('popstate', handlePop);
       return () => {
         window.removeEventListener('popstate', handlePop);
-        // If closed programmatically (not via back button), clean up the history entry
         if (pushedHistory.current) {
           pushedHistory.current = false;
           history.go(-1);

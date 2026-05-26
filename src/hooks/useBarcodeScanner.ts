@@ -17,18 +17,15 @@ export function useBarcodeScanner() {
       const reader = new BrowserMultiFormatReader();
       readerRef.current = reader;
       setIsScanning(true);
-      await reader.decodeFromVideoDevice(
-        null,
-        videoRef.current!,
-        (result, err) => {
-          if (result) {
-            setLastResult(result.getText());
-          }
-          if (err && !(err.name === 'NotFoundException')) {
-            // NotFoundException fires every frame with no barcode — ignore it
-          }
+      await reader.decodeFromVideoDevice(null, videoRef.current!, (result, err) => {
+        if (result) {
+          setLastResult(result.getText());
         }
-      );
+        // NotFoundException fires on every frame where no barcode is visible — ignore it
+        if (err && err.name !== 'NotFoundException') {
+          console.error('BarcodeScanner error:', err);
+        }
+      });
     } catch (e: unknown) {
       setIsScanning(false);
       if (e instanceof Error && e.name === 'NotAllowedError') {

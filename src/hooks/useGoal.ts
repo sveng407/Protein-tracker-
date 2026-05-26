@@ -6,6 +6,7 @@ export function useGoal(uid: string) {
   const [goal, setGoalState] = useState(0);
   const [goalLoading, setGoalLoading] = useState(true);
 
+  // onSnapshot keeps the goal live so changes from another device appear immediately
   useEffect(() => {
     const ref = doc(db, 'users', uid, 'data', 'settings');
     const unsub = onSnapshot(ref, (snap) => {

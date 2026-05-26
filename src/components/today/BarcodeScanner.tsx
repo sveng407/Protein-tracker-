@@ -16,14 +16,14 @@ export function BarcodeScanner({ onBarcode, active }: Props) {
     if (active) startScan();
     else stopScan();
     return () => stopScan();
-  }, [active]);
+  }, [active, startScan, stopScan]);
 
   useEffect(() => {
     if (lastResult) {
       stopScan();
       onBarcode(lastResult);
     }
-  }, [lastResult]);
+  }, [lastResult, stopScan, onBarcode]);
 
   if (error) {
     return (

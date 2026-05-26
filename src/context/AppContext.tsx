@@ -49,7 +49,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const todayPercent = goal > 0 ? todayTotal / goal : 0;
   const dataLoading = goalLoading || logsLoading;
 
-  // Recent unique food names from history (for AddFoodSheet quick-add)
+  // Last 10 unique foods sorted by recency — shown as one-tap quick-add chips
   const recentFoods = useMemo(() => {
     const seen = new Set<string>();
     const foods: Array<{ name: string; protein: number; mealType: MealType }> = [];
@@ -65,7 +65,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return foods.slice(0, 10);
   }, [allLogs]);
 
-  // Migrate localStorage data to Firestore on first sign-in
+  // One-time migration: if the user has existing data in localStorage (from the
+  // pre-Firebase version of the app), batch-write it to Firestore on first sign-in.
   const migrated = useRef(false);
   useEffect(() => {
     if (dataLoading || migrated.current) return;
@@ -94,6 +95,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [uid, dataLoading, goal, allLogs.length]);
 
+  // Show the celebration overlay once per session when the daily goal is first reached
   useEffect(() => {
     if (todayPercent >= 1.0 && !wasComplete.current) {
       setShowCelebration(true);

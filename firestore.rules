@@ -1,7 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Each user can only read and write their own subtree
+    // Users may only read and write their own data subtree.
+    // The Firebase API key in the client bundle is a public identifier —
+    // this rule is the actual security boundary: unauthenticated requests
+    // and requests from other users are rejected at the database level.
     match /users/{uid}/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
