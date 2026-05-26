@@ -77,7 +77,7 @@ function DateNav({ date, onChange }: { date: string; onChange: (d: string) => vo
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-sm font-black px-3 py-1 rounded-2xl"
-        style={{ background: date === todayStr ? 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' : 'var(--pt-surface)', color: 'var(--pt-text)', minWidth: 90, textAlign: 'center' }}
+        style={{ background: date === todayStr ? 'linear-gradient(135deg,var(--pt-border-pink),var(--pt-border))' : 'var(--pt-surface)', color: date === todayStr ? 'var(--pt-accent)' : 'var(--pt-text-muted)', minWidth: 90, textAlign: 'center' }}
       >
         {label()}
       </motion.span>
