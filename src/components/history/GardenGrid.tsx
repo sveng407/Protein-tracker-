@@ -73,8 +73,8 @@ export function GardenGrid({ logs, goal }: Props) {
     return (
       <div className="text-center py-16">
         <div className="text-6xl mb-4">🌱</div>
-        <p className="font-bold" style={{ color: '#3D2255' }}>{tr.history.gardenEmpty}</p>
-        <p className="text-sm mt-1" style={{ color: '#C4A8CC' }}>{tr.history.gardenEmptyHint}</p>
+        <p className="font-bold" style={{ color: 'var(--pt-text)' }}>{tr.history.gardenEmpty}</p>
+        <p className="text-sm mt-1" style={{ color: 'var(--pt-text-muted)' }}>{tr.history.gardenEmptyHint}</p>
       </div>
     );
   }
@@ -92,9 +92,8 @@ export function GardenGrid({ logs, goal }: Props) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.04, type: 'spring', stiffness: 200 }}
-            className={`rounded-2xl p-2 pb-1 flex flex-col items-center ${
-              goalMet ? 'bg-white shadow-sm border border-stone-100' : 'bg-stone-50 border border-stone-100'
-            }`}
+            className="rounded-2xl p-2 pb-1 flex flex-col items-center"
+            style={{ background: goalMet ? 'var(--pt-card)' : 'var(--pt-surface)', border: '1px solid var(--pt-border)' }}
           >
             <div className={`w-full aspect-square ${goalMet ? '' : 'opacity-50 grayscale'}`}>
               <MiniFlower
@@ -104,10 +103,10 @@ export function GardenGrid({ logs, goal }: Props) {
                 leaf={color.leaf}
               />
             </div>
-            <p className="text-xs font-semibold truncate w-full text-center mt-0.5" style={{ color: '#C4A8CC' }}>
+            <p className="text-xs font-semibold truncate w-full text-center mt-0.5" style={{ color: 'var(--pt-text-muted)' }}>
               {new Date(log.date + 'T12:00:00').toLocaleDateString(tr.locale, { day: 'numeric', month: 'short' })}
             </p>
-            <p className="text-xs font-bold" style={{ color: goalMet ? '#6DC9A8' : '#C4A8CC' }}>
+            <p className="text-xs font-bold" style={{ color: goalMet ? '#6DC9A8' : 'var(--pt-text-muted)' }}>
               {Math.round(percent * 100)}%
             </p>
           </motion.div>
