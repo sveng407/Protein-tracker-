@@ -417,8 +417,8 @@ function detectLang(): Lang {
   if (stored && stored in TRANSLATIONS) return stored;
   const nav = navigator.language.slice(0, 2).toLowerCase();
   if (nav === 'de') return 'de';
-  if (nav === 'hu') return 'hu';
-  return 'en';
+  if (nav === 'en') return 'en';
+  return 'hu';
 }
 
 export { detectLang };

@@ -1,5 +1,8 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { useAuth } from './AuthContext';
 import { TRANSLATIONS, detectLang } from '../i18n';
 import type { Lang, Translations } from '../i18n';
 
@@ -12,12 +15,29 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
+  const uid = user?.uid ?? null;
   const [lang, setLangState] = useState<Lang>(detectLang);
+
+  // On login: pull lang from Firestore and apply it
+  useEffect(() => {
+    if (!uid) return;
+    getDoc(doc(db, 'users', uid, 'data', 'settings')).then(snap => {
+      const saved = snap.data()?.lang as Lang | undefined;
+      if (saved && saved in TRANSLATIONS) {
+        setLangState(saved);
+        localStorage.setItem('pt_language', saved);
+      }
+    });
+  }, [uid]);
 
   const setLang = useCallback((l: Lang) => {
     localStorage.setItem('pt_language', l);
     setLangState(l);
-  }, []);
+    if (uid) {
+      setDoc(doc(db, 'users', uid, 'data', 'settings'), { lang: l }, { merge: true });
+    }
+  }, [uid]);
 
   return (
     <LanguageContext.Provider value={{ lang, t: TRANSLATIONS[lang], setLang }}>
