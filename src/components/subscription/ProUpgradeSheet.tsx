@@ -37,6 +37,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
   const [success, setSuccess] = useState(false);
 
   function handleClose() {
+    if (loading) return;
     setScreen('pitch');
     setCardNumber(''); setExpiry(''); setCvv(''); setCardName(''); setCoupon('');
     setLoading(false); setSuccess(false);
@@ -50,7 +51,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
     await onActivate(coupon.trim() || undefined);
     setLoading(false);
     setSuccess(true);
-    setTimeout(handleClose, 1600);
+    setTimeout(handleClose, 1500);
   }
 
   const inputStyle: React.CSSProperties = {
@@ -75,7 +76,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
           {/* Sheet */}
           <motion.div
             className="fixed bottom-0 left-0 right-0 z-50 max-h-[92vh] overflow-y-auto"
-            style={{ background: '#FFF5FA', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.3)' }}
+            style={{ background: 'white', borderRadius: '2rem 2rem 0 0', boxShadow: '0 -8px 40px rgba(196,168,255,0.3)', border: '2.5px solid #EDE4FF', borderBottom: 'none' }}
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
@@ -88,13 +89,13 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                   initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }}
                   className="px-5 pb-10 pt-2"
                 >
-                  {/* PRO badge */}
+                  {/* Gradient PRO pill */}
                   <div className="flex justify-center mb-4">
                     <span
-                      className="px-4 py-1.5 rounded-full text-sm font-black tracking-widest"
-                      style={{ background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white', letterSpacing: '0.12em' }}
+                      className="px-5 py-1.5 rounded-full text-sm font-black tracking-widest"
+                      style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', letterSpacing: '0.1em' }}
                     >
-                      ✨ PRO
+                      🌸 PRO
                     </span>
                   </div>
 
@@ -109,17 +110,21 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                   <div className="flex flex-col gap-3 mb-5">
                     {PERKS.map(({ icon, key }) => (
                       <div key={key} className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-                        style={{ background: 'white', border: '2px solid #EDE4FF' }}>
+                        style={{ background: 'white', border: '2.5px solid #EDE4FF' }}>
                         <span style={{ fontSize: '1.3rem' }}>{icon}</span>
-                        <span className="text-sm font-bold" style={{ color: '#3D2255' }}>{t.pro[key]}</span>
+                        <span className="text-sm font-semibold" style={{ color: '#3D2255' }}>{t.pro[key]}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Price */}
-                  <div className="text-center mb-5">
-                    <span className="text-3xl font-black" style={{ color: '#3D2255' }}>€4,99</span>
-                    <span className="text-sm font-bold ml-1" style={{ color: '#C4A8FF' }}>/ Monat</span>
+                  {/* Price badge */}
+                  <div className="flex justify-center mb-5">
+                    <span
+                      className="px-5 py-2 rounded-full text-sm font-black"
+                      style={{ background: '#FFF9E6', border: '2px solid #F0C040', color: '#B8860B' }}
+                    >
+                      {t.pro.price}
+                    </span>
                   </div>
 
                   {/* CTA */}
@@ -148,26 +153,35 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                 >
                   {/* Back + title */}
                   <div className="flex items-center gap-3 mb-4">
-                    <button onClick={() => setScreen('pitch')}
+                    <button
+                      onClick={() => { if (!loading) setScreen('pitch'); }}
                       className="w-8 h-8 rounded-full flex items-center justify-center font-black text-lg"
-                      style={{ background: '#EDE4FF', color: '#9B7BE0' }}
+                      style={{ background: '#F5F0FF', color: '#9B7BE0' }}
                     >
                       ‹
                     </button>
                     <h2 className="text-lg font-black" style={{ color: '#3D2255' }}>{t.pro.checkoutTitle}</h2>
-                    <span className="ml-auto text-sm font-black px-3 py-1 rounded-full"
-                      style={{ background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white' }}>
-                      €4,99 / Mo.
+                    <span className="ml-auto text-xs font-black px-3 py-1 rounded-full"
+                      style={{ background: '#FFF9E6', border: '2px solid #F0C040', color: '#B8860B' }}>
+                      {t.pro.price}
                     </span>
                   </div>
 
                   {success ? (
                     <motion.div
                       initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                      className="text-center py-10"
+                      className="text-center py-10 flex flex-col items-center gap-4"
                     >
-                      <div className="text-6xl mb-3">🎉</div>
-                      <p className="text-xl font-black" style={{ color: '#6DC9A8' }}>{t.pro.successMsg}</p>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+                        className="w-16 h-16 rounded-full flex items-center justify-center text-3xl font-black"
+                        style={{ background: '#D4F8E8', border: '3px solid #6DC9A8', color: '#6DC9A8' }}
+                      >
+                        ✓
+                      </motion.div>
+                      <p className="text-xl font-black" style={{ color: '#3D2255' }}>{t.pro.successMsg}</p>
                     </motion.div>
                   ) : (
                     <form onSubmit={handlePay} className="flex flex-col gap-3">
@@ -183,6 +197,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           style={inputStyle}
                           onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
                           onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                          disabled={loading}
                         />
                       </div>
 
@@ -199,6 +214,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                             style={inputStyle}
                             onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
                             onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                            disabled={loading}
                           />
                         </div>
                         <div>
@@ -212,6 +228,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                             style={inputStyle}
                             onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
                             onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                            disabled={loading}
                           />
                         </div>
                       </div>
@@ -228,6 +245,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           style={inputStyle}
                           onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
                           onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                          disabled={loading}
                         />
                       </div>
 
@@ -250,6 +268,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           style={inputStyle}
                           onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
                           onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                          disabled={loading}
                         />
                         <p className="text-xs mt-1 font-medium" style={{ color: '#C4A8CC' }}>{t.pro.couponHint}</p>
                       </div>
@@ -258,9 +277,9 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                       <motion.button
                         type="submit"
                         whileTap={{ scale: 0.96 }}
-                        disabled={loading || (!cardNumber && !coupon)}
-                        className="w-full py-4 rounded-3xl text-white font-black text-base mt-1 disabled:opacity-50 flex items-center justify-center gap-2"
-                        style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', boxShadow: '0 6px 24px rgba(196,168,255,0.45)' }}
+                        disabled={loading}
+                        className="w-full py-4 rounded-3xl text-white font-black text-base mt-1 flex items-center justify-center gap-2"
+                        style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', boxShadow: '0 6px 24px rgba(196,168,255,0.45)', opacity: loading ? 0.7 : 1 }}
                       >
                         {loading ? (
                           <>
@@ -272,7 +291,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                             {t.pro.processing}
                           </>
                         ) : (
-                          coupon && !cardNumber ? `${t.pro.payBtn.replace('€4,99 ', '')} 🎁` : t.pro.payBtn
+                          t.pro.payBtn
                         )}
                       </motion.button>
                     </form>
