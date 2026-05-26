@@ -21,6 +21,7 @@ interface AppContextValue {
   todayPercent: number;
   addEntry: (e: Omit<FoodEntry, 'id' | 'timestamp'>, date: string) => Promise<void>;
   removeEntry: (id: string) => Promise<void>;
+  updateEntry: (id: string, fields: Partial<Omit<FoodEntry, 'id' | 'timestamp'>>) => Promise<void>;
   allLogs: DayLog[];
   recentFoods: Array<{ name: string; protein: number; mealType: MealType }>;
   firstName: string;
@@ -40,7 +41,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const firstName = user?.displayName?.split(' ')[0] ?? '';
 
   const [goal, setGoal, goalLoading] = useGoal(uid);
-  const { allLogs, todayTotal, addEntry, removeEntry, logsLoading } = useProteinLog(uid);
+  const { allLogs, todayTotal, addEntry, removeEntry, updateEntry, logsLoading } = useProteinLog(uid);
   const { streakData, newlyUnlockedBadges, clearNewBadges, checkAndUpdate } = useStreak(uid, allLogs, goal);
   const [showCelebration, setShowCelebration] = useState(false);
   const wasComplete = useRef(false);
@@ -107,7 +108,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     <AppContext.Provider value={{
       goal, setGoal,
       todayTotal, todayPercent,
-      addEntry, removeEntry, allLogs, recentFoods,
+      addEntry, removeEntry, updateEntry, allLogs, recentFoods,
       firstName,
       streakData, newlyUnlockedBadges, clearNewBadges,
       showCelebration, dismissCelebration: () => setShowCelebration(false),

@@ -9,6 +9,7 @@ interface Props {
   initialProtein?: number;
   onAdd: (name: string, protein: number, proteinPer100g: number) => void;
   onCancel: () => void;
+  submitLabel?: string;
 }
 
 const inputStyle = {
@@ -25,7 +26,7 @@ const inputStyle = {
 
 const focusStyle = '2px solid #C4A8FF';
 
-export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCancel }: Props) {
+export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCancel, submitLabel }: Props) {
   const t = useT();
   const [name, setName] = useState(initialName);
   const [portionG, setPortionG] = useState<number | ''>(100);
@@ -139,7 +140,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           className="flex-1 py-3 rounded-3xl text-sm font-black text-white disabled:opacity-40"
           style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', boxShadow: '0 3px 14px rgba(196,168,255,0.4)' }}
         >
-          {t.addSheet.addButton}
+          {submitLabel ?? t.addSheet.addButton}
         </button>
       </div>
     </form>

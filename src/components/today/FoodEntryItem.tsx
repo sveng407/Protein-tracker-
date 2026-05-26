@@ -7,9 +7,13 @@ function iconForEntry(id: string) {
   return FOOD_ICONS[n % FOOD_ICONS.length];
 }
 
-interface Props { entry: FoodEntry; onRemove: (id: string) => void; }
+interface Props {
+  entry: FoodEntry;
+  onRemove: (id: string) => void;
+  onEdit: (entry: FoodEntry) => void;
+}
 
-export function FoodEntryItem({ entry, onRemove }: Props) {
+export function FoodEntryItem({ entry, onRemove, onEdit }: Props) {
   return (
     <motion.div layout
       initial={{ opacity: 0, y: -10, scale: 0.96 }}
@@ -19,7 +23,10 @@ export function FoodEntryItem({ entry, onRemove }: Props) {
       className="flex items-center justify-between px-4 py-3 rounded-3xl mb-2"
       style={{ background: '#FDFAFF', border: '2px solid #EDE4FF' }}
     >
-      <div className="flex items-center gap-3 min-w-0">
+      <button
+        onClick={() => onEdit(entry)}
+        className="flex items-center gap-3 min-w-0 flex-1 text-left"
+      >
         <span
           className="w-9 h-9 flex items-center justify-center rounded-2xl text-lg flex-shrink-0"
           style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' }}
@@ -32,7 +39,7 @@ export function FoodEntryItem({ entry, onRemove }: Props) {
             {new Date(entry.timestamp).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
-      </div>
+      </button>
       <div className="flex items-center gap-2 ml-2 flex-shrink-0">
         <span
           className="text-xs font-black px-2.5 py-1 rounded-full"

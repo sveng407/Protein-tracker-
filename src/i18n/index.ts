@@ -49,6 +49,7 @@ export interface Translations {
 
   addSheet: {
     title: string;
+    editTitle: string;
     tabSearch: string;
     tabScan: string;
     foodLabel: string;
@@ -56,6 +57,7 @@ export interface Translations {
     proteinLabel: string;
     portionLabel: string;
     addButton: string;
+    saveButton: string;
     cancelButton: string;
     scanHint: string;
     scanLoading: string;
@@ -168,6 +170,7 @@ const de: Translations = {
 
   addSheet: {
     title: 'Mahlzeit hinzufügen 🍽️',
+    editTitle: 'Eintrag bearbeiten ✏️',
     tabSearch: '🔍 Suchen',
     tabScan: '📷 Scannen',
     foodLabel: 'Lebensmittel',
@@ -175,6 +178,7 @@ const de: Translations = {
     proteinLabel: 'Protein / 100g',
     portionLabel: 'Portion (g)',
     addButton: 'Hinzufügen 🌸',
+    saveButton: 'Speichern ✓',
     cancelButton: 'Abbrechen',
     scanHint: 'Halte den Barcode in den Rahmen',
     scanLoading: 'Produkt wird gesucht…',
@@ -301,6 +305,7 @@ const en: Translations = {
 
   addSheet: {
     title: 'Add meal 🍽️',
+    editTitle: 'Edit entry ✏️',
     tabSearch: '🔍 Search',
     tabScan: '📷 Scan',
     foodLabel: 'Food',
@@ -308,6 +313,7 @@ const en: Translations = {
     proteinLabel: 'Protein / 100g',
     portionLabel: 'Portion (g)',
     addButton: 'Add 🌸',
+    saveButton: 'Save ✓',
     cancelButton: 'Cancel',
     scanHint: 'Hold the barcode inside the frame',
     scanLoading: 'Searching product…',
@@ -434,6 +440,7 @@ const hu: Translations = {
 
   addSheet: {
     title: 'Étkezés hozzáadása 🍽️',
+    editTitle: 'Bejegyzés szerkesztése ✏️',
     tabSearch: '🔍 Keresés',
     tabScan: '📷 Szkennelés',
     foodLabel: 'Étel',
@@ -441,6 +448,7 @@ const hu: Translations = {
     proteinLabel: 'Fehérje / 100g',
     portionLabel: 'Adag (g)',
     addButton: 'Hozzáadás 🌸',
+    saveButton: 'Mentés ✓',
     cancelButton: 'Mégse',
     scanHint: 'Tartsd a vonalkódot a keretbe',
     scanLoading: 'Termék keresése…',

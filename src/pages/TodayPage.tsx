@@ -97,10 +97,12 @@ function MealGroup({
   mealType,
   entries,
   onRemove,
+  onEdit,
 }: {
   mealType: MealType;
   entries: FoodEntry[];
   onRemove: (id: string) => void;
+  onEdit: (entry: FoodEntry) => void;
 }) {
   const t = useT();
   if (entries.length === 0) return null;
@@ -115,7 +117,7 @@ function MealGroup({
           {groupTotal}{t.today.totalGrams}
         </span>
       </div>
-      <FoodEntryList entries={entries} onRemove={onRemove} />
+      <FoodEntryList entries={entries} onRemove={onRemove} onEdit={onEdit} />
     </div>
   );
 }
@@ -124,7 +126,7 @@ export function TodayPage() {
   const t = useT();
   const {
     goal,
-    addEntry, removeEntry,
+    addEntry, removeEntry, updateEntry,
     allLogs, recentFoods,
     streakData, newlyUnlockedBadges, clearNewBadges,
     showCelebration, dismissCelebration,
@@ -132,6 +134,7 @@ export function TodayPage() {
   } = useApp();
   const [selectedDate, setSelectedDate] = useState(() => today());
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<FoodEntry | null>(null);
   const flowerColor = FLOWER_PALETTE[0];
 
   const selectedEntries = useMemo(
@@ -231,6 +234,7 @@ export function TodayPage() {
                 mealType={m}
                 entries={grouped[m]}
                 onRemove={removeEntry}
+                onEdit={entry => { setEditingEntry(entry); setSheetOpen(true); }}
               />
             ))
           )}
@@ -254,9 +258,16 @@ export function TodayPage() {
 
       <AddFoodSheet
         open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
-        onAdd={(entry) => addEntry(entry, selectedDate)}
+        onClose={() => { setSheetOpen(false); setEditingEntry(null); }}
+        onAdd={entry => {
+          if (editingEntry) {
+            updateEntry(editingEntry.id, entry);
+          } else {
+            addEntry(entry, selectedDate);
+          }
+        }}
         recentFoods={recentFoods}
+        editEntry={editingEntry ?? undefined}
       />
     </>
   );

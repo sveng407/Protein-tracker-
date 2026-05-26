@@ -45,5 +45,14 @@ export function useProteinLog(uid: string) {
     await setDoc(dayRef, { entries: filtered });
   }, [uid, allLogs]);
 
-  return { allLogs, todayEntries, todayTotal, addEntry, removeEntry, logsLoading };
+  const updateEntry = useCallback(async (id: string, fields: Partial<Omit<FoodEntry, 'id' | 'timestamp'>>) => {
+    const dayLog = allLogs.find(d => d.entries.some(e => e.id === id));
+    if (!dayLog) return;
+    const dayRef = doc(db, 'users', uid, 'days', dayLog.date);
+    await setDoc(dayRef, {
+      entries: dayLog.entries.map(e => e.id === id ? { ...e, ...fields } : e),
+    });
+  }, [uid, allLogs]);
+
+  return { allLogs, todayEntries, todayTotal, addEntry, removeEntry, updateEntry, logsLoading };
 }

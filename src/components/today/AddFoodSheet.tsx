@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -14,6 +14,7 @@ interface Props {
   onClose: () => void;
   onAdd: (entry: Omit<FoodEntry, 'id' | 'timestamp'>) => void;
   recentFoods: Array<{ name: string; protein: number; mealType: MealType }>;
+  editEntry?: FoodEntry;
 }
 
 type Tab = 'search' | 'scan';
@@ -27,7 +28,7 @@ function guessMealType(): MealType {
   return 'snack';
 }
 
-export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
+export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: Props) {
   const t = useT();
   const { user } = useAuth();
   const uid = user?.uid ?? '';
@@ -39,15 +40,39 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
   const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
   const [scanLoading, setScanLoading] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
+
+  // Track whether we pushed a history state for back-button support
+  const pushedHistory = useRef(false);
+
   useEffect(() => {
-    if (!open) {
+    if (open) {
+      // Initialize from editEntry or defaults
       setTab('search');
-      setMealType(guessMealType());
-      setScannedName('');
-      setScannedProtein(undefined);
+      setMealType(editEntry?.mealType ?? guessMealType());
+      setScannedName(editEntry?.name ?? '');
+      setScannedProtein(editEntry?.protein);
       setScannedBarcode(null);
       setScanError(null);
+
+      // Push history state so the browser back button closes the sheet
+      history.pushState({ __sheet: true }, '');
+      pushedHistory.current = true;
+
+      function handlePop() {
+        pushedHistory.current = false;
+        onClose();
+      }
+      window.addEventListener('popstate', handlePop);
+      return () => {
+        window.removeEventListener('popstate', handlePop);
+        // If closed programmatically (not via back button), clean up the history entry
+        if (pushedHistory.current) {
+          pushedHistory.current = false;
+          history.go(-1);
+        }
+      };
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   async function handleBarcode(barcode: string) {
@@ -77,6 +102,8 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
     onClose();
   }
 
+  const isEdit = !!editEntry;
+
   return (
     <AnimatePresence>
       {open && (
@@ -96,13 +123,13 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
             <div className="w-10 h-1.5 rounded-full mx-auto mt-3 mb-4" style={{ background: '#EDE4FF' }} />
             <div className="px-4 pb-10">
               <h2 className="text-lg font-black mb-3" style={{ color: '#3D2255' }}>
-                {t.addSheet.title}
+                {isEdit ? t.addSheet.editTitle : t.addSheet.title}
               </h2>
 
               {/* Meal type picker — 2×2 grid with emoji + label */}
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {MEAL_TYPES.map(m => {
-                  const label = t.mealTypes[m]; // e.g. "🌅 Frühstück"
+                  const label = t.mealTypes[m];
                   const [emoji, ...words] = label.split(' ');
                   return (
                     <motion.button
@@ -123,8 +150,8 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
                 })}
               </div>
 
-              {/* Recent foods — one-tap quick-add */}
-              {recentFoods.length > 0 && (
+              {/* Recent foods — one-tap quick-add (only when not editing) */}
+              {!isEdit && recentFoods.length > 0 && (
                 <div className="mb-4">
                   <p className="text-xs font-black uppercase tracking-wide mb-2" style={{ color: '#C4A8FF' }}>
                     {t.addSheet.recentFoods}
@@ -149,19 +176,21 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
                 </div>
               )}
 
-              {/* Tab switcher */}
-              <div className="flex rounded-3xl p-1 mb-4" style={{ background: '#EDE4FF' }}>
-                {(['search', 'scan'] as Tab[]).map(tabKey => (
-                  <button key={tabKey} onClick={() => setTab(tabKey)}
-                    className="flex-1 py-2 rounded-2xl text-sm font-black transition-all"
-                    style={tab === tabKey
-                      ? { background: 'white', color: '#9B7BE0', boxShadow: '0 2px 8px rgba(196,168,255,0.3)' }
-                      : { color: '#C4A8FF' }}
-                  >
-                    {tabKey === 'search' ? t.addSheet.tabSearch : t.addSheet.tabScan}
-                  </button>
-                ))}
-              </div>
+              {/* Tab switcher — hidden in edit mode */}
+              {!isEdit && (
+                <div className="flex rounded-3xl p-1 mb-4" style={{ background: '#EDE4FF' }}>
+                  {(['search', 'scan'] as Tab[]).map(tabKey => (
+                    <button key={tabKey} onClick={() => setTab(tabKey)}
+                      className="flex-1 py-2 rounded-2xl text-sm font-black transition-all"
+                      style={tab === tabKey
+                        ? { background: 'white', color: '#9B7BE0', boxShadow: '0 2px 8px rgba(196,168,255,0.3)' }
+                        : { color: '#C4A8FF' }}
+                    >
+                      {tabKey === 'search' ? t.addSheet.tabSearch : t.addSheet.tabScan}
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {scanError && (
                 <div className="mb-3 rounded-2xl px-4 py-3 text-sm font-semibold"
@@ -177,17 +206,18 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods }: Props) {
                 </div>
               )}
 
-              {tab === 'search' && (
+              {(tab === 'search' || isEdit) && (
                 <ManualEntryForm
-                  key={scannedName}
+                  key={editEntry?.id ?? scannedName}
                   initialName={scannedName}
                   initialProtein={scannedProtein}
                   onAdd={handleAdd}
                   onCancel={onClose}
+                  submitLabel={isEdit ? t.addSheet.saveButton : t.addSheet.addButton}
                 />
               )}
 
-              {tab === 'scan' && (
+              {tab === 'scan' && !isEdit && (
                 <div>
                   {scanLoading ? (
                     <div className="text-center py-8 animate-pulse">
