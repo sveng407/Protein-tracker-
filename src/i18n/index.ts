@@ -119,6 +119,8 @@ export interface Translations {
     record: (n: number) => string;
     gardenEmpty: string;
     gardenEmptyHint: string;
+    lockedTitle: (n: number) => string;
+    lockedHint: string;
   };
 
   motivational: Record<number, string[]>;
@@ -160,7 +162,6 @@ export interface Translations {
     cvv: string;
     cardName: string;
     coupon: string;
-    couponHint: string;
     payBtn: string;
     processing: string;
     successMsg: string;
@@ -264,6 +265,8 @@ const de: Translations = {
     record: (n) => `Rekord: ${n} Tage`,
     gardenEmpty: 'Dein Garten ist noch leer',
     gardenEmptyHint: 'Erreiche dein Ziel — und pflück deine erste Blume!',
+    lockedTitle: (n) => `${n} ältere Tag${n !== 1 ? 'e' : ''} gesperrt`,
+    lockedHint: 'Mit Pro siehst du deinen gesamten Verlauf.',
   },
 
   badges: {
@@ -341,9 +344,9 @@ const de: Translations = {
     title:          'Unbegrenzte Blüten',
     subtitle:       'Du hast dein Tageslimit erreicht',
     perk1:          'Unbegrenzte Einträge pro Tag',
-    perk2:          'Vollständiger Verlauf & Statistiken',
-    perk3:          'Exklusives Pro-Badge',
-    perk4:          'Offline-Sync & Priorität-Support',
+    perk2:          'Vollständiger Verlauf (Free: 7 Tage)',
+    perk3:          'Exklusives 👑 Pro-Badge',
+    perk4:          'Alle 14 Achievements freischaltbar',
     price:          '€4,99 / Monat',
     upgradeBtn:     'Jetzt upgraden 🌸',
     dismiss:        'Vielleicht später',
@@ -353,7 +356,6 @@ const de: Translations = {
     cvv:            'CVV',
     cardName:       'Name auf der Karte',
     coupon:         'Gutscheincode (optional)',
-    couponHint:     'Jeder Code schaltet Pro frei',
     payBtn:         '€4,99 jetzt zahlen',
     processing:     'Zahlung wird verarbeitet…',
     successMsg:     'Pro aktiviert! 🎉',
@@ -457,6 +459,8 @@ const en: Translations = {
     record: (n) => `Record: ${n} days`,
     gardenEmpty: 'Your garden is empty',
     gardenEmptyHint: 'Reach your goal — and pick your first flower!',
+    lockedTitle: (n) => `${n} older day${n !== 1 ? 's' : ''} locked`,
+    lockedHint: 'Upgrade to Pro to see your full history.',
   },
 
   badges: {
@@ -534,9 +538,9 @@ const en: Translations = {
     title:          'Unlimited Blooms',
     subtitle:       'You have reached your daily limit',
     perk1:          'Unlimited entries per day',
-    perk2:          'Full history & statistics',
-    perk3:          'Exclusive Pro badge',
-    perk4:          'Offline sync & priority support',
+    perk2:          'Full history (Free: 7 days only)',
+    perk3:          'Exclusive 👑 Pro badge',
+    perk4:          'All 14 achievements unlockable',
     price:          '€4.99 / month',
     upgradeBtn:     'Upgrade now 🌸',
     dismiss:        'Maybe later',
@@ -546,7 +550,6 @@ const en: Translations = {
     cvv:            'CVV',
     cardName:       'Name on card',
     coupon:         'Coupon code (optional)',
-    couponHint:     'Any code unlocks Pro',
     payBtn:         'Pay €4.99 now',
     processing:     'Processing payment…',
     successMsg:     'Pro activated! 🎉',
@@ -650,6 +653,8 @@ const hu: Translations = {
     record: (n) => `Rekord: ${n} nap`,
     gardenEmpty: 'A kerted még üres',
     gardenEmptyHint: 'Érd el a célodat — és szedd az első virágod!',
+    lockedTitle: (n) => `${n} régebbi nap zárolva`,
+    lockedHint: 'Pro-val láthatod a teljes előzményed.',
   },
 
   badges: {
@@ -727,9 +732,9 @@ const hu: Translations = {
     title:          'Korlátlan virágok',
     subtitle:       'Elérted a napi limitedet',
     perk1:          'Korlátlan bejegyzések naponta',
-    perk2:          'Teljes előzmény és statisztikák',
-    perk3:          'Exkluzív Pro jelvény',
-    perk4:          'Offline szinkron és prioritás-támogatás',
+    perk2:          'Teljes előzmény (Free: csak 7 nap)',
+    perk3:          'Exkluzív 👑 Pro jelvény',
+    perk4:          'Mind a 14 achievement feloldható',
     price:          '€4,99 / hó',
     upgradeBtn:     'Frissítés most 🌸',
     dismiss:        'Talán később',
@@ -739,7 +744,6 @@ const hu: Translations = {
     cvv:            'CVV',
     cardName:       'Kártyán lévő név',
     coupon:         'Kuponkód (opcionális)',
-    couponHint:     'Bármely kód feloldja a Prót',
     payBtn:         '€4,99 fizetése most',
     processing:     'Fizetés feldolgozása…',
     successMsg:     'Pro aktiválva! 🎉',

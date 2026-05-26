@@ -187,11 +187,20 @@ export function TodayPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {isPro && (
-              <span className="text-xs font-black px-2 py-1 rounded-full"
-                style={{ background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white' }}>
-                PRO
+            {isPro ? (
+              <span className="text-xs font-black px-2.5 py-1 rounded-full"
+                style={{ background: 'linear-gradient(135deg,#FFD700,#FFA500)', color: 'white', letterSpacing: '0.04em' }}>
+                👑 PRO
               </span>
+            ) : (
+              <motion.button
+                onClick={() => setUpgradeOpen(true)}
+                whileTap={{ scale: 0.92 }}
+                className="text-xs font-black px-2.5 py-1 rounded-full"
+                style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', letterSpacing: '0.04em' }}
+              >
+                ✨ PRO
+              </motion.button>
             )}
             <StreakCounter streak={streakData.currentStreak} />
           </div>
@@ -252,24 +261,6 @@ export function TodayPage() {
             ))
           )}
 
-          {/* Free limit banner inside the card */}
-          {hitFreeLimit && (
-            <motion.div
-              initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-              className="mt-3 rounded-2xl px-4 py-3 flex items-center gap-3 cursor-pointer"
-              style={{ background: 'linear-gradient(135deg,#FFF4DC,#FFE4EC)', border: '2px solid #FFD4A8' }}
-              onClick={() => setUpgradeOpen(true)}
-            >
-              <span style={{ fontSize: '1.3rem' }}>👑</span>
-              <div className="flex-1">
-                <p className="text-xs font-black" style={{ color: '#B87840' }}>{t.pro.freeHint}</p>
-              </div>
-              <span className="text-xs font-black px-2 py-1 rounded-full"
-                style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white' }}>
-                PRO
-              </span>
-            </motion.div>
-          )}
         </div>
       </div>
 

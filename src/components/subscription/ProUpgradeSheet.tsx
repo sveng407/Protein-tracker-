@@ -262,7 +262,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           🎁 {t.pro.coupon}
                         </label>
                         <input
-                          type="text" placeholder="FLOWER2024"
+                          type="text" placeholder="—"
                           value={coupon}
                           onChange={e => setCoupon(e.target.value.toUpperCase())}
                           style={inputStyle}
@@ -270,7 +270,6 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
                           disabled={loading}
                         />
-                        <p className="text-xs mt-1 font-medium" style={{ color: '#C4A8CC' }}>{t.pro.couponHint}</p>
                       </div>
 
                       {/* Submit */}
