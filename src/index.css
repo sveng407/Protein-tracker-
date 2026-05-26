@@ -64,6 +64,8 @@ input[type='number'] { -moz-appearance: textfield; }
   --pt-nav-bg:       rgba(255,255,255,0.85);
   --pt-input-bg:     #FDFAFF;
   --pt-input-border: #EDE4FF;
+  --pt-grad-from:    #FFB7C5;
+  --pt-grad-to:      #C4A8FF;
 }
 
 html.dark {
@@ -84,4 +86,52 @@ html.dark {
   --pt-nav-bg:       rgba(20,10,40,0.92);
   --pt-input-bg:     #1C1030;
   --pt-input-border: #2E1C50;
+  --pt-grad-from:    #9B7BE0;
+  --pt-grad-to:      #C4A8FF;
+}
+
+/* Carley — warm golden yellow */
+html.carley {
+  --pt-bg:           #FFFCF0;
+  --pt-bg-mid:       #FFF8E0;
+  --pt-bg-end:       #FFFFF5;
+  --pt-card:         #FFFFFF;
+  --pt-card-border:  #FFE8A0;
+  --pt-card-pink:    #FFF5CC;
+  --pt-surface:      #FFF9E8;
+  --pt-surface-deep: #FFF3CC;
+  --pt-text:         #2D1E00;
+  --pt-text-sec:     #B07800;
+  --pt-text-muted:   #C8A840;
+  --pt-accent:       #C88000;
+  --pt-border:       #FFE090;
+  --pt-border-pink:  #FFD060;
+  --pt-nav-bg:       rgba(255,252,240,0.95);
+  --pt-input-bg:     #FFFDF2;
+  --pt-input-border: #FFE090;
+  --pt-grad-from:    #FFE566;
+  --pt-grad-to:      #FFAA00;
+}
+
+/* Vera — vibrant rose pink */
+html.vera {
+  --pt-bg:           #FFF0F5;
+  --pt-bg-mid:       #FFE8F2;
+  --pt-bg-end:       #FFF5F9;
+  --pt-card:         #FFFFFF;
+  --pt-card-border:  #FFD0E8;
+  --pt-card-pink:    #FFECF5;
+  --pt-surface:      #FFF5F9;
+  --pt-surface-deep: #FFEAF4;
+  --pt-text:         #4A0025;
+  --pt-text-sec:     #C0408A;
+  --pt-text-muted:   #D090B8;
+  --pt-accent:       #D04585;
+  --pt-border:       #FFD0E8;
+  --pt-border-pink:  #FFB8D8;
+  --pt-nav-bg:       rgba(255,240,245,0.95);
+  --pt-input-bg:     #FFF8FB;
+  --pt-input-border: #FFD0E8;
+  --pt-grad-from:    #FF80B8;
+  --pt-grad-to:      #E0308A;
 }

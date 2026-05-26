@@ -71,7 +71,7 @@ export function HistoryPage() {
           </p>
           <span
             className="px-5 py-2 rounded-full text-sm font-black text-white"
-            style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)' }}
+            style={{ background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))' }}
           >
             {t.pro.unlockBtn}
           </span>

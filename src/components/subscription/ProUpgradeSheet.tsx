@@ -93,7 +93,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                   <div className="flex justify-center mb-4">
                     <span
                       className="px-5 py-1.5 rounded-full text-sm font-black tracking-widest"
-                      style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', letterSpacing: '0.1em' }}
+                      style={{ background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))', color: 'white', letterSpacing: '0.1em' }}
                     >
                       🌸 PRO
                     </span>
@@ -132,7 +132,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                     whileTap={{ scale: 0.96 }}
                     onClick={() => setScreen('checkout')}
                     className="w-full py-4 rounded-3xl text-white font-black text-base mb-3"
-                    style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', boxShadow: '0 6px 24px rgba(196,168,255,0.45)' }}
+                    style={{ background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))', boxShadow: '0 6px 24px rgba(196,168,255,0.45)' }}
                   >
                     {t.pro.upgradeBtn}
                   </motion.button>
@@ -278,7 +278,7 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                         whileTap={{ scale: 0.96 }}
                         disabled={loading}
                         className="w-full py-4 rounded-3xl text-white font-black text-base mt-1 flex items-center justify-center gap-2"
-                        style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', boxShadow: '0 6px 24px rgba(196,168,255,0.45)', opacity: loading ? 0.7 : 1 }}
+                        style={{ background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))', boxShadow: '0 6px 24px rgba(196,168,255,0.45)', opacity: loading ? 0.7 : 1 }}
                       >
                         {loading ? (
                           <>

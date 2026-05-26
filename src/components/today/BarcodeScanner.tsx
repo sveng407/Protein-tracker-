@@ -74,7 +74,7 @@ export function BarcodeScanner({ onBarcode, active }: Props) {
           {isScanning && (
             <motion.div
               className="absolute left-0 right-0 h-0.5 rounded-full"
-              style={{ background: 'linear-gradient(to right, transparent, #FFB7C5, #C4A8FF, #FFB7C5, transparent)' }}
+              style={{ background: 'linear-gradient(to right, transparent, var(--pt-grad-from), var(--pt-grad-to), var(--pt-grad-from), transparent)' }}
               animate={{ y: ['-20px', '40px'] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
             />

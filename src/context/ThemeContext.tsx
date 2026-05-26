@@ -1,18 +1,33 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-interface ThemeCtx { isDark: boolean; toggleDark: () => void; }
-const Ctx = createContext<ThemeCtx>({ isDark: false, toggleDark: () => {} });
+export type Theme = 'default' | 'dark' | 'carley' | 'vera';
+
+interface ThemeCtx {
+  theme: Theme;
+  setTheme: (t: Theme) => void;
+  isDark: boolean;
+}
+
+const THEMES: Theme[] = ['default', 'dark', 'carley', 'vera'];
+const Ctx = createContext<ThemeCtx>({ theme: 'default', setTheme: () => {}, isDark: false });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [isDark, setIsDark] = useState(() => localStorage.getItem('pt_dark') === '1');
+  const [theme, setThemeState] = useState<Theme>(() => {
+    const saved = localStorage.getItem('pt_theme') as Theme | null;
+    if (saved && THEMES.includes(saved)) return saved;
+    if (localStorage.getItem('pt_dark') === '1') return 'dark';
+    return 'default';
+  });
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDark);
-    localStorage.setItem('pt_dark', isDark ? '1' : '0');
-  }, [isDark]);
+    const el = document.documentElement;
+    el.classList.remove('dark', 'carley', 'vera');
+    if (theme !== 'default') el.classList.add(theme);
+    localStorage.setItem('pt_theme', theme);
+  }, [theme]);
 
   return (
-    <Ctx.Provider value={{ isDark, toggleDark: () => setIsDark(d => !d) }}>
+    <Ctx.Provider value={{ theme, setTheme: setThemeState, isDark: theme === 'dark' }}>
       {children}
     </Ctx.Provider>
   );

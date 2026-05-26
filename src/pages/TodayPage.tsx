@@ -287,7 +287,7 @@ export function TodayPage() {
         style={{
           background: hitFreeLimit
             ? 'linear-gradient(135deg,#FFD700,#FFA500)'
-            : 'linear-gradient(135deg, #FFB7C5 0%, #C4A8FF 100%)',
+            : 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))',
           boxShadow: '0 6px 24px rgba(196,168,255,0.5)',
         }}
         aria-label={hitFreeLimit ? 'Upgrade to Pro' : t.today.addMeal}

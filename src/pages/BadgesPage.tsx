@@ -23,7 +23,7 @@ export function BadgesPage() {
         <div className="flex gap-1.5 mb-5">
           {Array.from({ length: total }).map((_, i) => (
             <div key={i} className="flex-1 h-2 rounded-full"
-              style={{ background: i < unlocked ? 'linear-gradient(90deg,#FFB7C5,#C4A8FF)' : 'var(--pt-border)' }}
+              style={{ background: i < unlocked ? 'linear-gradient(90deg,var(--pt-grad-from),var(--pt-grad-to))' : 'var(--pt-border)' }}
             />
           ))}
         </div>

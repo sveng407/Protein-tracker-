@@ -6,6 +6,7 @@ import { useT, useLang } from '../context/LanguageContext';
 import { useInstallPrompt } from '../hooks/useInstallPrompt';
 import { ProUpgradeSheet } from '../components/subscription/ProUpgradeSheet';
 import { useTheme } from '../context/ThemeContext';
+import type { Theme } from '../context/ThemeContext';
 import type { Lang } from '../i18n';
 
 const LANGS: { code: Lang; flag: string; name: string }[] = [
@@ -35,7 +36,7 @@ export function SettingsPage() {
   const { goal, setGoal } = useApp();
   const { installState, triggerInstall } = useInstallPrompt();
   const { isPro, sub, activatePro, cancelPro } = useApp();
-  const { isDark, toggleDark } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [goalInput, setGoalInput] = useState(String(goal));
@@ -131,32 +132,40 @@ export function SettingsPage() {
               whileTap={{ scale: 0.96 }}
               onClick={() => setUpgradeOpen(true)}
               className="w-full py-3.5 rounded-3xl text-sm font-black flex items-center justify-center gap-2"
-              style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', boxShadow: '0 4px 18px rgba(196,168,255,0.4)' }}
+              style={{ background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))', color: 'white', boxShadow: '0 4px 18px rgba(196,168,255,0.4)' }}
             >
               <span>👑</span> {t.pro.unlockBtn}
             </motion.button>
           )}
         </Section>
 
-        <Section title={t.settings.darkMode}>
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-black" style={{ color: 'var(--pt-text)' }}>
-              {isDark ? '🌙' : '☀️'} {isDark ? t.settings.darkModeOn : t.settings.darkModeOff}
-            </span>
-            <motion.button
-              onClick={toggleDark}
-              whileTap={{ scale: 0.92 }}
-              className="w-14 h-7 rounded-full relative transition-colors duration-200"
-              style={{ background: isDark ? 'linear-gradient(135deg,#9B7BE0,#C4A8FF)' : 'var(--pt-border)' }}
-              aria-label="Toggle dark mode"
-            >
-              <motion.div
-                animate={{ x: isDark ? 28 : 2 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                className="absolute top-1 w-5 h-5 rounded-full"
-                style={{ background: 'var(--pt-card)', boxShadow: '0 1px 4px rgba(0,0,0,0.2)' }}
-              />
-            </motion.button>
+        <Section title={t.settings.themeSection}>
+          <div className="grid grid-cols-2 gap-2">
+            {([
+              { id: 'default', label: t.settings.themeDefault, icon: '🌸', swatch: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)' },
+              { id: 'dark',    label: t.settings.themeDark,    icon: '🌙', swatch: 'linear-gradient(135deg,#2E1C50,#1C1030)' },
+              { id: 'carley',  label: 'Carley',                icon: '🌻', swatch: 'linear-gradient(135deg,#FFE566,#FFAA00)' },
+              { id: 'vera',    label: 'Vera',                  icon: '🌷', swatch: 'linear-gradient(135deg,#FF80B8,#E0308A)' },
+            ] as { id: Theme; label: string; icon: string; swatch: string }[]).map(({ id, label, icon, swatch }) => {
+              const active = theme === id;
+              return (
+                <motion.button
+                  key={id}
+                  onClick={() => setTheme(id)}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex flex-col items-center gap-2 py-3 px-2 rounded-3xl"
+                  style={{
+                    background: active ? 'var(--pt-surface)' : 'transparent',
+                    border: active ? '2px solid var(--pt-accent)' : '2px solid var(--pt-border)',
+                  }}
+                >
+                  <div className="w-10 h-10 rounded-2xl" style={{ background: swatch }} />
+                  <span className="text-xs font-black" style={{ color: active ? 'var(--pt-accent)' : 'var(--pt-text-muted)' }}>
+                    {icon} {label}
+                  </span>
+                </motion.button>
+              );
+            })}
           </div>
         </Section>
 
@@ -227,7 +236,7 @@ export function SettingsPage() {
                 whileTap={{ scale: 0.96 }}
                 className="w-full py-3.5 rounded-3xl text-sm font-black flex items-center justify-center gap-2"
                 style={{
-                  background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)',
+                  background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))',
                   color: 'white',
                   boxShadow: '0 4px 18px rgba(196,168,255,0.45)',
                 }}

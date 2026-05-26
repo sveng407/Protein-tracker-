@@ -93,7 +93,7 @@ export function OnboardingPage() {
                 whileTap={{ scale: 0.92 }}
                 className="flex-1 py-2.5 rounded-3xl text-sm font-black transition-all"
                 style={value === v
-                  ? { background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', color: 'white', boxShadow: '0 3px 12px rgba(196,168,255,0.4)' }
+                  ? { background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))', color: 'white', boxShadow: '0 3px 12px rgba(196,168,255,0.4)' }
                   : { background: 'var(--pt-surface)', color: 'var(--pt-accent)' }
                 }
               >
@@ -108,7 +108,7 @@ export function OnboardingPage() {
           whileTap={{ scale: 0.94 }}
           className="w-full py-4 rounded-4xl text-lg font-black text-white"
           style={{
-            background: 'linear-gradient(135deg, #FFB7C5 0%, #C4A8FF 100%)',
+            background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))',
             boxShadow: '0 6px 28px rgba(196,168,255,0.45)',
           }}
         >

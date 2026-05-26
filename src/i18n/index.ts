@@ -56,6 +56,9 @@ export interface Translations {
     darkMode: string;
     darkModeOn: string;
     darkModeOff: string;
+    themeSection: string;
+    themeDefault: string;
+    themeDark: string;
   };
 
   addSheet: {
@@ -231,6 +234,9 @@ const de: Translations = {
     darkMode:            'Darstellung',
     darkModeOn:          'Dunkelmodus',
     darkModeOff:         'Hellmodus',
+    themeSection:        'Design',
+    themeDefault:        'Standard',
+    themeDark:           'Dunkel',
   },
 
   addSheet: {
@@ -428,6 +434,9 @@ const en: Translations = {
     darkMode:            'Appearance',
     darkModeOn:          'Dark mode',
     darkModeOff:         'Light mode',
+    themeSection:        'Appearance',
+    themeDefault:        'Default',
+    themeDark:           'Dark',
   },
 
   addSheet: {
@@ -625,6 +634,9 @@ const hu: Translations = {
     darkMode:            'Megjelenés',
     darkModeOn:          'Sötét mód',
     darkModeOff:         'Világos mód',
+    themeSection:        'Megjelenés',
+    themeDefault:        'Alapértelmezett',
+    themeDark:           'Sötét',
   },
 
   addSheet: {

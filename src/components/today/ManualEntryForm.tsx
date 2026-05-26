@@ -138,7 +138,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
         <button type="submit"
           disabled={!name.trim() || totalProtein <= 0}
           className="flex-1 py-3 rounded-3xl text-sm font-black text-white disabled:opacity-40"
-          style={{ background: 'linear-gradient(135deg,#FFB7C5,#C4A8FF)', boxShadow: '0 3px 14px rgba(196,168,255,0.4)' }}
+          style={{ background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))', boxShadow: '0 3px 14px rgba(196,168,255,0.4)' }}
         >
           {submitLabel ?? t.addSheet.addButton}
         </button>
