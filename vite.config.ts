@@ -16,8 +16,8 @@ export default defineConfig({
         background_color: '#FFF0F7',
         display: 'standalone',
         orientation: 'portrait',
-        start_url: '/',
-        scope: '/',
+        start_url: '/Protein-tracker-/',
+        scope: '/Protein-tracker-/',
         categories: ['health', 'fitness', 'food'],
         icons: [
           {
@@ -64,7 +64,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/',
+  base: '/Protein-tracker-/',
   build: {
     outDir: 'docs',
   },
