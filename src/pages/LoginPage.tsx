@@ -75,54 +75,47 @@ export function LoginPage() {
         </p>
 
         {/* Consent checkboxes */}
-        <div className="mb-5 text-left space-y-3">
-          {[
-            {
-              id: 'privacy',
-              checked: consentPrivacy,
-              onChange: setConsentPrivacy,
-              label: (
-                <>
-                  Ich habe die{' '}
-                  <Link to="/datenschutz" className="underline font-bold" style={{ color: 'var(--pt-accent)' }}>
-                    Datenschutzerklärung
-                  </Link>{' '}
-                  gelesen und akzeptiere sie.
-                </>
-              ),
-            },
-            {
-              id: 'terms',
-              checked: consentTerms,
-              onChange: setConsentTerms,
-              label: (
-                <>
-                  Ich akzeptiere die{' '}
-                  <Link to="/agb" className="underline font-bold" style={{ color: 'var(--pt-accent)' }}>
-                    AGB
+        <div
+          className="mb-4 text-left rounded-3xl p-4 space-y-3"
+          style={{ background: 'var(--pt-surface)', border: '2px solid var(--pt-border)' }}
+        >
+          {([
+            { id: 'privacy', checked: consentPrivacy, set: setConsentPrivacy, to: '/datenschutz',
+              text: t.auth.consentPrivacy, linkText: t.auth.consentPrivacyLink },
+            { id: 'terms',   checked: consentTerms,   set: setConsentTerms,   to: '/agb',
+              text: t.auth.consentTerms,   linkText: t.auth.consentTermsLink   },
+          ] as const).map(({ id, checked, set, to, text, linkText }) => {
+            const parts = text.split('{link}');
+            return (
+              <label key={id} className="flex items-start gap-3 cursor-pointer select-none">
+                <div
+                  onClick={() => set(!checked)}
+                  className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center mt-0.5 transition-all"
+                  style={{
+                    background: checked ? 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))' : 'var(--pt-card)',
+                    border: `2px solid ${checked ? 'transparent' : 'var(--pt-accent)'}`,
+                  }}
+                >
+                  {checked && <span className="text-white text-xs font-black">✓</span>}
+                </div>
+                <span className="text-xs font-semibold leading-relaxed" style={{ color: 'var(--pt-text)' }}>
+                  {parts[0]}
+                  <Link to={to} className="underline font-black" style={{ color: 'var(--pt-accent)' }}
+                    onClick={e => e.stopPropagation()}>
+                    {linkText}
                   </Link>
-                  .
-                </>
-              ),
-            },
-          ].map(({ id, checked, onChange, label }) => (
-            <label key={id} className="flex items-start gap-3 cursor-pointer">
-              <div
-                onClick={() => onChange(!checked)}
-                className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center mt-0.5"
-                style={{
-                  background: checked ? 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))' : 'var(--pt-input-bg)',
-                  border: `2px solid ${checked ? 'transparent' : 'var(--pt-input-border)'}`,
-                }}
-              >
-                {checked && <span className="text-white text-xs font-black">✓</span>}
-              </div>
-              <span className="text-xs font-medium leading-relaxed" style={{ color: 'var(--pt-text-muted)' }}>
-                {label}
-              </span>
-            </label>
-          ))}
+                  {parts[1]}
+                </span>
+              </label>
+            );
+          })}
         </div>
+
+        {!consentGiven && (
+          <p className="text-xs font-semibold mb-3 text-center" style={{ color: 'var(--pt-text-muted)' }}>
+            🔒 {t.auth.consentHint}
+          </p>
+        )}
 
         {error && (
           <div className="mb-4 rounded-2xl px-4 py-3 text-sm font-semibold"
@@ -134,14 +127,14 @@ export function LoginPage() {
         <motion.button
           onClick={handleSignIn}
           disabled={loading || !consentGiven}
-          whileTap={{ scale: 0.95 }}
-          className="w-full flex items-center justify-center gap-3 py-4 rounded-4xl font-black text-sm disabled:opacity-60"
-          style={{
-            background: 'var(--pt-card)',
-            border: '2.5px solid var(--pt-border-pink)',
-            boxShadow: '0 6px 28px rgba(255,183,197,0.3)',
-            color: 'var(--pt-text)',
-          }}
+          whileTap={consentGiven ? { scale: 0.95 } : {}}
+          className="w-full flex items-center justify-center gap-3 py-4 rounded-4xl font-black text-sm transition-all"
+          style={consentGiven
+            ? { background: 'var(--pt-card)', border: '2.5px solid var(--pt-border-pink)',
+                boxShadow: '0 6px 28px rgba(255,183,197,0.3)', color: 'var(--pt-text)', cursor: 'pointer' }
+            : { background: 'var(--pt-surface)', border: '2.5px solid var(--pt-border)',
+                color: 'var(--pt-text-muted)', cursor: 'not-allowed', opacity: 0.6 }
+          }
         >
           {loading ? (
             <motion.span
@@ -152,7 +145,7 @@ export function LoginPage() {
               🌸
             </motion.span>
           ) : (
-            <GoogleIcon />
+            <span style={{ opacity: consentGiven ? 1 : 0.4 }}><GoogleIcon /></span>
           )}
           {loading ? t.auth.loading : t.auth.signInButton}
         </motion.button>

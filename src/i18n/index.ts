@@ -155,6 +155,11 @@ export interface Translations {
     signOutButton: string;
     loading: string;
     error: string;
+    consentPrivacy: string;
+    consentPrivacyLink: string;
+    consentTerms: string;
+    consentTermsLink: string;
+    consentHint: string;
   };
 
   pro: {
@@ -354,12 +359,17 @@ const de: Translations = {
   },
 
   auth: {
-    headline:    'Willkommen zurück! 🌸',
-    subtitle:    'Melde dich an, um deinen Garten zu pflegen.',
-    signInButton:'Mit Google anmelden',
-    signOutButton:'Abmelden',
-    loading:     'Laden…',
-    error:       'Anmeldung fehlgeschlagen. Bitte erneut versuchen.',
+    headline:          'Willkommen zurück! 🌸',
+    subtitle:          'Melde dich an, um deinen Garten zu pflegen.',
+    signInButton:      'Mit Google anmelden',
+    signOutButton:     'Abmelden',
+    loading:           'Laden…',
+    error:             'Anmeldung fehlgeschlagen. Bitte erneut versuchen.',
+    consentPrivacy:    'Ich habe die {link} gelesen und akzeptiere sie.',
+    consentPrivacyLink:'Datenschutzerklärung',
+    consentTerms:      'Ich akzeptiere die {link}.',
+    consentTermsLink:  'AGB',
+    consentHint:       'Bitte beide Felder bestätigen, um fortzufahren.',
   },
 
   pro: {
@@ -559,12 +569,17 @@ const en: Translations = {
   },
 
   auth: {
-    headline:    'Welcome back! 🌸',
-    subtitle:    'Sign in to tend to your garden.',
-    signInButton:'Sign in with Google',
-    signOutButton:'Sign out',
-    loading:     'Loading…',
-    error:       'Sign-in failed. Please try again.',
+    headline:          'Welcome back! 🌸',
+    subtitle:          'Sign in to tend to your garden.',
+    signInButton:      'Sign in with Google',
+    signOutButton:     'Sign out',
+    loading:           'Loading…',
+    error:             'Sign-in failed. Please try again.',
+    consentPrivacy:    'I have read and accept the {link}.',
+    consentPrivacyLink:'Privacy Policy',
+    consentTerms:      'I accept the {link}.',
+    consentTermsLink:  'Terms of Service',
+    consentHint:       'Please confirm both fields to continue.',
   },
 
   pro: {
@@ -752,12 +767,17 @@ const hu: Translations = {
   },
 
   auth: {
-    headline:    'Üdv újra! 🌸',
-    subtitle:    'Jelentkezz be a kertedhez.',
-    signInButton:'Bejelentkezés Google-lel',
-    signOutButton:'Kijelentkezés',
-    loading:     'Betöltés…',
-    error:       'Bejelentkezés sikertelen. Kérjük, próbálja újra.',
+    headline:          'Üdv újra! 🌸',
+    subtitle:          'Jelentkezz be a kertedhez.',
+    signInButton:      'Bejelentkezés Google-lel',
+    signOutButton:     'Kijelentkezés',
+    loading:           'Betöltés…',
+    error:             'Bejelentkezés sikertelen. Kérjük, próbálja újra.',
+    consentPrivacy:    'Elolvastam és elfogadom az {link}.',
+    consentPrivacyLink:'Adatvédelmi tájékoztatót',
+    consentTerms:      'Elfogadom az {link}.',
+    consentTermsLink:  'ÁSZF-et',
+    consentHint:       'A folytatáshoz mindkét mezőt be kell jelölni.',
   },
 
   installBanner: {
