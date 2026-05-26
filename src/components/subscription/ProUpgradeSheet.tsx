@@ -195,8 +195,8 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           value={cardNumber}
                           onChange={e => setCardNumber(formatCardNumber(e.target.value))}
                           style={inputStyle}
-                          onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
-                          onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                          onFocus={e => (e.target.style.border = '2px solid var(--pt-text-sec)')}
+                          onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
                           disabled={loading}
                         />
                       </div>
@@ -243,8 +243,8 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           value={cardName}
                           onChange={e => setCardName(e.target.value)}
                           style={inputStyle}
-                          onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
-                          onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                          onFocus={e => (e.target.style.border = '2px solid var(--pt-text-sec)')}
+                          onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
                           disabled={loading}
                         />
                       </div>
@@ -266,8 +266,8 @@ export function ProUpgradeSheet({ open, onClose, onActivate }: Props) {
                           value={coupon}
                           onChange={e => setCoupon(e.target.value.toUpperCase())}
                           style={inputStyle}
-                          onFocus={e => (e.target.style.border = '2px solid #C4A8FF')}
-                          onBlur={e => (e.target.style.border = '2px solid #EDE4FF')}
+                          onFocus={e => (e.target.style.border = '2px solid var(--pt-text-sec)')}
+                          onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
                           disabled={loading}
                         />
                       </div>
