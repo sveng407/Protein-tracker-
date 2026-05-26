@@ -15,8 +15,8 @@ export function BadgeCard({ badge, unlocked, unlockedDate }: Props) {
     <div
       className="rounded-3xl p-4 flex flex-col items-center text-center transition-all"
       style={unlocked
-        ? { background: 'var(--pt-card)', border: '2.5px solid #FFE4EC', boxShadow: '0 4px 20px rgba(255,183,197,0.22)' }
-        : { background: 'var(--pt-input-bg)', border: '2.5px solid #EDE4FF', opacity: 0.55 }
+        ? { background: 'var(--pt-card)', border: '2.5px solid var(--pt-border-pink)', boxShadow: '0 4px 20px rgba(255,183,197,0.22)' }
+        : { background: 'var(--pt-input-bg)', border: '2.5px solid var(--pt-border)', opacity: 0.55 }
       }
     >
       <div
