@@ -47,22 +47,3 @@ export function extractProtein(product: OFFFoodProduct): number {
   return product.nutriments?.proteins_100g ?? product.nutriments?.proteins ?? 0;
 }
 
-export async function contributeProtein(barcode: string, proteinPer100g: number): Promise<boolean> {
-  try {
-    const form = new FormData();
-    form.append('code', barcode);
-    form.append('user_id', 'protein-tracker-app');
-    form.append('password', '');
-    form.append('nutriments[proteins_100g]', String(proteinPer100g));
-    form.append('comment', 'Protein data added via Protein Tracker App (openfoodfacts.org contributor)');
-    const res = await fetch('https://world.openfoodfacts.org/cgi/product_jqm2.pl', {
-      method: 'POST',
-      body: form,
-    });
-    if (!res.ok) return false;
-    const data = await res.json();
-    return data.status === 1;
-  } catch {
-    return false;
-  }
-}

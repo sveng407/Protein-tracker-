@@ -38,7 +38,7 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
   const [scannedName, setScannedName] = useState('');
   const [scannedProtein, setScannedProtein] = useState<number | undefined>();
   const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
-  const [contribBarcode, setContribBarcode] = useState<string | null>(null);
+  const [foundBarcode, setFoundBarcode] = useState<string | null>(null);
   const [scanLoading, setScanLoading] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
 
@@ -53,7 +53,7 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
       setScannedName(editEntry?.name ?? '');
       setScannedProtein(editEntry?.protein);
       setScannedBarcode(null);
-      setContribBarcode(null);
+      setFoundBarcode(null);
       setScanError(null);
 
       // Push a synthetic history entry so the OS back button closes the sheet
@@ -89,11 +89,10 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
       setTab('search');
       return;
     }
-    const protein = extractProtein(product);
     setScannedName(product.product_name);
-    setScannedProtein(protein);
+    setScannedProtein(extractProtein(product));
     setScannedBarcode(null);
-    setContribBarcode(protein === 0 ? barcode : null);
+    setFoundBarcode(barcode);
     setTab('search');
   }
 
@@ -216,7 +215,7 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
                   key={editEntry?.id ?? scannedName}
                   initialName={scannedName}
                   initialProtein={scannedProtein}
-                  contributeBarcode={contribBarcode ?? undefined}
+                  offBarcode={foundBarcode ?? undefined}
                   onAdd={handleAdd}
                   onCancel={onClose}
                   submitLabel={isEdit ? t.addSheet.saveButton : t.addSheet.addButton}
