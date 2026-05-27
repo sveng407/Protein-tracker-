@@ -89,12 +89,15 @@ export interface Translations {
     notFound: (barcode: string) => string;
     recentFoods: string;
     barcodeSaved: string;
+    contributeLabel: string;
+    contributeHint: string;
   };
 
   search: {
     loading: string;
     unknownProduct: string;
     noResults: string;
+    addToOff: string;
   };
 
   camera: {
@@ -289,12 +292,15 @@ const de: Translations = {
     notFound: (barcode) => `Barcode ${barcode} nicht in der Datenbank. Bitte manuell eingeben.`,
     recentFoods: 'Zuletzt gegessen',
     barcodeSaved: '🔗 Barcode wird gespeichert',
+    contributeLabel: 'Eiweißdaten zu Open Food Facts beitragen 🌱',
+    contributeHint: 'Dieses Produkt hat keine Eiweißangaben. Deine Eingabe hilft allen!',
   },
 
   search: {
     loading: 'Suche…',
     unknownProduct: 'Unbekanntes Produkt',
     noResults: 'Nicht gefunden – bitte manuell eingeben.',
+    addToOff: 'Auf Open Food Facts hinzufügen ↗',
   },
 
   camera: {
@@ -511,12 +517,15 @@ const en: Translations = {
     notFound: (barcode) => `Barcode ${barcode} not found in database. Please enter manually.`,
     recentFoods: 'Recently eaten',
     barcodeSaved: '🔗 Barcode will be saved',
+    contributeLabel: 'Contribute protein data to Open Food Facts 🌱',
+    contributeHint: 'This product has no protein data. Your entry helps everyone!',
   },
 
   search: {
     loading: 'Searching…',
     unknownProduct: 'Unknown product',
     noResults: 'Not found – please enter manually.',
+    addToOff: 'Add to Open Food Facts ↗',
   },
 
   camera: {
@@ -733,12 +742,15 @@ const hu: Translations = {
     notFound: (barcode) => `A(z) ${barcode} vonalkód nincs az adatbázisban. Kérjük, adja meg kézzel.`,
     recentFoods: 'Nemrég evett',
     barcodeSaved: '🔗 Vonalkód mentve lesz',
+    contributeLabel: 'Fehérjeadatok hozzáadása az Open Food Facts-hoz 🌱',
+    contributeHint: 'Ennek a terméknek nincs fehérjeadata. A te bejegyzésed mindenkinek segít!',
   },
 
   search: {
     loading: 'Keresés…',
     unknownProduct: 'Ismeretlen termék',
     noResults: 'Nem található – kérd meg kézzel.',
+    addToOff: 'Hozzáadás az Open Food Facts-hoz ↗',
   },
 
   camera: {

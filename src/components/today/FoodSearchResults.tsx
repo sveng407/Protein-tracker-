@@ -6,10 +6,11 @@ interface Props {
   results: OFFFoodProduct[];
   loading: boolean;
   noResults: boolean;
+  query?: string;
   onSelect: (name: string, protein: number) => void;
 }
 
-export function FoodSearchResults({ results, loading, noResults, onSelect }: Props) {
+export function FoodSearchResults({ results, loading, noResults, query, onSelect }: Props) {
   const t = useT();
 
   if (loading) {
@@ -24,12 +25,26 @@ export function FoodSearchResults({ results, loading, noResults, onSelect }: Pro
   }
 
   if (noResults) {
+    const offUrl = query
+      ? `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}`
+      : 'https://world.openfoodfacts.org';
     return (
       <div
-        className="text-center py-3 text-sm mt-2 rounded-2xl font-semibold"
-        style={{ color: 'var(--pt-text-sec)', background: 'var(--pt-surface)' }}
+        className="mt-2 rounded-2xl px-4 py-3 flex items-center justify-between gap-2"
+        style={{ background: 'var(--pt-surface)', border: '2px solid var(--pt-border)' }}
       >
-        {t.search.noResults}
+        <span className="text-sm font-semibold" style={{ color: 'var(--pt-text-sec)' }}>
+          {t.search.noResults}
+        </span>
+        <a
+          href={offUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="text-xs font-black whitespace-nowrap"
+          style={{ color: 'var(--pt-accent)' }}
+        >
+          {t.search.addToOff}
+        </a>
       </div>
     );
   }
