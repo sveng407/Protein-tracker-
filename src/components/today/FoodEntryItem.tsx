@@ -2,10 +2,42 @@ import type { FoodEntry } from '../../types';
 import { motion } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 
-const FOOD_ICONS = ['🥩', '🐟', '🥚', '🧀', '🫘', '🥛', '🍗', '🥜'];
-function iconForEntry(id: string) {
+const EMOJI_MAP: Array<[RegExp, string]> = [
+  [/protein|whey|casein|shake|supplement|pulver|powder/i, '💪'],
+  [/chicken|hähnchen|huhn|poulet|geflügel/i, '🍗'],
+  [/turkey|pute|truthahn/i, '🍗'],
+  [/beef|steak|rind|kalb|hackfleisch/i, '🥩'],
+  [/pork|schwein|ham|schinken|wurst|speck|bacon|salami|chorizo/i, '🥓'],
+  [/fish|fisch|salmon|lachs|tuna|thunfisch|cod|kabeljau|shrimp|garnele|hering|makrele|mackerel|tilapia|pangasius/i, '🐟'],
+  [/egg|ei\b|eier/i, '🥚'],
+  [/cheese|käse|parmesan|mozzarella|cheddar|brie|gouda|feta/i, '🧀'],
+  [/yogurt|yoghurt|joghurt|quark|skyr/i, '🥛'],
+  [/milk|milch/i, '🥛'],
+  [/tofu|tempeh|soy\b|soja/i, '🫘'],
+  [/bean|bohne|lentil|linse|chickpea|kicher|legume/i, '🫘'],
+  [/nut|nuss|nüsse|almond|mandel|walnut|walnuss|peanut|erdnuss|cashew|pistachio/i, '🥜'],
+  [/oat|hafer|granola|müsli|muesli|porridge/i, '🥣'],
+  [/bread|brot|toast|brötchen|bagel|baguette|ciabatta/i, '🍞'],
+  [/rice|reis/i, '🍚'],
+  [/pasta|nudel|spaghetti|penne|lasagne|macaroni/i, '🍝'],
+  [/salad|salat/i, '🥗'],
+  [/broccoli|spinach|spinat|kohl|zucchini|gurke|cucumber/i, '🥦'],
+  [/potato|kartoffel/i, '🥔'],
+  [/apple|apfel/i, '🍎'],
+  [/banana|banane/i, '🍌'],
+  [/bar\b|riegel|snackbar/i, '🍫'],
+  [/soup|suppe/i, '🍲'],
+  [/pizza/i, '🍕'],
+  [/burger|sandwich/i, '🍔'],
+  [/coffee|kaffee|café/i, '☕'],
+];
+const FALLBACK_ICONS = ['🥩', '🍗', '🥚', '🧀', '🫘', '🥜'];
+function iconForEntry(name: string, id: string) {
+  for (const [re, emoji] of EMOJI_MAP) {
+    if (re.test(name)) return emoji;
+  }
   const n = id.charCodeAt(0) + id.charCodeAt(id.length - 1);
-  return FOOD_ICONS[n % FOOD_ICONS.length];
+  return FALLBACK_ICONS[n % FALLBACK_ICONS.length];
 }
 
 interface Props {
@@ -34,7 +66,7 @@ export function FoodEntryItem({ entry, onRemove, onEdit }: Props) {
           className="w-9 h-9 flex items-center justify-center rounded-2xl text-lg flex-shrink-0"
           style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)' }}
         >
-          {iconForEntry(entry.id)}
+          {iconForEntry(entry.name, entry.id)}
         </span>
         <div className="min-w-0">
           <p className="text-sm font-bold truncate" style={{ color: 'var(--pt-text)' }}>{entry.name}</p>

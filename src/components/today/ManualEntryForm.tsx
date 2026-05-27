@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { searchByName } from '../../lib/openFoodFacts';
+import { searchByName, contributeProtein } from '../../lib/openFoodFacts';
 import type { OFFFoodProduct } from '../../types';
 import { FoodSearchResults } from './FoodSearchResults';
 import { useT } from '../../context/LanguageContext';
@@ -7,6 +7,7 @@ import { useT } from '../../context/LanguageContext';
 interface Props {
   initialName?: string;
   initialProtein?: number;
+  contributeBarcode?: string;
   onAdd: (name: string, protein: number, proteinPer100g: number) => void;
   onCancel: () => void;
   submitLabel?: string;
@@ -26,7 +27,7 @@ const inputStyle = {
 
 const focusStyle = '2px solid var(--pt-text-sec)';
 
-export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCancel, submitLabel }: Props) {
+export function ManualEntryForm({ initialName = '', initialProtein, contributeBarcode, onAdd, onCancel, submitLabel }: Props) {
   const t = useT();
   const [name, setName] = useState(initialName);
   const [portionG, setPortionG] = useState<number | ''>(100);
@@ -34,6 +35,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
   const [results, setResults] = useState<OFFFoodProduct[]>([]);
   const [searching, setSearching] = useState(false);
   const [noResults, setNoResults] = useState(false);
+  const [contributeChecked, setContributeChecked] = useState(true);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchIdRef = useRef(0);
 
@@ -77,6 +79,9 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || typeof proteinPer100 !== 'number' || typeof portionG !== 'number') return;
+    if (contributeBarcode && contributeChecked && proteinPer100 > 0) {
+      contributeProtein(contributeBarcode, proteinPer100); // fire-and-forget
+    }
     onAdd(name.trim(), totalProtein, proteinPer100);
   }
 
@@ -135,6 +140,24 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           <span className="text-2xl font-black" style={{ color: 'var(--pt-accent)' }}>{totalProtein}g</span>
           <span className="text-sm font-semibold ml-2" style={{ color: 'var(--pt-text-sec)' }}>{t.addSheet.proteinSuffix}</span>
         </div>
+      )}
+
+      {contributeBarcode && typeof proteinPer100 === 'number' && proteinPer100 > 0 && (
+        <label className="flex items-start gap-3 rounded-2xl px-4 py-3 cursor-pointer"
+          style={{ background: '#F0FFF8', border: '2px solid #A8EED4' }}
+        >
+          <input
+            type="checkbox"
+            checked={contributeChecked}
+            onChange={e => setContributeChecked(e.target.checked)}
+            className="mt-0.5 flex-shrink-0"
+            style={{ accentColor: '#4CAF85', width: '1rem', height: '1rem' }}
+          />
+          <div>
+            <p className="text-sm font-black" style={{ color: '#2D7A56' }}>{t.addSheet.contributeLabel}</p>
+            <p className="text-xs font-medium mt-0.5" style={{ color: '#4CAF85' }}>{t.addSheet.contributeHint}</p>
+          </div>
+        </label>
       )}
 
       <div className="flex gap-3">
