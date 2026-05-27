@@ -92,6 +92,7 @@ export interface Translations {
   search: {
     loading: string;
     unknownProduct: string;
+    noResults: string;
   };
 
   camera: {
@@ -286,6 +287,7 @@ const de: Translations = {
   search: {
     loading: 'Suche…',
     unknownProduct: 'Unbekanntes Produkt',
+    noResults: 'Nicht gefunden – bitte manuell eingeben.',
   },
 
   camera: {
@@ -502,6 +504,7 @@ const en: Translations = {
   search: {
     loading: 'Searching…',
     unknownProduct: 'Unknown product',
+    noResults: 'Not found – please enter manually.',
   },
 
   camera: {
@@ -718,6 +721,7 @@ const hu: Translations = {
   search: {
     loading: 'Keresés…',
     unknownProduct: 'Ismeretlen termék',
+    noResults: 'Nem található – kérd meg kézzel.',
   },
 
   camera: {

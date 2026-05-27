@@ -5,10 +5,11 @@ import { useT } from '../../context/LanguageContext';
 interface Props {
   results: OFFFoodProduct[];
   loading: boolean;
+  noResults: boolean;
   onSelect: (name: string, protein: number) => void;
 }
 
-export function FoodSearchResults({ results, loading, onSelect }: Props) {
+export function FoodSearchResults({ results, loading, noResults, onSelect }: Props) {
   const t = useT();
 
   if (loading) {
@@ -22,11 +23,22 @@ export function FoodSearchResults({ results, loading, onSelect }: Props) {
     );
   }
 
+  if (noResults) {
+    return (
+      <div
+        className="text-center py-3 text-sm mt-2 rounded-2xl font-semibold"
+        style={{ color: 'var(--pt-text-sec)', background: 'var(--pt-surface)' }}
+      >
+        {t.search.noResults}
+      </div>
+    );
+  }
+
   if (results.length === 0) return null;
 
   return (
     <div
-      className="mt-2 rounded-2xl overflow-hidden max-h-52 overflow-y-auto"
+      className="mt-2 rounded-2xl overflow-y-auto max-h-52"
       style={{ border: '2px solid var(--pt-border)' }}
     >
       {results.map((p, i) => {

@@ -33,6 +33,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
   const [proteinPer100, setProteinPer100] = useState<number | ''>(initialProtein ?? '');
   const [results, setResults] = useState<OFFFoodProduct[]>([]);
   const [searching, setSearching] = useState(false);
+  const [noResults, setNoResults] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const totalProtein =
@@ -45,15 +46,19 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
 
   function handleNameChange(val: string) {
     setName(val);
+    setNoResults(false);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       if (val.length >= 2) {
         setSearching(true);
         const r = await searchByName(val);
-        setResults(r.filter(p => p.product_name));
+        const filtered = r.filter(p => p.product_name);
+        setResults(filtered);
+        setNoResults(filtered.length === 0);
         setSearching(false);
       } else {
         setResults([]);
+        setNoResults(false);
       }
     }, 400);
   }
@@ -62,6 +67,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
     setName(pName);
     setProteinPer100(protein);
     setResults([]);
+    setNoResults(false);
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -85,7 +91,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           onFocus={e => (e.target.style.border = focusStyle)}
           onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
         />
-        <FoodSearchResults results={results.slice(0, 5)} loading={searching} onSelect={handleSelect} />
+        <FoodSearchResults results={results.slice(0, 5)} loading={searching} noResults={noResults} onSelect={handleSelect} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
