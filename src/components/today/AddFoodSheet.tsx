@@ -204,9 +204,18 @@ export function AddFoodSheet({ open, onClose, onAdd, recentFoods, editEntry }: P
               )}
 
               {scannedBarcode && (
-                <div className="mb-3 rounded-2xl px-4 py-2 text-xs font-semibold"
-                  style={{ background: '#F0FFF8', border: '2px solid #A8EED4', color: '#4CAF85' }}>
-                  {t.addSheet.barcodeSaved}
+                <div className="mb-3 rounded-2xl px-4 py-2 flex items-center justify-between gap-2"
+                  style={{ background: '#F0FFF8', border: '2px solid #A8EED4' }}>
+                  <span className="text-xs font-semibold" style={{ color: '#4CAF85' }}>{t.addSheet.barcodeSaved}</span>
+                  <a
+                    href={`https://world.openfoodfacts.org/product/${scannedBarcode}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs font-black whitespace-nowrap"
+                    style={{ color: 'var(--pt-accent)' }}
+                  >
+                    {t.search.addToOff}
+                  </a>
                 </div>
               )}
 
