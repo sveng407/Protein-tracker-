@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider, useApp } from './context/AppContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { BottomNav } from './components/layout/BottomNav';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -78,13 +79,15 @@ function AppRoutes() {
 export default function App() {
   return (
     <ThemeProvider>
-      <HashRouter>
-        <AuthProvider>
-          <LanguageProvider>
-            <AppRoutes />
-          </LanguageProvider>
-        </AuthProvider>
-      </HashRouter>
+      <ErrorBoundary>
+        <HashRouter>
+          <AuthProvider>
+            <LanguageProvider>
+              <AppRoutes />
+            </LanguageProvider>
+          </AuthProvider>
+        </HashRouter>
+      </ErrorBoundary>
     </ThemeProvider>
   );
 }

@@ -35,6 +35,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
   const [searching, setSearching] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchIdRef = useRef(0);
 
   const totalProtein =
     typeof proteinPer100 === 'number' && typeof portionG === 'number'
@@ -50,13 +51,16 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       if (val.length >= 2) {
+        const id = ++searchIdRef.current;
         setSearching(true);
         const r = await searchByName(val);
+        if (id !== searchIdRef.current) return; // stale — a newer search superseded this one
         const filtered = r.filter(p => p.product_name && p.nutriments != null);
         setResults(filtered);
         setNoResults(filtered.length === 0);
         setSearching(false);
       } else {
+        searchIdRef.current++;
         setResults([]);
         setNoResults(false);
       }

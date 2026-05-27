@@ -17,7 +17,11 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
-  const [lang, setLangState] = useState<Lang>(detectLang);
+  const [lang, setLangState] = useState<Lang>(() => {
+    const detected = detectLang();
+    document.documentElement.lang = detected;
+    return detected;
+  });
 
   // One-time fetch on login — getDoc instead of onSnapshot to avoid overwriting
   // a language change the user just made in another tab before the write completes.
@@ -26,6 +30,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     getDoc(doc(db, 'users', uid, 'data', 'settings')).then(snap => {
       const saved = snap.data()?.lang as Lang | undefined;
       if (saved && saved in TRANSLATIONS) {
+        document.documentElement.lang = saved;
         setLangState(saved);
         localStorage.setItem('pt_language', saved);
       }
@@ -33,6 +38,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [uid]);
 
   const setLang = useCallback((l: Lang) => {
+    document.documentElement.lang = l;
     localStorage.setItem('pt_language', l);
     setLangState(l);
     if (uid) {

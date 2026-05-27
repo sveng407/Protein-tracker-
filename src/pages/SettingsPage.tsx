@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { APP_VERSION } from '../lib/version';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -46,7 +46,7 @@ export function SettingsPage() {
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [goalInput, setGoalInput] = useState(String(goal));
   const [saved, setSaved] = useState(false);
-  const saveTimer = { current: 0 as ReturnType<typeof setTimeout> };
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => { setGoalInput(String(goal)); }, [goal]);
 
@@ -119,14 +119,14 @@ export function SettingsPage() {
                     <button onClick={() => setConfirmCancel(false)}
                       className="flex-1 py-2 rounded-2xl text-sm font-black"
                       style={{ background: 'var(--pt-border)', color: 'var(--pt-accent)' }}>
-                      Zurück
+                      {t.pro.back}
                     </button>
                     <motion.button
                       whileTap={{ scale: 0.96 }}
                       onClick={async () => { await cancelPro(); setConfirmCancel(false); }}
                       className="flex-1 py-2 rounded-2xl text-sm font-black"
                       style={{ background: 'var(--pt-border-pink)', color: '#E87BAA' }}>
-                      Kündigen
+                      {t.pro.cancelConfirmBtn}
                     </motion.button>
                   </div>
                 </div>

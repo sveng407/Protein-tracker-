@@ -195,6 +195,8 @@ export interface Translations {
     activeUntil: (date: string) => string;
     cancelBtn: string;
     cancelConfirm: string;
+    cancelConfirmBtn: string;
+    back: string;
     freeHint: string;
     unlockBtn: string;
     statusPro: string;
@@ -415,6 +417,8 @@ const de: Translations = {
     activeUntil:    (date) => `Aktiv bis: ${date}`,
     cancelBtn:      'Abo kündigen',
     cancelConfirm:  'Wirklich kündigen? Du verlierst sofort den Pro-Zugang.',
+    cancelConfirmBtn: 'Kündigen',
+    back:           'Zurück',
     freeHint:       '1 Eintrag pro Tag · Upgrade für unbegrenzt',
     unlockBtn:      'Pro freischalten',
     statusPro:      'PRO',
@@ -635,6 +639,8 @@ const en: Translations = {
     activeUntil:    (date) => `Active until: ${date}`,
     cancelBtn:      'Cancel subscription',
     cancelConfirm:  'Really cancel? You will lose Pro access immediately.',
+    cancelConfirmBtn: 'Confirm cancellation',
+    back:           'Back',
     freeHint:       '1 entry per day · Upgrade for unlimited',
     unlockBtn:      'Unlock Pro',
     statusPro:      'PRO',
@@ -855,6 +861,8 @@ const hu: Translations = {
     activeUntil:    (date) => `Aktív eddig: ${date}`,
     cancelBtn:      'Előfizetés lemondása',
     cancelConfirm:  'Biztosan lemondod? Azonnal elveszíted a Pro hozzáférést.',
+    cancelConfirmBtn: 'Lemondás',
+    back:           'Vissza',
     freeHint:       '1 bejegyzés naponta · Frissíts korlátlanhoz',
     unlockBtn:      'Pro feloldása',
     statusPro:      'PRO',
