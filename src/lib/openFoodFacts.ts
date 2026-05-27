@@ -44,5 +44,5 @@ export async function searchByName(query: string): Promise<OFFFoodProduct[]> {
 }
 
 export function extractProtein(product: OFFFoodProduct): number {
-  return product.nutriments.proteins_100g ?? product.nutriments.proteins ?? 0;
+  return product.nutriments?.proteins_100g ?? product.nutriments?.proteins ?? 0;
 }

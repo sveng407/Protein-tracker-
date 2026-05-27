@@ -53,10 +53,10 @@ export interface StreakData {
 
 export interface OFFFoodProduct {
   product_name: string;
-  nutriments: {
+  nutriments?: {
     proteins_100g?: number;
     proteins?: number;
-  };
+  } | null;
   serving_size?: string;
   image_url?: string;
 }

@@ -52,7 +52,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
       if (val.length >= 2) {
         setSearching(true);
         const r = await searchByName(val);
-        const filtered = r.filter(p => p.product_name);
+        const filtered = r.filter(p => p.product_name && p.nutriments != null);
         setResults(filtered);
         setNoResults(filtered.length === 0);
         setSearching(false);
