@@ -3,32 +3,57 @@ import { motion } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 
 const EMOJI_MAP: Array<[RegExp, string]> = [
+  // Protein supplements
   [/protein|whey|casein|shake|supplement|pulver|powder/i, '💪'],
-  [/chicken|hähnchen|huhn|poulet|geflügel/i, '🍗'],
-  [/turkey|pute|truthahn/i, '🍗'],
-  [/beef|steak|rind|kalb|hackfleisch/i, '🥩'],
-  [/pork|schwein|ham|schinken|wurst|speck|bacon|salami|chorizo/i, '🥓'],
-  [/fish|fisch|salmon|lachs|tuna|thunfisch|cod|kabeljau|shrimp|garnele|hering|makrele|mackerel|tilapia|pangasius/i, '🐟'],
-  [/egg|ei\b|eier/i, '🥚'],
-  [/cheese|käse|parmesan|mozzarella|cheddar|brie|gouda|feta/i, '🧀'],
+  // Poultry (chicken + turkey; hühn covers Hühnerbrust/Hühnchen)
+  [/chicken|hähnchen|hühn|huhn|poulet|geflügel|csirke|pute|truthahn|turkey/i, '🍗'],
+  // Red meat
+  [/beef|steak|rind|kalb|hackfleisch|marha/i, '🥩'],
+  // Pork & cured meats
+  [/pork|schwein|ham|schinken|wurst|speck|bacon|salami|chorizo|sertés/i, '🥓'],
+  // Fish & seafood (hal\b: HU "hal"/"tonhal" but not "halloumi")
+  [/fish|fisch|salmon|lachs|lazac|tuna|thunfisch|tonhal|cod|kabeljau|shrimp|garnele|hering|makrele|mackerel|forelle|tilapia|pangasius|halibut|hal\b/i, '🐟'],
+  // Eggs
+  [/egg|tojás|\bei\b|eier/i, '🥚'],
+  // Cheese (halloumi before fish check)
+  [/cheese|käse|sajt|parmesan|mozzarella|cheddar|brie|gouda|feta|halloumi/i, '🧀'],
+  // Yogurt & quark
   [/yogurt|yoghurt|joghurt|quark|skyr/i, '🥛'],
-  [/milk|milch/i, '🥛'],
+  // Milk
+  [/milk|milch|\btej\b/i, '🥛'],
+  // Soy & tofu
   [/tofu|tempeh|soy\b|soja/i, '🫘'],
-  [/bean|bohne|lentil|linse|chickpea|kicher|legume/i, '🫘'],
-  [/nut|nuss|nüsse|almond|mandel|walnut|walnuss|peanut|erdnuss|cashew|pistachio/i, '🥜'],
+  // Beans & lentils
+  [/\bbab\b|bean|bohne|lentil|linse|lencse|chickpea|kicher/i, '🫘'],
+  // Nuts & seeds
+  [/nut|nuss|nüsse|almond|mandel|mandula|walnut|walnuss|dió|peanut|erdnuss|mogyoró|cashew|pistachio|kerne|samen/i, '🥜'],
+  // Oats & cereal
   [/oat|hafer|granola|müsli|muesli|porridge/i, '🥣'],
-  [/bread|brot|toast|brötchen|bagel|baguette|ciabatta/i, '🍞'],
-  [/rice|reis/i, '🍚'],
-  [/pasta|nudel|spaghetti|penne|lasagne|macaroni/i, '🍝'],
+  // Bread
+  [/bread|brot|kenyér|toast|brötchen|bagel|baguette|ciabatta/i, '🍞'],
+  // Rice
+  [/\brice\b|\breis\b|\brizs\b/i, '🍚'],
+  // Pasta
+  [/pasta|tészta|nudel|spaghetti|penne|lasagne|macaroni/i, '🍝'],
+  // Salad
   [/salad|salat/i, '🥗'],
-  [/broccoli|spinach|spinat|kohl|zucchini|gurke|cucumber/i, '🥦'],
-  [/potato|kartoffel/i, '🥔'],
-  [/apple|apfel/i, '🍎'],
-  [/banana|banane/i, '🍌'],
-  [/bar\b|riegel|snackbar/i, '🍫'],
-  [/soup|suppe/i, '🍲'],
+  // Vegetables
+  [/broccoli|spinach|spinat|kohl|zucchini|gurke|cucumber|mais|kukorica|\bcorn\b|avocado|gemüse/i, '🥦'],
+  // Potato
+  [/potato|kartoffel|burgonya|krumpli/i, '🥔'],
+  // Apple
+  [/apple|apfel|\balma\b/i, '🍎'],
+  // Banana
+  [/banana|banane|banán/i, '🍌'],
+  // Bars & snacks
+  [/\bbar\b|riegel|snackbar/i, '🍫'],
+  // Soup
+  [/soup|suppe|leves/i, '🍲'],
+  // Pizza
   [/pizza/i, '🍕'],
+  // Burger & sandwich
   [/burger|sandwich/i, '🍔'],
+  // Coffee
   [/coffee|kaffee|café/i, '☕'],
 ];
 const FALLBACK_ICONS = ['🥩', '🍗', '🥚', '🧀', '🫘', '🥜'];
