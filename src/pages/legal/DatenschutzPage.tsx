@@ -46,13 +46,24 @@ const content = {
         Weitere Infos: https://firebase.google.com/terms/data-processing-terms
       </P>
 
-      <H2>5. Speicherdauer</H2>
+      <H2>5. Drittanbieter – Open Food Facts</H2>
+      <P>
+        Bei der Lebensmittelsuche werden Anfragen an die Open Food Facts API
+        (openfoodfacts.org) gesendet. Dabei werden keine personenbezogenen Daten
+        übermittelt – Open Food Facts erhält ausschließlich den eingegebenen Suchbegriff
+        (Produktname oder Barcode). Open Food Facts ist eine freie Lebensmitteldatenbank
+        unter der Open Database Licence (ODbL) v1.0. Für die Korrektheit der
+        Nährwertangaben wird keine Haftung übernommen.
+        Datenschutzhinweise von Open Food Facts: https://world.openfoodfacts.org/privacy
+      </P>
+
+      <H2>6. Speicherdauer</H2>
       <P>
         Daten werden gespeichert, solange ein aktives Konto besteht. Nach Kontolöschung
         (in den Einstellungen möglich) werden alle Daten innerhalb von 30 Tagen gelöscht.
       </P>
 
-      <H2>6. Deine Rechte (Art. 15–22 DSGVO)</H2>
+      <H2>7. Deine Rechte (Art. 15–22 DSGVO)</H2>
       <Ul>
         <li><strong>Auskunft</strong> (Art. 15)</li>
         <li><strong>Berichtigung</strong> (Art. 16)</li>
@@ -63,13 +74,13 @@ const content = {
       </Ul>
       <P>Anfragen an: protein@gyrnich.de</P>
 
-      <H2>7. Beschwerderecht</H2>
+      <H2>8. Beschwerderecht</H2>
       <P>
         Du kannst dich bei einer deutschen Datenschutz-Aufsichtsbehörde beschweren.
         Übersicht: https://www.bfdi.bund.de
       </P>
 
-      <H2>8. Stand</H2>
+      <H2>9. Stand</H2>
       <P>Mai 2025. Änderungen vorbehalten.</P>
     </>
   ),
@@ -102,13 +113,23 @@ const content = {
         More info: https://firebase.google.com/terms/data-processing-terms
       </P>
 
-      <H2>5. Retention Period</H2>
+      <H2>5. Third Party – Open Food Facts</H2>
+      <P>
+        When searching for food, requests are sent to the Open Food Facts API
+        (openfoodfacts.org). No personal data is transmitted — Open Food Facts only
+        receives the search term you entered (product name or barcode). Open Food Facts
+        is a free food database under the Open Database Licence (ODbL) v1.0. No liability
+        is accepted for the accuracy of nutritional data retrieved.
+        Privacy information from Open Food Facts: https://world.openfoodfacts.org/privacy
+      </P>
+
+      <H2>6. Retention Period</H2>
       <P>
         Data is stored as long as an active account exists. After account deletion
         (available in settings), all data is permanently deleted within 30 days.
       </P>
 
-      <H2>6. Your Rights (Art. 15–22 GDPR)</H2>
+      <H2>7. Your Rights (Art. 15–22 GDPR)</H2>
       <Ul>
         <li><strong>Access</strong> (Art. 15)</li>
         <li><strong>Rectification</strong> (Art. 16)</li>
@@ -119,13 +140,13 @@ const content = {
       </Ul>
       <P>Requests to: protein@gyrnich.de</P>
 
-      <H2>7. Right to Lodge a Complaint</H2>
+      <H2>8. Right to Lodge a Complaint</H2>
       <P>
         You have the right to lodge a complaint with a German data protection supervisory authority.
         Overview: https://www.bfdi.bund.de
       </P>
 
-      <H2>8. Last Updated</H2>
+      <H2>9. Last Updated</H2>
       <P>May 2025. Subject to change.</P>
     </>
   ),
@@ -158,13 +179,23 @@ const content = {
         Több info: https://firebase.google.com/terms/data-processing-terms
       </P>
 
-      <H2>5. Megőrzési idő</H2>
+      <H2>5. Harmadik fél – Open Food Facts</H2>
+      <P>
+        Élelmiszer-kereséskor kérések kerülnek az Open Food Facts API-jához
+        (openfoodfacts.org). Személyes adatok nem kerülnek továbbításra – az Open Food Facts
+        csak a beírt keresési kifejezést kapja meg (terméknév vagy vonalkód). Az Open Food
+        Facts egy szabad élelmiszer-adatbázis az Open Database Licence (ODbL) v1.0 alatt.
+        A tápanyagadatok pontosságáért felelősség nem vállalható.
+        Adatvédelmi tájékoztató: https://world.openfoodfacts.org/privacy
+      </P>
+
+      <H2>6. Megőrzési idő</H2>
       <P>
         Az adatok addig kerülnek tárolásra, amíg aktív fiók áll fenn. A fiók törlése után
         (a beállításokban elérhető) minden adat 30 napon belül véglegesen törlődik.
       </P>
 
-      <H2>6. Jogaid (GDPR 15–22. cikk)</H2>
+      <H2>7. Jogaid (GDPR 15–22. cikk)</H2>
       <Ul>
         <li><strong>Hozzáférés</strong> (15. cikk)</li>
         <li><strong>Helyesbítés</strong> (16. cikk)</li>
@@ -175,13 +206,13 @@ const content = {
       </Ul>
       <P>Megkeresések: protein@gyrnich.de</P>
 
-      <H2>7. Panasztétel joga</H2>
+      <H2>8. Panasztétel joga</H2>
       <P>
         Jogod van panaszt tenni egy német adatvédelmi felügyeleti hatóságnál.
         Áttekintés: https://www.bfdi.bund.de
       </P>
 
-      <H2>8. Utolsó frissítés</H2>
+      <H2>9. Utolsó frissítés</H2>
       <P>2025. május. Változtatás joga fenntartva.</P>
     </>
   ),

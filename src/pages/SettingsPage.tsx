@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { APP_VERSION } from '../lib/version';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -361,8 +362,22 @@ export function SettingsPage() {
                 <span style={{ color: 'var(--pt-text-muted)' }}>›</span>
               </Link>
             ))}
+            <a
+              href="https://world.openfoodfacts.org"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm font-semibold"
+              style={{ color: 'var(--pt-text-sec)', background: 'var(--pt-surface)' }}
+            >
+              {t.settings.offCredit}
+              <span style={{ color: 'var(--pt-text-muted)', fontSize: '0.7rem' }}>↗</span>
+            </a>
           </div>
         </Section>
+
+        <p className="text-center text-xs font-medium pb-4" style={{ color: 'var(--pt-text-muted)' }}>
+          {t.settings.appVersion} {APP_VERSION}
+        </p>
       </div>
     </div>
   );

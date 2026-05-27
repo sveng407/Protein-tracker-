@@ -67,6 +67,8 @@ export interface Translations {
     themeSection: string;
     themeDefault: string;
     themeDark: string;
+    offCredit: string;
+    appVersion: string;
   };
 
   addSheet: {
@@ -262,6 +264,8 @@ const de: Translations = {
     themeSection:        'Design',
     themeDefault:        'Standard',
     themeDark:           'Dunkel',
+    offCredit:           'Nährwertdaten: Open Food Facts',
+    appVersion:          'Version',
   },
 
   addSheet: {
@@ -479,6 +483,8 @@ const en: Translations = {
     themeSection:        'Appearance',
     themeDefault:        'Default',
     themeDark:           'Dark',
+    offCredit:           'Nutritional data: Open Food Facts',
+    appVersion:          'Version',
   },
 
   addSheet: {
@@ -696,6 +702,8 @@ const hu: Translations = {
     themeSection:        'Megjelenés',
     themeDefault:        'Alapértelmezett',
     themeDark:           'Sötét',
+    offCredit:           'Tápértékadatok: Open Food Facts',
+    appVersion:          'Verzió',
   },
 
   addSheet: {
