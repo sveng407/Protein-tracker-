@@ -26,7 +26,7 @@ export function FoodSearchResults({ results, loading, onSelect }: Props) {
 
   return (
     <div
-      className="mt-2 rounded-2xl overflow-hidden"
+      className="mt-2 rounded-2xl overflow-hidden max-h-52 overflow-y-auto"
       style={{ border: '2px solid var(--pt-border)' }}
     >
       {results.map((p, i) => {
@@ -36,7 +36,7 @@ export function FoodSearchResults({ results, loading, onSelect }: Props) {
           <button
             key={i}
             onClick={() => onSelect(name, protein)}
-            className="w-full text-left px-4 py-3 flex justify-between items-center transition-all"
+            className="w-full min-w-0 text-left px-4 py-3 flex justify-between items-center transition-all"
             style={{
               background: 'var(--pt-card)',
               borderBottom: i < results.length - 1 ? '1.5px solid var(--pt-border)' : 'none',

@@ -49,6 +49,9 @@ export interface Translations {
     deleteCancel: string;
     deleteConfirmBtn: string;
     legalSection: string;
+    legalImpressum: string;
+    legalDatenschutz: string;
+    legalAgb: string;
     savedLabel: string;
     install: string;
     installButton: string;
@@ -240,6 +243,9 @@ const de: Translations = {
     deleteCancel:   'Abbrechen',
     deleteConfirmBtn: 'Löschen',
     legalSection:   'Rechtliches',
+    legalImpressum:  'Impressum',
+    legalDatenschutz: 'Datenschutzerklärung',
+    legalAgb:        'AGB & Widerrufsrecht',
     savedLabel:     'Gespeichert ✓',
     install:             'App installieren',
     installButton:       'Zum Home-Bildschirm hinzufügen',
@@ -453,6 +459,9 @@ const en: Translations = {
     deleteCancel:   'Cancel',
     deleteConfirmBtn: 'Delete',
     legalSection:   'Legal',
+    legalImpressum:  'Imprint',
+    legalDatenschutz: 'Privacy Policy',
+    legalAgb:        'Terms & Right of Withdrawal',
     savedLabel:     'Saved ✓',
     install:             'Install app',
     installButton:       'Add to Home Screen',
@@ -666,6 +675,9 @@ const hu: Translations = {
     deleteCancel:   'Mégsem',
     deleteConfirmBtn: 'Törlés',
     legalSection:   'Jogi',
+    legalImpressum:  'Impresszum',
+    legalDatenschutz: 'Adatvédelmi tájékoztató',
+    legalAgb:        'ÁSZF & Elállási jog',
     savedLabel:     'Mentve ✓',
     install:             'App telepítése',
     installButton:       'Kezdőképernyőre helyezés',

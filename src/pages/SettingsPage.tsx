@@ -347,9 +347,9 @@ export function SettingsPage() {
         <Section title={t.settings.legalSection}>
           <div className="flex flex-col gap-1">
             {[
-              { to: '/impressum', label: 'Impressum' },
-              { to: '/datenschutz', label: 'Datenschutzerklärung' },
-              { to: '/agb', label: 'AGB & Widerrufsrecht' },
+              { to: '/impressum', label: t.settings.legalImpressum },
+              { to: '/datenschutz', label: t.settings.legalDatenschutz },
+              { to: '/agb', label: t.settings.legalAgb },
             ].map(({ to, label }) => (
               <Link
                 key={to}

@@ -17,7 +17,7 @@ const inputStyle = {
   border: '2px solid var(--pt-input-border)',
   borderRadius: '1rem',
   padding: '0.75rem 1rem',
-  fontSize: '0.875rem',
+  fontSize: '1rem',
   width: '100%',
   outline: 'none',
   color: 'var(--pt-text)',
@@ -66,8 +66,8 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || totalProtein <= 0) return;
-    onAdd(name.trim(), totalProtein, typeof proteinPer100 === 'number' ? proteinPer100 : 0);
+    if (!name.trim() || typeof proteinPer100 !== 'number' || typeof portionG !== 'number') return;
+    onAdd(name.trim(), totalProtein, proteinPer100);
   }
 
   return (
@@ -84,9 +84,8 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           style={inputStyle}
           onFocus={e => (e.target.style.border = focusStyle)}
           onBlur={e => (e.target.style.border = '2px solid var(--pt-input-border)')}
-          autoFocus
         />
-        <FoodSearchResults results={results} loading={searching} onSelect={handleSelect} />
+        <FoodSearchResults results={results.slice(0, 5)} loading={searching} onSelect={handleSelect} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -119,7 +118,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
         </div>
       </div>
 
-      {totalProtein > 0 && (
+      {typeof proteinPer100 === 'number' && typeof portionG === 'number' && (
         <div className="rounded-3xl px-4 py-3 text-center"
           style={{ background: 'linear-gradient(135deg,#FFE4EC,#EDE4FF)', border: '2px solid #FFD4E8' }}
         >
@@ -136,7 +135,7 @@ export function ManualEntryForm({ initialName = '', initialProtein, onAdd, onCan
           {t.addSheet.cancelButton}
         </button>
         <button type="submit"
-          disabled={!name.trim() || totalProtein <= 0}
+          disabled={!name.trim() || typeof proteinPer100 !== 'number' || typeof portionG !== 'number'}
           className="flex-1 py-3 rounded-3xl text-sm font-black text-white disabled:opacity-40"
           style={{ background: 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))', boxShadow: '0 3px 14px rgba(196,168,255,0.4)' }}
         >
