@@ -33,21 +33,30 @@ function detectWebView(): { detected: boolean; app: string } {
   return { detected: false, app: '' };
 }
 
+const CONSENT_KEY = 'pt_consent_v';
+const CONSENT_VERSION = '1';
+
 export function LoginPage() {
   const t = useT();
   const { signInWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [consentPrivacy, setConsentPrivacy] = useState(false);
-  const [consentTerms, setConsentTerms] = useState(false);
-  const consentGiven = consentPrivacy && consentTerms;
   const webView = useMemo(() => detectWebView(), []);
+
+  const previouslyConsented = useMemo(
+    () => localStorage.getItem(CONSENT_KEY) === CONSENT_VERSION,
+    []
+  );
+  const [consentPrivacy, setConsentPrivacy] = useState(previouslyConsented);
+  const [consentTerms, setConsentTerms] = useState(previouslyConsented);
+  const consentGiven = consentPrivacy && consentTerms;
 
   async function handleSignIn() {
     setLoading(true);
     setError(null);
     try {
       await signInWithGoogle();
+      localStorage.setItem(CONSENT_KEY, CONSENT_VERSION);
     } catch {
       setError(t.auth.error);
       setLoading(false);
@@ -117,48 +126,69 @@ export function LoginPage() {
           </motion.div>
         )}
 
-        {/* Consent checkboxes */}
-        <div
-          className="mb-4 text-left rounded-3xl p-4 space-y-3"
-          style={{ background: 'var(--pt-surface)', border: '2px solid var(--pt-border)' }}
-        >
-          {([
-            { id: 'privacy', checked: consentPrivacy, set: setConsentPrivacy, to: '/datenschutz',
-              text: t.auth.consentPrivacy, linkText: t.auth.consentPrivacyLink },
-            { id: 'terms',   checked: consentTerms,   set: setConsentTerms,   to: '/agb',
-              text: t.auth.consentTerms,   linkText: t.auth.consentTermsLink   },
-          ] as const).map(({ id, checked, set, to, text, linkText }) => {
-            const parts = text.split('{link}');
-            return (
-              <label key={id} className="flex items-start gap-3 cursor-pointer select-none">
-                <div
-                  onClick={() => set(!checked)}
-                  className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center mt-0.5 transition-all"
-                  style={{
-                    background: checked ? 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))' : 'var(--pt-card)',
-                    border: `2px solid ${checked ? 'transparent' : 'var(--pt-accent)'}`,
-                  }}
-                >
-                  {checked && <span className="text-white text-xs font-black">✓</span>}
-                </div>
-                <span className="text-xs font-semibold leading-relaxed" style={{ color: 'var(--pt-text)' }}>
-                  {parts[0]}
-                  <Link to={to} className="underline font-black" style={{ color: 'var(--pt-accent)' }}
-                    onClick={e => e.stopPropagation()}>
-                    {linkText}
-                  </Link>
-                  {parts[1]}
-                </span>
-              </label>
-            );
-          })}
-        </div>
-
-        {!consentGiven && (
-          <div className="mb-3 rounded-2xl px-3 py-2 text-xs font-semibold text-center"
-            style={{ background: 'var(--pt-border)', color: 'var(--pt-text)' }}>
-            🔒 {t.auth.consentHint}
+        {previouslyConsented ? (
+          /* Compact notice — shown on all subsequent logins */
+          <div
+            className="mb-4 rounded-3xl px-4 py-3 flex items-center gap-2 text-xs font-semibold"
+            style={{ background: 'var(--pt-surface)', border: '2px solid var(--pt-border)' }}
+          >
+            <span style={{ color: '#6DC9A8', fontSize: '1rem' }}>✓</span>
+            <span style={{ color: 'var(--pt-text-sec)' }}>
+              {t.auth.consentAlreadyGiven} ·{' '}
+              <Link to="/datenschutz" className="underline" style={{ color: 'var(--pt-accent)' }}>
+                {t.auth.consentPrivacyLink}
+              </Link>
+              {' · '}
+              <Link to="/agb" className="underline" style={{ color: 'var(--pt-accent)' }}>
+                {t.auth.consentTermsLink}
+              </Link>
+            </span>
           </div>
+        ) : (
+          /* Full consent form — shown only on first login */
+          <>
+            <div
+              className="mb-4 text-left rounded-3xl p-4 space-y-3"
+              style={{ background: 'var(--pt-surface)', border: '2px solid var(--pt-border)' }}
+            >
+              {([
+                { id: 'privacy', checked: consentPrivacy, set: setConsentPrivacy, to: '/datenschutz',
+                  text: t.auth.consentPrivacy, linkText: t.auth.consentPrivacyLink },
+                { id: 'terms',   checked: consentTerms,   set: setConsentTerms,   to: '/agb',
+                  text: t.auth.consentTerms,   linkText: t.auth.consentTermsLink   },
+              ] as const).map(({ id, checked, set, to, text, linkText }) => {
+                const parts = text.split('{link}');
+                return (
+                  <label key={id} className="flex items-start gap-3 cursor-pointer select-none">
+                    <div
+                      onClick={() => set(!checked)}
+                      className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center mt-0.5 transition-all"
+                      style={{
+                        background: checked ? 'linear-gradient(135deg,var(--pt-grad-from),var(--pt-grad-to))' : 'var(--pt-card)',
+                        border: `2px solid ${checked ? 'transparent' : 'var(--pt-accent)'}`,
+                      }}
+                    >
+                      {checked && <span className="text-white text-xs font-black">✓</span>}
+                    </div>
+                    <span className="text-xs font-semibold leading-relaxed" style={{ color: 'var(--pt-text)' }}>
+                      {parts[0]}
+                      <Link to={to} className="underline font-black" style={{ color: 'var(--pt-accent)' }}
+                        onClick={e => e.stopPropagation()}>
+                        {linkText}
+                      </Link>
+                      {parts[1]}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+            {!consentGiven && (
+              <div className="mb-3 rounded-2xl px-3 py-2 text-xs font-semibold text-center"
+                style={{ background: 'var(--pt-border)', color: 'var(--pt-text)' }}>
+                🔒 {t.auth.consentHint}
+              </div>
+            )}
+          </>
         )}
 
         {error && (
